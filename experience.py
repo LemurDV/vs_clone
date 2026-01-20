@@ -1,4 +1,3 @@
-# experience.py
 import pygame
 import math
 from config import *
@@ -28,18 +27,22 @@ class Experience:
     def draw(self, screen):
         """Отрисовка орба опыта"""
         # Основной круг
-        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)),
-                           self.radius)
+        pygame.draw.circle(
+            screen, self.color, (int(self.x), int(self.y)), self.radius
+        )
 
         # Контур
-        pygame.draw.circle(screen, WHITE, (int(self.x), int(self.y)),
-                           self.radius, 1)
+        pygame.draw.circle(
+            screen, WHITE, (int(self.x), int(self.y)), self.radius, 1
+        )
 
         # Блик
-        pygame.draw.circle(screen, (255, 255, 200),
-                           (int(self.x - self.radius // 3),
-                            int(self.y - self.radius // 3)),
-                           self.radius // 3)
+        pygame.draw.circle(
+            screen,
+            (255, 255, 200),
+            (int(self.x - self.radius // 3), int(self.y - self.radius // 3)),
+            self.radius // 3,
+        )
 
     def check_collection(self, player_x, player_y, player_radius):
         """Проверка сбора игроком"""

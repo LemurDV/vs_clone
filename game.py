@@ -1,4 +1,3 @@
-# game.py
 import pygame
 import random
 from config import *
@@ -55,9 +54,11 @@ class Game:
 
     def spawn_enemies(self, current_time):
         """Спавн врагов"""
-        if (current_time - self.last_enemy_spawn > self.enemy_spawn_delay and
-                self.enemies_spawned < self.enemies_in_wave and
-                len(self.enemies) < MAX_ENEMIES_ON_SCREEN):
+        if (
+            current_time - self.last_enemy_spawn > self.enemy_spawn_delay
+            and self.enemies_spawned < self.enemies_in_wave
+            and len(self.enemies) < MAX_ENEMIES_ON_SCREEN
+        ):
             self.enemies.append(Enemy())
             self.last_enemy_spawn = current_time
             self.enemies_spawned += 1
@@ -65,8 +66,10 @@ class Game:
     def update_wave(self):
         """Обновление состояния волны"""
         # Проверка завершения волны
-        if self.enemies_spawned >= self.enemies_in_wave and len(
-                self.enemies) == 0:
+        if (
+            self.enemies_spawned >= self.enemies_in_wave
+            and len(self.enemies) == 0
+        ):
             if not self.wave_complete:
                 self.wave_complete = True
                 # Награда за волну
@@ -74,22 +77,26 @@ class Game:
             else:
                 # Переход к следующей волне
                 self.wave += 1
-                self.enemies_in_wave = INITIAL_ENEMIES_PER_WAVE + self.wave * ENEMY_INCREASE_PER_WAVE
+                self.enemies_in_wave = (
+                    INITIAL_ENEMIES_PER_WAVE
+                    + self.wave * ENEMY_INCREASE_PER_WAVE
+                )
                 self.enemies_spawned = 0
                 self.enemies_defeated = 0
                 self.wave_complete = False
                 # Уменьшение задержки спавна врагов
                 self.enemy_spawn_delay = max(
                     MIN_ENEMY_SPAWN_DELAY,
-                    ENEMY_SPAWN_DELAY - self.wave * ENEMY_SPAWN_DELAY_DECREASE
+                    ENEMY_SPAWN_DELAY - self.wave * ENEMY_SPAWN_DELAY_DECREASE,
                 )
 
     def check_collisions(self):
         """Проверка всех столкновений"""
         # Проверка столкновений врагов с игроком
         for enemy in self.enemies[:]:
-            if enemy.check_collision_with_player(self.player.x, self.player.y,
-                                                 self.player.radius):
+            if enemy.check_collision_with_player(
+                self.player.x, self.player.y, self.player.radius
+            ):
                 self.player.take_damage(5)
                 self.enemies.remove(enemy)
                 if not self.player.is_alive:
@@ -113,8 +120,9 @@ class Game:
 
         # Проверка сбора опыта
         for exp_orb in self.experience_orbs[:]:
-            if exp_orb.check_collection(self.player.x, self.player.y,
-                                        self.player.radius):
+            if exp_orb.check_collection(
+                self.player.x, self.player.y, self.player.radius
+            ):
                 if self.player.add_exp(exp_orb.value):
                     self.show_level_up = True
                     self.level_up_timer = pygame.time.get_ticks()
@@ -127,7 +135,9 @@ class Game:
 
     def update_level_up_message(self, current_time):
         """Обновление таймера сообщения о повышении уровня"""
-        if self.show_level_up and current_time - self.level_up_timer > 2000:  # 2 секунды
+        if (
+            self.show_level_up and current_time - self.level_up_timer > 2000
+        ):  # 2 секунды
             self.show_level_up = False
 
     def draw(self):
@@ -153,9 +163,9 @@ class Game:
         # Подготовка данных для интерфейса
         player_stats = self.player.get_stats()
         wave_info = {
-            'current_wave': self.wave,
-            'enemies_remaining': self.enemies_in_wave - self.enemies_defeated,
-            'total_enemies': self.enemies_in_wave
+            "current_wave": self.wave,
+            "enemies_remaining": self.enemies_in_wave - self.enemies_defeated,
+            "total_enemies": self.enemies_in_wave,
         }
 
         # Отрисовка интерфейса

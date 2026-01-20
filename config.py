@@ -1,4 +1,3 @@
-# config.py
 import pygame
 
 # Инициализация PyGame (только для шрифтов)

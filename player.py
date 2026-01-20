@@ -1,4 +1,3 @@
-# player.py
 import pygame
 import math
 from config import *
@@ -78,7 +77,8 @@ class Player:
         self.level += 1
         self.exp -= self.exp_to_next_level
         self.exp_to_next_level = int(
-            self.exp_to_next_level * EXP_MULTIPLIER_PER_LEVEL)
+            self.exp_to_next_level * EXP_MULTIPLIER_PER_LEVEL
+        )
         self.max_health += LEVEL_UP_HEALTH_INCREASE
         self.health = self.max_health
         self.damage += LEVEL_UP_DAMAGE_INCREASE
@@ -90,10 +90,12 @@ class Player:
     def draw(self, screen):
         """Отрисовка игрока и его здоровья"""
         # Рисуем игрока
-        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)),
-                           self.radius)
-        pygame.draw.circle(screen, WHITE, (int(self.x), int(self.y)),
-                           self.radius, 2)
+        pygame.draw.circle(
+            screen, self.color, (int(self.x), int(self.y)), self.radius
+        )
+        pygame.draw.circle(
+            screen, WHITE, (int(self.x), int(self.y)), self.radius, 2
+        )
 
         # Рисуем полоску здоровья
         self.draw_health_bar(screen)
@@ -107,12 +109,15 @@ class Player:
         health_ratio = self.health / self.max_health
 
         # Фон полоски здоровья
-        pygame.draw.rect(screen, RED,
-                         (health_x, health_y, health_width, health_height))
+        pygame.draw.rect(
+            screen, RED, (health_x, health_y, health_width, health_height)
+        )
         # Заполнение здоровья
-        pygame.draw.rect(screen, GREEN,
-                         (health_x, health_y, health_width * health_ratio,
-                          health_height))
+        pygame.draw.rect(
+            screen,
+            GREEN,
+            (health_x, health_y, health_width * health_ratio, health_height),
+        )
 
     def update_projectiles(self):
         """Обновление снарядов игрока"""
@@ -124,11 +129,11 @@ class Player:
     def get_stats(self):
         """Получение статистики игрока"""
         return {
-            'level': self.level,
-            'exp': self.exp,
-            'exp_to_next_level': self.exp_to_next_level,
-            'health': self.health,
-            'max_health': self.max_health,
-            'damage': self.damage,
-            'shoot_delay': self.shoot_delay
+            "level": self.level,
+            "exp": self.exp,
+            "exp_to_next_level": self.exp_to_next_level,
+            "health": self.health,
+            "max_health": self.max_health,
+            "damage": self.damage,
+            "shoot_delay": self.shoot_delay,
         }

@@ -1,0 +1,17 @@
+[tool.ruff]
+line-length = 80
+ignore = ["E501", "F401"]
+
+# Настройки линтера
+[tool.ruff.lint]
+
+
+
+# Настройки форматирования
+[tool.ruff.format]
+# Стиль кавычек
+quote-style = "double"
+
+# Сортировка импортов
+[tool.ruff.isort]
+known-first-party = ["your_package_name"]

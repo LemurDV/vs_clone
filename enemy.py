@@ -1,4 +1,3 @@
-# enemy.py
 import pygame
 import random
 import math
@@ -50,10 +49,12 @@ class Enemy:
 
     def draw(self, screen):
         """Отрисовка врага и его здоровья"""
-        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)),
-                           self.radius)
-        pygame.draw.circle(screen, WHITE, (int(self.x), int(self.y)),
-                           self.radius, 2)
+        pygame.draw.circle(
+            screen, self.color, (int(self.x), int(self.y)), self.radius
+        )
+        pygame.draw.circle(
+            screen, WHITE, (int(self.x), int(self.y)), self.radius, 2
+        )
 
         # Рисуем полоску здоровья, если враг поврежден
         if self.health < self.max_health:
@@ -68,18 +69,25 @@ class Enemy:
         health_ratio = self.health / self.max_health
 
         # Фон полоски здоровья
-        pygame.draw.rect(screen, RED,
-                         (health_x, health_y, health_width, health_height))
+        pygame.draw.rect(
+            screen, RED, (health_x, health_y, health_width, health_height)
+        )
         # Заполнение здоровья
-        pygame.draw.rect(screen, YELLOW,
-                         (health_x, health_y, health_width * health_ratio,
-                          health_height))
+        pygame.draw.rect(
+            screen,
+            YELLOW,
+            (health_x, health_y, health_width * health_ratio, health_height),
+        )
 
     def is_off_screen(self):
         """Проверка, вышел ли враг за пределы экрана"""
         margin = 50
-        return (self.x < -margin or self.x > WIDTH + margin or
-                self.y < -margin or self.y > HEIGHT + margin)
+        return (
+            self.x < -margin
+            or self.x > WIDTH + margin
+            or self.y < -margin
+            or self.y > HEIGHT + margin
+        )
 
     def check_collision_with_player(self, player_x, player_y, player_radius):
         """Проверка столкновения с игроком"""

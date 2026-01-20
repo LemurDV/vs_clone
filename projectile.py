@@ -1,4 +1,3 @@
-# projectile.py
 from config import *
 
 
@@ -20,17 +19,23 @@ class Projectile:
 
     def draw(self, screen):
         """Отрисовка снаряда"""
-        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)),
-                           self.radius)
+        pygame.draw.circle(
+            screen, self.color, (int(self.x), int(self.y)), self.radius
+        )
         # Добавляем небольшой блик для эффекта
-        pygame.draw.circle(screen, WHITE, (int(self.x), int(self.y)),
-                           self.radius // 2)
+        pygame.draw.circle(
+            screen, WHITE, (int(self.x), int(self.y)), self.radius // 2
+        )
 
     def is_off_screen(self):
         """Проверка, вышел ли снаряд за пределы экрана"""
         margin = 20
-        return (self.x < -margin or self.x > WIDTH + margin or
-                self.y < -margin or self.y > HEIGHT + margin)
+        return (
+            self.x < -margin
+            or self.x > WIDTH + margin
+            or self.y < -margin
+            or self.y > HEIGHT + margin
+        )
 
     def check_collision(self, enemy_x, enemy_y, enemy_radius):
         """Проверка столкновения с врагом"""

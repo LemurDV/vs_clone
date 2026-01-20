@@ -1,0 +1,10 @@
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# PyCharm
+.vscode/
+__pycache__/
+*.py[cod]
