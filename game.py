@@ -3,6 +3,7 @@ import random
 import pygame
 
 from config import (
+    BLACK,
     ENEMY_INCREASE_PER_WAVE,
     ENEMY_SPAWN_DELAY,
     ENEMY_SPAWN_DELAY_DECREASE,
@@ -13,12 +14,11 @@ from config import (
     MIN_ENEMY_SPAWN_DELAY,
     WAVE_REWARD_EXP,
     WIDTH,
-    BLACK,
 )
 from enemy import Enemy
 from experience import Experience
 from player import Player
-from ui import *
+from ui import draw_game_over, draw_hud, draw_wave_complete
 
 
 class Game:
