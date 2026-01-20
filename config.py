@@ -1,0 +1,68 @@
+# config.py
+import pygame
+
+# Инициализация PyGame (только для шрифтов)
+pygame.init()
+
+# Настройки экрана
+WIDTH, HEIGHT = 1000, 700
+FPS = 60
+
+# Цвета
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 50, 50)
+GREEN = (50, 255, 100)
+BLUE = (50, 100, 255)
+YELLOW = (255, 255, 50)
+PURPLE = (180, 70, 255)
+ORANGE = (255, 150, 50)
+CYAN = (0, 200, 255)
+
+# Шрифты
+FONT_SMALL = pygame.font.SysFont(None, 28)
+FONT_MEDIUM = pygame.font.SysFont(None, 36)
+FONT_LARGE = pygame.font.SysFont(None, 48)
+
+# Настройки игрока
+PLAYER_RADIUS = 15
+PLAYER_SPEED = 4
+PLAYER_HEALTH = 100
+PLAYER_DAMAGE = 10
+PLAYER_SHOOT_DELAY = 400  # мс
+
+# Настройки врагов
+ENEMY_MIN_RADIUS = 10
+ENEMY_MAX_RADIUS = 20
+ENEMY_MIN_SPEED = 1.0
+ENEMY_MAX_SPEED = 2.5
+ENEMY_MIN_HEALTH = 15
+ENEMY_MAX_HEALTH = 30
+ENEMY_MIN_EXP = 5
+ENEMY_MAX_EXP = 15
+MAX_ENEMIES_ON_SCREEN = 20
+
+# Настройки снарядов
+PROJECTILE_RADIUS = 5
+PROJECTILE_SPEED = 8
+
+# Настройки опыта
+EXP_ORB_RADIUS = 6
+EXP_ORB_SPEED = 3
+EXP_MAGNET_DISTANCE = 100
+
+# Настройки волн
+INITIAL_ENEMIES_PER_WAVE = 5
+ENEMY_SPAWN_DELAY = 1000  # мс
+MIN_ENEMY_SPAWN_DELAY = 300
+ENEMY_SPAWN_DELAY_DECREASE = 50  # на волну
+ENEMY_INCREASE_PER_WAVE = 2
+WAVE_REWARD_EXP = 20
+
+# Уровень сложности
+LEVEL_UP_HEALTH_INCREASE = 10
+LEVEL_UP_DAMAGE_INCREASE = 2
+LEVEL_UP_SHOOT_DELAY_DECREASE = 20  # мс
+MIN_SHOOT_DELAY = 200
+INITIAL_EXP_TO_NEXT_LEVEL = 30
+EXP_MULTIPLIER_PER_LEVEL = 1.5
