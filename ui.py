@@ -10,6 +10,7 @@ from config import (
     HEIGHT,
     PURPLE,
     RED,
+    UPGRADES,
     WHITE,
     WIDTH,
     YELLOW,
@@ -17,7 +18,7 @@ from config import (
 
 
 def draw_hud(screen, player_stats, wave_info, show_level_up=False):
-    """Отрисовка интерфейса"""
+    """Отрисовка интерфейса (обновленная)"""
     # Фон для HUD
     pygame.draw.rect(
         screen, (30, 30, 30, 180), (0, 0, WIDTH, 120), border_radius=10
@@ -34,6 +35,9 @@ def draw_hud(screen, player_stats, wave_info, show_level_up=False):
 
     # Управление внизу слева
     draw_controls(screen, 10, HEIGHT - 80)
+
+    # Статистика улучшений внизу справа
+    draw_upgrade_stats(screen, player_stats, WIDTH - 250, HEIGHT - 100)
 
     # Сообщение о повышении уровня
     if show_level_up:
@@ -180,3 +184,25 @@ def draw_wave_complete(screen, wave_number):
 
     screen.blit(s, (WIDTH // 2 - message.get_width() // 2 - 20, 150))
     screen.blit(message, (WIDTH // 2 - message.get_width() // 2, 160))
+
+
+# ui.py (дополнительные функции)
+def draw_upgrade_stats(screen, player_stats, x, y):
+    """Отрисовка статистики улучшений"""
+    upgrades = player_stats.get("upgrades", {})
+
+    if any(upgrades.values()):  # Если есть хотя бы одно улучшение
+        title = FONT_SMALL.render("Улучшения:", True, WHITE)
+        screen.blit(title, (x, y))
+
+        y_offset = 25
+        for upgrade_type, level in upgrades.items():
+            if level > 0:
+                upgrade_info = UPGRADES.get(upgrade_type, {})
+                upgrade_text = FONT_SMALL.render(
+                    f"{upgrade_info.get('icon', '')} {upgrade_info.get('name', upgrade_type)}: {level}",
+                    True,
+                    upgrade_info.get("color", WHITE),
+                )
+                screen.blit(upgrade_text, (x + 10, y + y_offset))
+                y_offset += 20
