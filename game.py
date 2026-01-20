@@ -1,9 +1,23 @@
-import pygame
 import random
-from config import *
-from player import Player
+
+import pygame
+
+from config import (
+    ENEMY_INCREASE_PER_WAVE,
+    ENEMY_SPAWN_DELAY,
+    ENEMY_SPAWN_DELAY_DECREASE,
+    FPS,
+    HEIGHT,
+    INITIAL_ENEMIES_PER_WAVE,
+    MAX_ENEMIES_ON_SCREEN,
+    MIN_ENEMY_SPAWN_DELAY,
+    WAVE_REWARD_EXP,
+    WIDTH,
+    BLACK,
+)
 from enemy import Enemy
 from experience import Experience
+from player import Player
 from ui import *
 
 

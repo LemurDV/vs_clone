@@ -1,5 +1,19 @@
 import pygame
-from config import *
+
+from config import (
+    BLACK,
+    BLUE,
+    FONT_LARGE,
+    FONT_MEDIUM,
+    FONT_SMALL,
+    GREEN,
+    HEIGHT,
+    PURPLE,
+    RED,
+    WHITE,
+    WIDTH,
+    YELLOW,
+)
 
 
 def draw_hud(screen, player_stats, wave_info, show_level_up=False):

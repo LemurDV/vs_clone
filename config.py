@@ -1,5 +1,6 @@
 import pygame
 
+
 # Инициализация PyGame (только для шрифтов)
 pygame.init()
 

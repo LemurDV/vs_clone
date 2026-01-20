@@ -1,7 +1,23 @@
-import pygame
-import random
 import math
-from config import *
+import random
+
+import pygame
+
+from config import (
+    ENEMY_MAX_EXP,
+    ENEMY_MAX_HEALTH,
+    ENEMY_MAX_RADIUS,
+    ENEMY_MAX_SPEED,
+    ENEMY_MIN_EXP,
+    ENEMY_MIN_HEALTH,
+    ENEMY_MIN_RADIUS,
+    ENEMY_MIN_SPEED,
+    HEIGHT,
+    RED,
+    WHITE,
+    WIDTH,
+    YELLOW,
+)
 
 
 class Enemy:

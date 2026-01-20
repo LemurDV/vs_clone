@@ -1,6 +1,26 @@
-import pygame
 import math
-from config import *
+
+import pygame
+
+from config import (
+    BLUE,
+    EXP_MULTIPLIER_PER_LEVEL,
+    GREEN,
+    HEIGHT,
+    INITIAL_EXP_TO_NEXT_LEVEL,
+    LEVEL_UP_DAMAGE_INCREASE,
+    LEVEL_UP_HEALTH_INCREASE,
+    LEVEL_UP_SHOOT_DELAY_DECREASE,
+    MIN_SHOOT_DELAY,
+    PLAYER_DAMAGE,
+    PLAYER_HEALTH,
+    PLAYER_RADIUS,
+    PLAYER_SHOOT_DELAY,
+    PLAYER_SPEED,
+    RED,
+    WHITE,
+    WIDTH,
+)
 from projectile import Projectile
 
 

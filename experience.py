@@ -1,6 +1,14 @@
-import pygame
 import math
-from config import *
+
+import pygame
+
+from config import (
+    EXP_MAGNET_DISTANCE,
+    EXP_ORB_RADIUS,
+    EXP_ORB_SPEED,
+    WHITE,
+    YELLOW,
+)
 
 
 class Experience:

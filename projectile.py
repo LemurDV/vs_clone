@@ -1,4 +1,11 @@
-from config import *
+from config import (
+    HEIGHT,
+    PROJECTILE_RADIUS,
+    PROJECTILE_SPEED,
+    WHITE,
+    WIDTH,
+    pygame,
+)
 
 
 class Projectile:

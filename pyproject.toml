@@ -1,6 +1,7 @@
 [tool.ruff]
 line-length = 80
 ignore = ["E501", "F401"]
+select = ["I"]
 
 # Настройки линтера
 [tool.ruff.lint]
@@ -14,4 +15,13 @@ quote-style = "double"
 
 # Сортировка импортов
 [tool.ruff.isort]
-known-first-party = ["your_package_name"]
+force-sort-within-sections = true
+
+# Порядок сортировки секций
+known-first-party = ["your_package_name"]  # ваш пакет
+known-third-party = ["requests", "pandas", "numpy"]  # часто используемые библиотеки
+
+# Дополнительные настройки
+lines-after-imports = 2  # пустые строки после импортов
+lines-between-types = 1  # пустые строки между типами импортов
+combine-as-imports = true
