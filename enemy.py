@@ -55,7 +55,7 @@ class Enemy:
             self.x += dx / dist * self.speed
             self.y += dy / dist * self.speed
 
-    def take_damage(self, amount,  color):
+    def take_damage(self, amount, color):
         """Получение урона с учетом критов"""
         # self.color = color
 

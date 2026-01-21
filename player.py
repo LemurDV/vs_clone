@@ -28,7 +28,8 @@ from config import (
     UPGRADES,
     UPGRADES_PER_LEVEL,
     WHITE,
-    WIDTH, YELLOW,
+    WIDTH,
+    YELLOW,
 )
 from projectile import Projectile
 
@@ -118,7 +119,12 @@ class Player:
                 color = YELLOW if is_crit else BLUE
                 self.projectiles.append(
                     Projectile(
-                        self.x, self.y, dx, dy, moment_damage, color,
+                        self.x,
+                        self.y,
+                        dx,
+                        dy,
+                        moment_damage,
+                        color,
                     )
                 )
             self.last_shot = current_time
@@ -126,8 +132,9 @@ class Player:
     def get_damage(self):
         """Получение урона с учетом улучшений и критов"""
         # Базовый урон с улучшениями
-        base_damage = self.base_damage * (
-            UPGRADE_DAMAGE_MULTIPLIER ** self.upgrades["damage"]
+        base_damage = int(
+            self.base_damage
+            * (UPGRADE_DAMAGE_MULTIPLIER ** self.upgrades["damage"])
         )
         actual_damage = base_damage
 

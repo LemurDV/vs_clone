@@ -10,10 +10,11 @@ from config import (
     INITIAL_ENEMIES_PER_WAVE,
     MAX_ENEMIES_ON_SCREEN,
     MIN_ENEMY_SPAWN_DELAY,
+    RED,
     WAVE_REWARD_EXP,
     WHITE,
     WIDTH,
-    pygame, RED,
+    pygame,
 )
 from damage_text import DamageText
 from enemy import Enemy
@@ -188,7 +189,8 @@ class Game:
                     # logger.debug(f"{projectile.damage}: {projectile.color=}")
                     # Исправленный вызов take_damage - нужно распаковать результат
                     alive, actual_damage = enemy.take_damage(
-                        damage_dealt, projectile.color,
+                        damage_dealt,
+                        projectile.color,
                     )
 
                     # Добавляем текст урона ВСЕГДА при попадании, а не только при убийстве
