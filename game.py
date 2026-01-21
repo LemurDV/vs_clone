@@ -270,12 +270,12 @@ class Game:
         draw_hud(self.screen, player_stats, wave_info, self.show_level_up)
 
         # Отрисовка сообщения о завершении волны
-        if (
-            self.wave_complete
-            and not self.game_over
-            and not self.choosing_upgrade
-        ):
-            draw_wave_complete(self.screen, self.wave - 1)
+        # if (
+        #     self.wave_complete
+        #     and not self.game_over
+        #     and not self.choosing_upgrade
+        # ):
+        #     draw_wave_complete(self.screen, self.wave - 1)
 
         # Отрисовка экрана выбора улучшений
         if self.choosing_upgrade and self.upgrade_screen:
