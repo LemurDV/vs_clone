@@ -28,7 +28,7 @@ from config import (
     UPGRADES,
     UPGRADES_PER_LEVEL,
     WHITE,
-    WIDTH,
+    WIDTH, YELLOW,
 )
 from projectile import Projectile
 
@@ -115,9 +115,10 @@ class Player:
             directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
             for dx, dy in directions:
                 base_damage, moment_damage, is_crit = self.get_damage()
+                color = YELLOW if is_crit else BLUE
                 self.projectiles.append(
                     Projectile(
-                        self.x, self.y, dx, dy, moment_damage, BLUE, is_crit
+                        self.x, self.y, dx, dy, moment_damage, color,
                     )
                 )
             self.last_shot = current_time

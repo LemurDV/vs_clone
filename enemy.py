@@ -55,20 +55,17 @@ class Enemy:
             self.x += dx / dist * self.speed
             self.y += dy / dist * self.speed
 
-    def take_damage(self, amount, is_crit=False):
+    def take_damage(self, amount,  color):
         """Получение урона с учетом критов"""
-        if is_crit:
-            self.color = (255, 255, 0)
-        else:
-            self.color = RED
+        # self.color = color
 
         self.health -= amount
-        was_alive = self.is_alive
+        # was_alive = self.is_alive
         if self.health <= 0:
             self.health = 0
             self.is_alive = False
 
-        return self.is_alive, amount, is_crit
+        return self.is_alive, amount
 
     def draw(self, screen):
         """Отрисовка врага и его здоровья"""

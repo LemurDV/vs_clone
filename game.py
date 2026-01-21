@@ -13,7 +13,7 @@ from config import (
     WAVE_REWARD_EXP,
     WHITE,
     WIDTH,
-    pygame,
+    pygame, RED,
 )
 from damage_text import DamageText
 from enemy import Enemy
@@ -185,13 +185,10 @@ class Game:
             for enemy in self.enemies[:]:
                 if projectile.check_collision(enemy.x, enemy.y, enemy.radius):
                     damage_dealt = projectile.damage
-                    is_crit = (
-                        projectile.is_crit
-                    )  # Берем информацию о крите из снаряда!
-
+                    # logger.debug(f"{projectile.damage}: {projectile.color=}")
                     # Исправленный вызов take_damage - нужно распаковать результат
-                    alive, actual_damage, is_crit_result = enemy.take_damage(
-                        damage_dealt, is_crit
+                    alive, actual_damage = enemy.take_damage(
+                        damage_dealt, projectile.color,
                     )
 
                     # Добавляем текст урона ВСЕГДА при попадании, а не только при убийстве
@@ -200,13 +197,13 @@ class Game:
                             enemy.x,
                             enemy.y - enemy.radius - 10,
                             damage_dealt,
-                            is_crit,
+                            projectile.color,
                         )
                     )
-                    logger.debug(
-                        f"Damage text: {damage_dealt}, crit: {is_crit}, "
-                        f"enemy health: {enemy.health}"
-                    )
+                    # logger.debug(
+                    #     f"Damage text: {damage_dealt}, "
+                    #     f"enemy health: {enemy.health}"
+                    # )
 
                     if not alive:  # Если враг умер
                         # Враг умер

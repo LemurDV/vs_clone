@@ -4,11 +4,11 @@ import pygame
 
 
 class DamageText:
-    def __init__(self, x, y, damage, is_crit=False):
+    def __init__(self, x, y, damage, color):
         self.x = x
         self.y = y - 20
         self.damage = str(int(damage))
-        self.is_crit = is_crit
+        self.color = color
         self.lifetime = 1000
         self.created_time = pygame.time.get_ticks()
         self.velocity_y = -1.5
@@ -25,15 +25,17 @@ class DamageText:
         current_time = pygame.time.get_ticks()
         age = current_time - self.created_time
 
-        if self.is_crit:
-            font_size = 28
-            color = (255, 255, 0)  # Желтый для крита
-        else:
-            font_size = 22
-            color = (255, 100, 100)  # Красный для обычного урона
+        # if self.color:
+        #     font_size = 28
+        #     color = (255, 255, 0)  # Желтый для крита
+        # else:
+        #     font_size = 22
+        #     color = (255, 100, 100)  # Красный для обычного урона
+
+        font_size = 22
 
         font = pygame.font.Font(None, font_size)
-        text_surface = font.render(self.damage, True, color)
+        text_surface = font.render(self.damage, True, self.color)
 
         # Устанавливаем прозрачность
         alpha = 255 * (1 - age / self.lifetime)
