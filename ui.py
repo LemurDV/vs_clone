@@ -2,7 +2,6 @@ import pygame
 
 from config import (
     BLACK,
-    BLUE,
     FONT_LARGE,
     FONT_MEDIUM,
     FONT_SMALL,
@@ -161,7 +160,6 @@ def draw_game_over(screen, player_stats, wave_info):
             ),
         )
 
-    # Инструкция
     restart_text = FONT_SMALL.render("Нажмите R для перезапуска", True, WHITE)
     screen.blit(
         restart_text,
@@ -186,7 +184,6 @@ def draw_wave_complete(screen, wave_number):
     screen.blit(message, (WIDTH // 2 - message.get_width() // 2, 160))
 
 
-# ui.py (дополнительные функции)
 def draw_upgrade_stats(screen, player_stats, x, y):
     """Отрисовка статистики улучшений"""
     upgrades = player_stats.get("upgrades", {})

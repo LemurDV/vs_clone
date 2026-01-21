@@ -9,7 +9,7 @@ from config import (
 
 
 class Projectile:
-    def __init__(self, x, y, dx, dy, damage, color, is_crit=False):
+    def __init__(self, x, y, dx, dy, damage, color):
         self.x = x
         self.y = y
         self.dx = dx
@@ -18,9 +18,6 @@ class Projectile:
         self.speed = PROJECTILE_SPEED
         self.damage = damage
         self.color = color
-        self.is_crit = is_crit
-        if is_crit:
-            self.color = (255, 255, 0)
 
     def move(self):
         """Движение снаряда"""
