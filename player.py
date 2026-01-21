@@ -14,9 +14,9 @@ from config import (
     MIN_SHOOT_DELAY,
     PLAYER_DAMAGE,
     PLAYER_HEALTH,
+    PLAYER_MOVEMENT_SPEED,
     PLAYER_RADIUS,
     PLAYER_SHOOT_DELAY,
-    PLAYER_SPEED,
     RED,
     UPGRADE_ATTACK_SPEED_MULTIPLIER,
     UPGRADE_CRIT_CHANCE,
@@ -38,7 +38,7 @@ class Player:
         self.x = x
         self.y = y
         self.radius = PLAYER_RADIUS
-        self.speed = PLAYER_SPEED
+        self.movement_speed = PLAYER_MOVEMENT_SPEED
         self.color = GREEN
         self.health = PLAYER_HEALTH
         self.max_health = PLAYER_HEALTH
@@ -65,7 +65,7 @@ class Player:
         self.base_damage = PLAYER_DAMAGE
         self.base_max_health = PLAYER_HEALTH
         self.base_shoot_delay = PLAYER_SHOOT_DELAY
-        self.base_speed = PLAYER_SPEED
+        self.base_movement_speed = PLAYER_MOVEMENT_SPEED
 
         # Вампиризм
         self.lifesteal = 0
@@ -77,11 +77,11 @@ class Player:
 
     def move(self, keys):
         """Движение игрока"""
-        current_speed = self.speed
+        current_speed = self.movement_speed
 
         # Применяем улучшение скорости
         if self.upgrades["movement_speed"] > 0:
-            current_speed = self.base_speed * (
+            current_speed = self.base_movement_speed * (
                 UPGRADE_MOVEMENT_SPEED_MULTIPLIER
                 ** self.upgrades["movement_speed"]
             )
@@ -108,15 +108,17 @@ class Player:
             current_shoot_delay = self.base_shoot_delay * (
                 UPGRADE_ATTACK_SPEED_MULTIPLIER ** self.upgrades["attack_speed"]
             )
-            current_shoot_delay = max(MIN_SHOOT_DELAY, current_shoot_delay)
+            current_shoot_delay = max(MIN_SHOOT_DELAY, int(current_shoot_delay))
 
         if current_time - self.last_shot > current_shoot_delay:
             # Стрельба в 4 направления
             directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
             for dx, dy in directions:
-                damage, is_crit = self.get_damage()
+                base_damage, moment_damage, is_crit = self.get_damage()
                 self.projectiles.append(
-                    Projectile(self.x, self.y, dx, dy, damage, BLUE, is_crit)
+                    Projectile(
+                        self.x, self.y, dx, dy, moment_damage, BLUE, is_crit
+                    )
                 )
             self.last_shot = current_time
 
@@ -126,17 +128,18 @@ class Player:
         base_damage = self.base_damage * (
             UPGRADE_DAMAGE_MULTIPLIER ** self.upgrades["damage"]
         )
+        actual_damage = base_damage
 
         # Проверка на критический удар
         is_crit = False
         if self.upgrades["crit_chance"] > 0 and random.random() < (
             UPGRADE_CRIT_CHANCE * self.upgrades["crit_chance"]
         ):
-            base_damage *= UPGRADE_CRIT_MULTIPLIER
+            actual_damage *= UPGRADE_CRIT_MULTIPLIER
             is_crit = True
 
         self.last_crit = is_crit  # Сохраняем для отображения
-        return int(base_damage), is_crit
+        return base_damage, int(actual_damage), is_crit
 
     def apply_vampirism(self, damage_dealt):
         """Применение вампиризма"""
@@ -146,7 +149,7 @@ class Player:
                 * UPGRADE_VAMPIRISM_PERCENT
                 * self.upgrades["vampirism"]
             )
-            self.heal(heal_amount)
+            self.heal(int(heal_amount))
             self.last_lifesteal_amount = heal_amount
 
     def take_damage(self, amount):
@@ -183,7 +186,6 @@ class Player:
             self.exp_to_next_level * EXP_MULTIPLIER_PER_LEVEL
         )
 
-        # Базовое улучшение характеристик (как было раньше)
         self.base_max_health += LEVEL_UP_HEALTH_INCREASE
         self.update_max_health()
         self.base_damage += LEVEL_UP_DAMAGE_INCREASE
@@ -250,8 +252,8 @@ class Player:
         self.draw_health_bar(screen)
 
         # Рисуем иконку крита, если был критический удар
-        if self.last_crit:
-            self.draw_crit_indicator(screen)
+        # if self.last_crit:
+        #     self.draw_crit_indicator(screen)
 
     def draw_health_bar(self, screen):
         """Отрисовка полоски здоровья над игроком"""
@@ -288,18 +290,18 @@ class Player:
     def get_stats(self):
         """Получение статистики игрока"""
         # Рассчитываем актуальные значения с учетом улучшений
-        actual_damage, is_crit = self.get_damage()
+        base_damage, _, _ = self.get_damage()
 
         actual_shoot_delay = self.base_shoot_delay
         if self.upgrades["attack_speed"] > 0:
             actual_shoot_delay = self.base_shoot_delay * (
                 UPGRADE_ATTACK_SPEED_MULTIPLIER ** self.upgrades["attack_speed"]
             )
-            actual_shoot_delay = max(MIN_SHOOT_DELAY, actual_shoot_delay)
+            actual_shoot_delay = max(MIN_SHOOT_DELAY, int(actual_shoot_delay))
 
-        actual_speed = self.base_speed
+        actual_speed = self.base_movement_speed
         if self.upgrades["movement_speed"] > 0:
-            actual_speed = self.base_speed * (
+            actual_speed = self.base_movement_speed * (
                 UPGRADE_MOVEMENT_SPEED_MULTIPLIER
                 ** self.upgrades["movement_speed"]
             )
@@ -310,7 +312,7 @@ class Player:
             "exp_to_next_level": self.exp_to_next_level,
             "health": self.health,
             "max_health": self.max_health,
-            "damage": actual_damage,
+            "damage": base_damage,
             "shoot_delay": actual_shoot_delay,
             "movement_speed": actual_speed,
             "lifesteal": self.lifesteal * 100,  # в процентах

@@ -55,12 +55,10 @@ class Enemy:
             self.x += dx / dist * self.speed
             self.y += dy / dist * self.speed
 
-    # enemy.py - исправленный метод take_damage
     def take_damage(self, amount, is_crit=False):
         """Получение урона с учетом критов"""
         if is_crit:
-            # Визуальный эффект для крита
-            self.color = (255, 255, 0)  # Желтый цвет при крите
+            self.color = (255, 255, 0)
         else:
             self.color = RED
 
@@ -70,8 +68,6 @@ class Enemy:
             self.health = 0
             self.is_alive = False
 
-        # Возвращаем урон для статистики
-        # Возвращаем: выжил ли враг, нанесенный урон, был ли крит
         return self.is_alive, amount, is_crit
 
     def draw(self, screen):

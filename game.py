@@ -1,3 +1,5 @@
+from loguru import logger
+
 from config import (
     BLACK,
     ENEMY_INCREASE_PER_WAVE,
@@ -201,9 +203,9 @@ class Game:
                             is_crit,
                         )
                     )
-                    # Для отладки - добавь в check_collisions после создания DamageText
-                    print(
-                        f"Damage text created: {damage_dealt}, crit: {is_crit}, enemy health: {enemy.health}"
+                    logger.debug(
+                        f"Damage text: {damage_dealt}, crit: {is_crit}, "
+                        f"enemy health: {enemy.health}"
                     )
 
                     if not alive:  # Если враг умер
