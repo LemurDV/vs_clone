@@ -37,8 +37,8 @@ ENEMY_MIN_SPEED = 1.0
 ENEMY_MAX_SPEED = 2.5
 ENEMY_MIN_HEALTH = 15
 ENEMY_MAX_HEALTH = 30
-ENEMY_MIN_EXP = 8
-ENEMY_MAX_EXP = 16
+ENEMY_MIN_EXP = 20
+ENEMY_MAX_EXP = 40
 MAX_ENEMIES_ON_SCREEN = 20
 
 # Настройки снарядов
@@ -51,11 +51,11 @@ EXP_ORB_SPEED = 4
 EXP_MAGNET_DISTANCE = 100
 
 # Настройки волн
-INITIAL_ENEMIES_PER_WAVE = 15
+INITIAL_ENEMIES_PER_WAVE = 1
 ENEMY_SPAWN_DELAY = 500
 MIN_ENEMY_SPAWN_DELAY = 200
 ENEMY_SPAWN_DELAY_DECREASE = 50  # на волну
-ENEMY_INCREASE_PER_WAVE = 5
+ENEMY_INCREASE_PER_WAVE = 1
 WAVE_REWARD_EXP = 50
 
 # Уровень сложности
@@ -103,6 +103,37 @@ UPGRADES = {
         "description": "Увеличивает скорость движения на 20%",
         "color": (200, 100, 255),
         "icon": "👟",
+    },
+    "aura": {
+        "name": "Магическая аура",
+        "description": "Наносит урон врагам рядом с вами. Улучшение: +20% урона, +10 радиуса",
+        "color": (180, 70, 255),
+        "icon": "🌀",
+        "type": "weapon",
+        "damage": 2,
+        "radius": 80,
+        "cooldown": 800,
+    },
+    "orbiting": {
+        "name": "Орбитальные сферы",
+        "description": "Сферы, вращающиеся вокруг вас. Улучшение: +20% урона, +1 сфера",
+        "color": (50, 200, 50),
+        "icon": "🪐",
+        "type": "weapon",
+        "damage": 5,
+        "orbit_radius": 50,
+        "speed": 0.05,
+        "cooldown": 500,
+    },
+    "melee": {
+        "name": "Взрывная волна",
+        "description": "Волна урона вокруг вас. Улучшение: +20% урона, -0.1с кулдаун",
+        "color": (255, 150, 50),
+        "icon": "💥",
+        "type": "weapon",
+        "damage": 15,
+        "radius": 60,
+        "cooldown": 3000,
     },
 }
 
