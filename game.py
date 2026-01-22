@@ -490,7 +490,7 @@ class Game:
         self.paused = True
         self.upgrade_screen = UpgradeScreen(self.player)
 
-    def check_collisions(self):
+    def check_collisions(self, current_time):
         """Проверка всех столкновений"""
         # Проверка столкновений врагов с игроком
         for enemy in self.enemies[:]:
@@ -502,10 +502,11 @@ class Game:
             if enemy.check_collision_with_player(
                 self.player.x, self.player.y, self.player.radius
             ):
-                self.player.take_damage(5)
-                self.enemies.remove(enemy)
-                if not self.player.is_alive:
-                    self.game_over = True
+                if current_time - enemy.last_damage_deal > 500:
+                    self.player.take_damage(enemy.damage)
+                    enemy.last_damage_deal = current_time
+                    if not self.player.is_alive:
+                        self.game_over = True
 
         # Проверка столкновений снарядов с врагами
         for projectile in self.player.projectiles[:]:
@@ -677,7 +678,7 @@ class Game:
             self.update_experience()
 
             # Проверка столкновений
-            self.check_collisions()
+            self.check_collisions(current_time)
 
             # Обновление текста урона
             for damage_text in self.damage_texts[:]:
