@@ -28,22 +28,22 @@ PLAYER_RADIUS = 15
 PLAYER_MOVEMENT_SPEED = 3
 PLAYER_HEALTH = 100
 PLAYER_DAMAGE = 10
-PLAYER_SHOOT_DELAY = 400  # мс
+PLAYER_SHOOT_DELAY = 800  # мс
 
 # Настройки врагов
 ENEMY_MIN_RADIUS = 10
-ENEMY_MAX_RADIUS = 20
-ENEMY_MIN_SPEED = 1.0
-ENEMY_MAX_SPEED = 2.5
-ENEMY_MIN_HEALTH = 15
-ENEMY_MAX_HEALTH = 30
+ENEMY_MAX_RADIUS = 30
+ENEMY_MIN_SPEED = 1.5
+ENEMY_MAX_SPEED = 3.0
+ENEMY_MIN_HEALTH = 20
+ENEMY_MAX_HEALTH = 40
 ENEMY_MIN_EXP = 20
 ENEMY_MAX_EXP = 40
-MAX_ENEMIES_ON_SCREEN = 20
+MAX_ENEMIES_ON_SCREEN = 100
 
 # Настройки снарядов
 PROJECTILE_RADIUS = 5
-PROJECTILE_SPEED = 8
+PROJECTILE_SPEED = 5
 
 # Настройки опыта
 EXP_ORB_RADIUS = 6
@@ -51,17 +51,17 @@ EXP_ORB_SPEED = 4
 EXP_MAGNET_DISTANCE = 100
 
 # Настройки волн
-INITIAL_ENEMIES_PER_WAVE = 1
+INITIAL_ENEMIES_PER_WAVE = 30
 ENEMY_SPAWN_DELAY = 500
 MIN_ENEMY_SPAWN_DELAY = 200
-ENEMY_SPAWN_DELAY_DECREASE = 50  # на волну
-ENEMY_INCREASE_PER_WAVE = 1
+ENEMY_SPAWN_DELAY_DECREASE = 1  # на волну
+ENEMY_INCREASE_PER_WAVE = 25
 WAVE_REWARD_EXP = 50
 
 # Уровень сложности
 LEVEL_UP_HEALTH_INCREASE = 10
 LEVEL_UP_DAMAGE_INCREASE = 2
-LEVEL_UP_SHOOT_DELAY_DECREASE = 20  # мс
+LEVEL_UP_SHOOT_DELAY_DECREASE = 10  # мс
 MIN_SHOOT_DELAY = 200
 INITIAL_EXP_TO_NEXT_LEVEL = 30
 EXP_MULTIPLIER_PER_LEVEL = 1.5
@@ -98,12 +98,13 @@ UPGRADES = {
         "color": (100, 255, 100),
         "icon": "❤️",
     },
-    "movement_speed": {
-        "name": "Скорость",
-        "description": "Увеличивает скорость движения на 20%",
-        "color": (200, 100, 255),
-        "icon": "👟",
-    },
+    # TODO: исрпавить ее. поломалась при выборе апгрейда)
+    # "movement_speed": {
+    #     "name": "Скорость",
+    #     "description": "Увеличивает скорость движения на 20%",
+    #     "color": (200, 100, 255),
+    #     "icon": "👟",
+    # },
     "aura": {
         "name": "Магическая аура",
         "description": "Наносит урон врагам рядом с вами. Улучшение: +20% урона, +10 радиуса",
@@ -138,13 +139,13 @@ UPGRADES = {
 }
 
 # Параметры улучшений
-UPGRADE_DAMAGE_MULTIPLIER = 1.3  # +30% урона
-UPGRADE_ATTACK_SPEED_MULTIPLIER = 0.75  # -25% задержки (быстрее на 25%)
-UPGRADE_VAMPIRISM_PERCENT = 0.1  # 10% вампиризма
-UPGRADE_CRIT_CHANCE = 0.2  # 20% шанс крита
+UPGRADE_DAMAGE_MULTIPLIER = 1.1  # +10% урона
+UPGRADE_ATTACK_SPEED_MULTIPLIER = 0.05  # -5% задержки (быстрее на 25%)
+UPGRADE_VAMPIRISM_PERCENT = 0.05  # 10% вампиризма
+UPGRADE_CRIT_CHANCE = 0.05  # 20% шанс крита
 UPGRADE_CRIT_MULTIPLIER = 2.0  # 200% урона при крите
-UPGRADE_MAX_HEALTH_MULTIPLIER = 1.2  # +20% здоровья
-UPGRADE_MOVEMENT_SPEED_MULTIPLIER = 1.2  # +20% скорости
+UPGRADE_MAX_HEALTH_MULTIPLIER = 0.05  # +5% здоровья
+UPGRADE_MOVEMENT_SPEED_MULTIPLIER = 0.05  # +5% скорости
 
 # Настройки отображения улучшений
 UPGRADES_PER_LEVEL = 3  # Количество предлагаемых улучшений

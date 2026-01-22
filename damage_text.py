@@ -2,9 +2,11 @@ import random
 
 import pygame
 
+from config import RED
+
 
 class DamageText:
-    def __init__(self, x, y, damage, color):
+    def __init__(self, x, y, damage, color=RED):
         self.x = x
         self.y = y - 20
         self.damage = str(int(damage))
