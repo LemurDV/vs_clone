@@ -391,31 +391,28 @@ class Game:
             )
 
             # Удаляем врагов, которые слишком далеко за пределами видимой области
-            visible_area = self.get_visible_area()
-            max_distance = 300  # Максимальное расстояние от видимой области
-
-            if (
-                enemy.world_x < visible_area.left - max_distance
-                or enemy.world_x > visible_area.right + max_distance
-                or enemy.world_y < visible_area.top - max_distance
-                or enemy.world_y > visible_area.bottom + max_distance
-            ):
-                self.enemies.remove(enemy)
+            # visible_area = self.get_visible_area()
+            # max_distance = 300  # Максимальное расстояние от видимой области
+            #
+            # if (
+            #     enemy.world_x < visible_area.left - max_distance
+            #     or enemy.world_x > visible_area.right + max_distance
+            #     or enemy.world_y < visible_area.top - max_distance
+            #     or enemy.world_y > visible_area.bottom + max_distance
+            # ):
+            #     self.enemies.remove(enemy)
 
     def update_experience(self):
         """Обновление позиций опыта"""
         for exp_orb in self.experience_orbs[:]:
-            # Опыт двигается к мировым координатам игрока
             exp_orb.move_towards(self.player_world_x, self.player_world_y)
 
-            # Обновляем экранные координаты опыта
             exp_orb.x, exp_orb.y = self.world_to_screen(
                 exp_orb.world_x, exp_orb.world_y
             )
 
-            # Проверяем сбор опыта
             if exp_orb.check_collection(
-                self.player_world_x, self.player_world_y, self.player.radius
+                self.player.x, self.player.y, self.player.radius
             ):
                 exp_gained = self.player.add_exp(exp_orb.value)
                 self.total_exp_collected += exp_orb.value
@@ -467,10 +464,10 @@ class Game:
             if not self.wave_complete:
                 self.wave_complete = True
                 # Награда за волну
-                exp_gained = self.player.add_exp(WAVE_REWARD_EXP)
-                self.total_exp_collected += WAVE_REWARD_EXP
-                if exp_gained:
-                    self.show_upgrade_screen()
+                # exp_gained = self.player.add_exp(WAVE_REWARD_EXP)
+                # self.total_exp_collected += WAVE_REWARD_EXP
+                # if exp_gained:
+                #     self.show_upgrade_screen()
             else:
                 # Переход к следующей волне
                 self.wave += 1
@@ -551,16 +548,6 @@ class Game:
                         self.player.projectiles.remove(projectile)
                     break  # Важно: снаряд поражает только одного врага
 
-        for exp_orb in self.experience_orbs[:]:
-            if exp_orb.check_collection(
-                self.player.x, self.player.y, self.player.radius
-            ):
-                exp_gained = self.player.add_exp(exp_orb.value)
-                self.total_exp_collected += exp_orb.value
-                self.experience_orbs.remove(exp_orb)
-                if exp_gained:
-                    self.show_upgrade_screen()
-
     def update_level_up_message(self, current_time):
         """Обновление таймера сообщения о повышении уровня"""
         if self.show_level_up and current_time - self.level_up_timer > 1500:
@@ -632,7 +619,7 @@ class Game:
 
         for i, text in enumerate(info):
             text_surface = font.render(text, True, (255, 255, 0))
-            self.screen.blit(text_surface, (10, 10 + i * 25))
+            self.screen.blit(text_surface, (WIDTH / 2.5, 10 + i * 25))
 
     def draw_pause_screen(self):
         """Отрисовка экрана паузы"""
