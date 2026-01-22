@@ -1,5 +1,6 @@
 import random
 
+from loguru import logger
 import pygame
 
 from config import (
@@ -32,6 +33,9 @@ from config import (
     YELLOW,
 )
 from projectile import Projectile
+from weapons.aura import AuraWeapon
+from weapons.melee import MeleeWeapon
+from weapons.orbiting import OrbitingWeapon
 
 
 class Player:
@@ -51,6 +55,10 @@ class Player:
         self.shoot_delay = PLAYER_SHOOT_DELAY
         self.damage = PLAYER_DAMAGE
         self.is_alive = True
+        self.weapons = []
+        self.active_weapon_type = "aura"
+
+        self.active_weapons_dict = {}
 
         # Статистика улучшений
         self.upgrades = {
@@ -60,6 +68,9 @@ class Player:
             "crit_chance": 0,
             "max_health": 0,
             "movement_speed": 0,
+            "aura": 0,
+            "orbiting": 0,
+            "melee": 0,
         }
 
         # Базовые значения для расчетов
@@ -224,7 +235,6 @@ class Player:
             # Специальная обработка для некоторых улучшений
             if upgrade_type == "max_health":
                 self.update_max_health()
-                # Восстанавливаем здоровье при улучшении максимального здоровья
                 self.health = self.max_health
             elif upgrade_type == "vampirism":
                 self.lifesteal = (
@@ -235,8 +245,66 @@ class Player:
                     UPGRADE_CRIT_CHANCE * self.upgrades["crit_chance"]
                 )
 
+            # Обработка оружия - создаем или улучшаем
+            elif upgrade_type in ["aura", "orbiting", "melee"]:
+                self.handle_weapon_upgrade(upgrade_type)
+
             return True
         return False
+
+    def handle_weapon_upgrade(self, weapon_type):
+        """Создать новое оружие или улучшить существующее"""
+        if weapon_type in self.active_weapons_dict:
+            # Улучшаем существующее оружие
+            weapon = self.active_weapons_dict[weapon_type]
+            logger.debug(f"{self.damage=}")
+            weapon.level_up(self.damage)
+            logger.info(f"Улучшено {weapon.name} до уровня {weapon.level}")
+
+            # Обновляем счетчик в upgrades
+            logger.debug(f"{self.upgrades=}")
+            # self.upgrades[weapon_type] += 1
+        else:
+            # Создаем новое оружие
+            if weapon_type == "aura":
+                weapon = AuraWeapon(
+                    name=UPGRADES[weapon_type]["name"],
+                    damage=UPGRADES[weapon_type]["damage"] * self.level,
+                    radius=UPGRADES[weapon_type]["radius"],
+                    owner=self,
+                    color=UPGRADES[weapon_type]["color"],
+                )
+            elif weapon_type == "orbiting":
+                weapon = OrbitingWeapon(
+                    name=UPGRADES[weapon_type]["name"],
+                    damage=UPGRADES[weapon_type]["damage"] * self.level,
+                    orbit_radius=UPGRADES[weapon_type]["orbit_radius"],
+                    speed=UPGRADES[weapon_type]["speed"],
+                    owner=self,
+                    color=UPGRADES[weapon_type]["color"],
+                )
+            elif weapon_type == "melee":
+                weapon = MeleeWeapon(
+                    name=UPGRADES[weapon_type]["name"],
+                    damage=UPGRADES[weapon_type]["damage"] * self.level,
+                    radius=UPGRADES[weapon_type]["radius"],
+                    owner=self,
+                    color=UPGRADES[weapon_type]["color"],
+                )
+            else:
+                return False
+
+            # Сохраняем ссылку и добавляем в оба списка
+            self.active_weapons_dict[weapon_type] = weapon
+            self.weapons.append(weapon)
+
+            logger.debug(f"{self.active_weapons_dict=} \n {self.weapons=}")
+
+            logger.info(
+                f"Создано новое оружие: {weapon.name} (Уровень {weapon.level})"
+            )
+
+        return True
 
     def get_available_upgrades(self, count=UPGRADES_PER_LEVEL):
         """Получение списка доступных улучшений"""
@@ -313,6 +381,7 @@ class Player:
                 UPGRADE_MOVEMENT_SPEED_MULTIPLIER
                 ** self.upgrades["movement_speed"]
             )
+        # logger.debug(f"{self.upgrades=}")
 
         return {
             "level": self.level,
@@ -334,7 +403,9 @@ class Player:
             upgrade = UPGRADES[upgrade_type]
             current_level = self.upgrades[upgrade_type]
 
-            desc = f"{upgrade['icon']} {upgrade['name']} (Ур. {current_level + 1})\n"
+            desc = (
+                f"{upgrade['icon']} {upgrade['name']} (Ур. {current_level})\n"
+            )
             desc += f"{upgrade['description']}"
 
             # Добавляем информацию о текущем уровне
@@ -367,3 +438,60 @@ class Player:
 
             return desc
         return ""
+
+    def update_weapons(self, current_time, enemies):
+        """Обновить все оружия"""
+        for weapon in self.weapons:
+            weapon.update(current_time, enemies)
+
+    def draw_weapons(self, screen):
+        """Нарисовать все оружия"""
+        for weapon in self.weapons:
+            weapon.draw(screen)
+
+    def get_weapon_stats(self):
+        """Получить статистику всех оружий"""
+        stats = {}
+        for weapon_type, weapon in self.active_weapons_dict.items():
+            stats[weapon_type] = {
+                "name": weapon.name,
+                "level": weapon.level,
+                "damage": weapon.damage,
+            }
+        return stats
+
+    # def create_weapon(self, weapon_type):
+    #     """Создать оружие по типу"""
+    #     if weapon_type == "aura":
+    #         weapon = AuraWeapon(
+    #             name="Магическая аура",
+    #             damage=2 * self.level,  # Урон зависит от уровня
+    #             radius=80,
+    #             owner=self,
+    #             color=(180, 70, 255),
+    #         )
+    #         self.weapons.append(weapon)
+    #         return True
+    #
+    #     elif weapon_type == "orbiting":
+    #         weapon = OrbitingWeapon(
+    #             name="Орбитальные сферы",
+    #             damage=5 * self.level,
+    #             orbit_radius=50,
+    #             speed=0.05,
+    #             owner=self,
+    #             color=(50, 200, 50),
+    #         )
+    #         self.weapons.append(weapon)
+    #         return True
+    #     elif weapon_type == "melee":
+    #         weapon = MeleeWeapon(
+    #             name="Топор",
+    #             damage=10,
+    #             radius=50,
+    #             owner=self,
+    #             color=(255, 0, 255),
+    #         )
+    #         self.weapons.append(weapon)
+    #         return True
+    #     return False

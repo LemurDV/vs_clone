@@ -186,14 +186,11 @@ class Game:
             for enemy in self.enemies[:]:
                 if projectile.check_collision(enemy.x, enemy.y, enemy.radius):
                     damage_dealt = projectile.damage
-                    # logger.debug(f"{projectile.damage}: {projectile.color=}")
-                    # Исправленный вызов take_damage - нужно распаковать результат
                     alive, actual_damage = enemy.take_damage(
                         damage_dealt,
-                        projectile.color,
+                        # projectile.color,
                     )
 
-                    # Добавляем текст урона ВСЕГДА при попадании, а не только при убийстве
                     self.damage_texts.append(
                         DamageText(
                             enemy.x,
@@ -202,13 +199,8 @@ class Game:
                             projectile.color,
                         )
                     )
-                    # logger.debug(
-                    #     f"Damage text: {damage_dealt}, "
-                    #     f"enemy health: {enemy.health}"
-                    # )
 
-                    if not alive:  # Если враг умер
-                        # Враг умер
+                    if not alive:
                         self.experience_orbs.append(
                             Experience(enemy.x, enemy.y, enemy.exp_value)
                         )
@@ -228,9 +220,7 @@ class Game:
 
     def update_level_up_message(self, current_time):
         """Обновление таймера сообщения о повышении уровня"""
-        if (
-            self.show_level_up and current_time - self.level_up_timer > 1500
-        ):  # 1.5 секунды
+        if self.show_level_up and current_time - self.level_up_timer > 1500:
             self.show_level_up = False
 
     def draw(self):
@@ -241,15 +231,15 @@ class Game:
         for exp_orb in self.experience_orbs:
             exp_orb.draw(self.screen)
 
+        self.player.draw_weapons(self.screen)
+
         # Отрисовка снарядов
         for projectile in self.player.projectiles:
             projectile.draw(self.screen)
 
-        # Отрисовка врагов (ПЕРЕД текстами урона)
         for enemy in self.enemies:
             enemy.draw(self.screen)
 
-        # Отрисовка текстов урона (ПОСЛЕ врагов, чтобы были поверх)
         for damage_text in self.damage_texts:
             damage_text.draw(self.screen)
 
@@ -317,6 +307,7 @@ class Game:
             current_time = pygame.time.get_ticks()
 
             self.handle_events()
+            self.player.update_weapons(current_time, self.enemies)
 
             if self.game_over or self.paused:
                 # Если игра на паузе или окончена, только рисуем и ждем
@@ -339,7 +330,7 @@ class Game:
             self.update_wave()
 
             # Движение врагов к игроку
-            for enemy in self.enemies:
+            for enemy in self.enemies[:]:
                 enemy.move(self.player.x, self.player.y)
 
             # Движение опыта к игроку
@@ -348,16 +339,22 @@ class Game:
 
             # Проверка столкновений
             self.check_collisions()
+
+            for enemy in self.enemies[:]:
+                if not enemy.is_alive:
+                    self.experience_orbs.append(
+                        Experience(enemy.x, enemy.y, enemy.exp_value)
+                    )
+                    self.enemies.remove(enemy)
+                    self.enemies_defeated += 1
+                    self.total_enemies_killed += 1
+
             for damage_text in self.damage_texts[:]:
-                if not damage_text.update():  # Если время жизни истекло
+                if not damage_text.update():
                     self.damage_texts.remove(damage_text)
 
-            # Обновление сообщения о повышении уровня
             self.update_level_up_message(current_time)
 
-            # Отрисовка
             self.draw()
 
             self.clock.tick(FPS)
-
-        pygame.quit()

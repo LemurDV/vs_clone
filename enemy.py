@@ -55,17 +55,20 @@ class Enemy:
             self.x += dx / dist * self.speed
             self.y += dy / dist * self.speed
 
-    def take_damage(self, amount, color):
-        """Получение урона с учетом критов"""
-        # self.color = color
+    def take_damage(self, amount, color=None):
+        """Получение урона - возвращает (жив ли, нанесенный_урон)"""
+        if color == (255, 255, 0):  # Желтый цвет при крите
+            self.color = (255, 255, 0)
+        else:
+            self.color = RED
 
         self.health -= amount
-        # was_alive = self.is_alive
+
         if self.health <= 0:
             self.health = 0
             self.is_alive = False
-
-        return self.is_alive, amount
+            return False, amount  # Возвращаем False (умер) и урон
+        return True, amount  # Возвращаем True (жив) и урон
 
     def draw(self, screen):
         """Отрисовка врага и его здоровья"""
@@ -76,8 +79,7 @@ class Enemy:
             screen, WHITE, (int(self.x), int(self.y)), self.radius, 2
         )
 
-        # Рисуем полоску здоровья, если враг поврежден
-        if self.health < self.max_health:
+        if self.health < self.max_health and self.health > 0:
             self.draw_health_bar(screen)
 
     def draw_health_bar(self, screen):
@@ -88,16 +90,21 @@ class Enemy:
         health_y = self.y - self.radius - 8
         health_ratio = self.health / self.max_health
 
-        # Фон полоски здоровья
         pygame.draw.rect(
             screen, RED, (health_x, health_y, health_width, health_height)
         )
-        # Заполнение здоровья
-        pygame.draw.rect(
-            screen,
-            YELLOW,
-            (health_x, health_y, health_width * health_ratio, health_height),
-        )
+
+        if self.max_health > 0:
+            pygame.draw.rect(
+                screen,
+                YELLOW,
+                (
+                    health_x,
+                    health_y,
+                    health_width * health_ratio,
+                    health_height,
+                ),
+            )
 
     def is_off_screen(self):
         """Проверка, вышел ли враг за пределы экрана"""

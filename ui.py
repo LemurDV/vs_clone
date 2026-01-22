@@ -197,7 +197,8 @@ def draw_upgrade_stats(screen, player_stats, x, y):
             if level > 0:
                 upgrade_info = UPGRADES.get(upgrade_type, {})
                 upgrade_text = FONT_SMALL.render(
-                    f"{upgrade_info.get('icon', '')} {upgrade_info.get('name', upgrade_type)}: {level}",
+                    f"{upgrade_info.get('icon', '')}: {level}",
+                    # f"{upgrade_info.get('icon', '')} {upgrade_info.get('name', upgrade_type)}: {level}",
                     True,
                     upgrade_info.get("color", WHITE),
                 )
