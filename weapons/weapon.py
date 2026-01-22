@@ -1,5 +1,6 @@
 from loguru import logger
 
+
 class Weapon:
     def __init__(self, name, damage, cooldown, owner):
         self.name = name
