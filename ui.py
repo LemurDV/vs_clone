@@ -16,7 +16,9 @@ from config import (
 )
 
 
-def draw_hud(screen, player_stats, wave_info, show_level_up=False):
+def draw_hud(
+    screen, player_stats, wave_info, show_level_up=False, current_level=1
+):
     """Отрисовка интерфейса (обновленная)"""
     # Фон для HUD
     pygame.draw.rect(
@@ -37,6 +39,10 @@ def draw_hud(screen, player_stats, wave_info, show_level_up=False):
 
     # Статистика улучшений внизу справа
     draw_upgrade_stats(screen, player_stats, WIDTH - 250, HEIGHT - 100)
+
+    # чё по уровню сложности?
+    level_text = FONT_SMALL.render(f"Уровень: {current_level}", True, WHITE)
+    screen.blit(level_text, (WIDTH - level_text.get_width() - 20, 20))
 
     # Сообщение о повышении уровня
     if show_level_up:

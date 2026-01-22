@@ -21,7 +21,12 @@ from config import (
 
 
 class Enemy:
-    def __init__(self):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.world_x = x  # Мировые координаты
+        self.world_y = y  # Мировые координаты
+
         # Появление с краев экрана
         side = random.randint(0, 3)
         if side == 0:  # сверху
@@ -45,15 +50,28 @@ class Enemy:
         self.exp_value = random.randint(ENEMY_MIN_EXP, ENEMY_MAX_EXP)
         self.is_alive = True
 
-    def move(self, target_x, target_y):
-        """Движение к цели"""
-        dx = target_x - self.x
-        dy = target_y - self.y
-        dist = math.sqrt(dx * dx + dy * dy)
+    def move_towards(self, target_world_x, target_world_y):
+        """Движение к цели в мировых координатах"""
+        dx = target_world_x - self.world_x
+        dy = target_world_y - self.world_y
 
-        if dist > 0:
-            self.x += dx / dist * self.speed
-            self.y += dy / dist * self.speed
+        distance = max(0.1, (dx**2 + dy**2) ** 0.5)
+        dx = (dx / distance) * self.speed
+        dy = (dy / distance) * self.speed
+
+        self.world_x += dx
+        self.world_y += dy
+
+    def move(self, target_x, target_y):
+        self.move_towards(target_x, target_y)
+        """Движение к цели"""
+        # dx = target_x - self.x
+        # dy = target_y - self.y
+        # dist = math.sqrt(dx * dx + dy * dy)
+        #
+        # if dist > 0:
+        #     self.x += dx / dist * self.speed
+        #     self.y += dy / dist * self.speed
 
     def take_damage(self, amount, color=None):
         """Получение урона - возвращает (жив ли, нанесенный_урон)"""
