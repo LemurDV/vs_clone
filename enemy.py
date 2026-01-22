@@ -4,6 +4,7 @@ import random
 import pygame
 
 from config import (
+    ENEMY_DAMAGE,
     ENEMY_MAX_EXP,
     ENEMY_MAX_HEALTH,
     ENEMY_MAX_RADIUS,
@@ -42,6 +43,8 @@ class Enemy:
             self.x = -20
             self.y = random.randint(0, HEIGHT)
 
+        self.damage = ENEMY_DAMAGE
+        self.last_damage_deal = 0
         self.radius = random.randint(ENEMY_MIN_RADIUS, ENEMY_MAX_RADIUS)
         self.speed = random.uniform(ENEMY_MIN_SPEED, ENEMY_MAX_SPEED)
         self.color = RED

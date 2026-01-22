@@ -6,8 +6,9 @@ from config import (
     EXP_MAGNET_DISTANCE,
     EXP_ORB_RADIUS,
     EXP_ORB_SPEED,
+    EXP_ORB_SPEED_UP_DISTANCE,
     WHITE,
-    YELLOW, EXP_ORB_SPEED_UP_DISTANCE,
+    YELLOW,
 )
 
 
@@ -31,7 +32,7 @@ class Experience:
         distance = max(0.1, (dx**2 + dy**2) ** 0.5)
 
         if distance < EXP_MAGNET_DISTANCE and distance > 0:
-        # Ускоряемся при приближении к игроку
+            # Ускоряемся при приближении к игроку
             speed_multiplier = 1.0
             if distance < EXP_ORB_SPEED_UP_DISTANCE:
                 speed_multiplier = 1.5
