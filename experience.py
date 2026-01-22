@@ -7,7 +7,7 @@ from config import (
     EXP_ORB_RADIUS,
     EXP_ORB_SPEED,
     WHITE,
-    YELLOW,
+    YELLOW, EXP_ORB_SPEED_UP_DISTANCE,
 )
 
 
@@ -30,28 +30,17 @@ class Experience:
 
         distance = max(0.1, (dx**2 + dy**2) ** 0.5)
 
+        if distance < EXP_MAGNET_DISTANCE and distance > 0:
         # Ускоряемся при приближении к игроку
-        speed_multiplier = 1.0
-        if distance < 100:
-            speed_multiplier = 2.0
+            speed_multiplier = 1.0
+            if distance < EXP_ORB_SPEED_UP_DISTANCE:
+                speed_multiplier = 1.5
 
-        dx = (dx / distance) * self.speed * speed_multiplier
-        dy = (dy / distance) * self.speed * speed_multiplier
+            dx = (dx / distance) * self.speed * speed_multiplier
+            dy = (dy / distance) * self.speed * speed_multiplier
 
-        self.world_x += dx
-        self.world_y += dy
-
-    def move(self, player_x, player_y):
-        self.move_towards(player_x, player_y)
-        """Движение к игроку при приближении"""
-        # dx = player_x - self.x
-        # dy = player_y - self.y
-        # dist = math.sqrt(dx * dx + dy * dy)
-        #
-        # # Магнитный эффект: притягивание к игроку на близкой дистанции
-        # if dist < EXP_MAGNET_DISTANCE and dist > 0:
-        #     self.x += dx / dist * self.speed
-        #     self.y += dy / dist * self.speed
+            self.world_x += dx
+            self.world_y += dy
 
     def draw(self, screen):
         """Отрисовка орба опыта"""
