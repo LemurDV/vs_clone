@@ -1,4 +1,5 @@
 import pygame
+
 from config import *
 
 
@@ -12,7 +13,7 @@ class MainMenu:
         self.level_colors = {
             1: (50, 50, 100),  # Темно-синий
             2: (100, 50, 50),  # Темно-красный
-            3: (50, 100, 50)  # Темно-зеленый
+            3: (50, 100, 50),  # Темно-зеленый
         }
 
         # Параметры кнопок
@@ -26,8 +27,10 @@ class MainMenu:
 
     def create_buttons(self):
         """Создание кнопок для выбора уровней"""
-        total_height = len(self.level_colors) * self.button_height + \
-                       (len(self.level_colors) - 1) * self.button_margin
+        total_height = (
+            len(self.level_colors) * self.button_height
+            + (len(self.level_colors) - 1) * self.button_margin
+        )
 
         start_y = (HEIGHT - total_height) // 2
 
@@ -36,16 +39,18 @@ class MainMenu:
                 WIDTH // 2 - self.button_width // 2,
                 start_y,
                 self.button_width,
-                self.button_height
+                self.button_height,
             )
 
-            self.level_buttons.append({
-                "rect": button_rect,
-                "level": level,
-                "color": color,
-                "hovered": False,
-                "text_color": (230, 230, 230)
-            })
+            self.level_buttons.append(
+                {
+                    "rect": button_rect,
+                    "level": level,
+                    "color": color,
+                    "hovered": False,
+                    "text_color": (230, 230, 230),
+                }
+            )
 
             start_y += self.button_height + self.button_margin
 
@@ -93,16 +98,20 @@ class MainMenu:
         # Заголовок
         title_font = pygame.font.Font(None, 72)
         title_text = title_font.render("ВЫБЕРИТЕ УРОВЕНЬ", True, WHITE)
-        self.screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 100))
+        self.screen.blit(
+            title_text, (WIDTH // 2 - title_text.get_width() // 2, 100)
+        )
 
         # Подзаголовок
         subtitle_font = pygame.font.Font(None, 28)
         subtitle_text = subtitle_font.render(
             "Наведите курсор на уровень для предпросмотра",
-            True, (200, 200, 255)
+            True,
+            (200, 200, 255),
         )
-        self.screen.blit(subtitle_text,
-                         (WIDTH // 2 - subtitle_text.get_width() // 2, 170))
+        self.screen.blit(
+            subtitle_text, (WIDTH // 2 - subtitle_text.get_width() // 2, 170)
+        )
 
         # Отрисовка кнопок уровней
         for button in self.level_buttons:
@@ -112,10 +121,12 @@ class MainMenu:
         hint_font = pygame.font.Font(None, 24)
         hint_text = hint_font.render(
             "Нажмите ESC для выхода, или цифру 1-3 для выбора уровня",
-            True, (180, 180, 180)
+            True,
+            (180, 180, 180),
         )
-        self.screen.blit(hint_text,
-                         (WIDTH // 2 - hint_text.get_width() // 2, HEIGHT - 50))
+        self.screen.blit(
+            hint_text, (WIDTH // 2 - hint_text.get_width() // 2, HEIGHT - 50)
+        )
 
         pygame.display.flip()
 
@@ -138,26 +149,34 @@ class MainMenu:
 
         # Фон кнопки
         pygame.draw.rect(self.screen, button_color, rect, border_radius=12)
-        pygame.draw.rect(self.screen, border_color, rect, border_width, border_radius=12)
+        pygame.draw.rect(
+            self.screen, border_color, rect, border_width, border_radius=12
+        )
 
         # Текст кнопки
         font = pygame.font.Font(None, 36)
         text = font.render(f"Уровень {button['level']}", True, text_color)
 
-        self.screen.blit(text, (
-            rect.x + rect.width // 2 - text.get_width() // 2,
-            rect.y + rect.height // 2 - text.get_height() // 2
-        ))
+        self.screen.blit(
+            text,
+            (
+                rect.x + rect.width // 2 - text.get_width() // 2,
+                rect.y + rect.height // 2 - text.get_height() // 2,
+            ),
+        )
 
         # Иконка уровня
         icon_font = pygame.font.Font(None, 30)
-        icon = "⭐" * button['level']  # Звезды по количеству уровня
+        icon = "⭐" * button["level"]  # Звезды по количеству уровня
         icon_text = icon_font.render(icon, True, text_color)
 
-        self.screen.blit(icon_text, (
-            rect.x + rect.width // 2 - icon_text.get_width() // 2,
-            rect.y + rect.height // 2 + text.get_height() // 2 + 5
-        ))
+        self.screen.blit(
+            icon_text,
+            (
+                rect.x + rect.width // 2 - icon_text.get_width() // 2,
+                rect.y + rect.height // 2 + text.get_height() // 2 + 5,
+            ),
+        )
 
     def run(self):
         """Запуск меню"""

@@ -1,24 +1,29 @@
+import math
+import os
+import random
+
 from loguru import logger
 import pygame
+
 from config import (
     BLACK,
+    CAMERA_SAFE_ZONE,
     ENEMY_INCREASE_PER_WAVE,
+    ENEMY_MAX_RADIUS,
+    ENEMY_MIN_RADIUS,
     ENEMY_SPAWN_DELAY,
     ENEMY_SPAWN_DELAY_DECREASE,
     FPS,
     HEIGHT,
     INITIAL_ENEMIES_PER_WAVE,
+    MAP_PATHS,
     MAX_ENEMIES_ON_SCREEN,
     MIN_ENEMY_SPAWN_DELAY,
+    PLAYER_MOVEMENT_SPEED,
+    PLAYER_RADIUS,
     WAVE_REWARD_EXP,
     WHITE,
     WIDTH,
-    MAP_PATHS,
-    PLAYER_MOVEMENT_SPEED,
-    PLAYER_RADIUS,
-    CAMERA_SAFE_ZONE,
-    ENEMY_MIN_RADIUS,
-    ENEMY_MAX_RADIUS,
 )
 from damage_text import DamageText
 from enemy import Enemy
@@ -26,9 +31,6 @@ from experience import Experience
 from player import Player
 from ui import draw_game_over, draw_hud
 from upgrade_screen import UpgradeScreen
-import random
-import os
-import math
 
 
 class Game:
@@ -102,17 +104,17 @@ class Game:
                     self.reset_game()
 
                 if (
-                        event.key == pygame.K_SPACE
-                        and not self.game_over
-                        and not self.choosing_upgrade
+                    event.key == pygame.K_SPACE
+                    and not self.game_over
+                    and not self.choosing_upgrade
                 ):
                     # Быстрая стрельба при нажатии пробела
                     self.player.shoot(pygame.time.get_ticks())
 
                 if (
-                        event.key == pygame.K_p
-                        and not self.game_over
-                        and not self.choosing_upgrade
+                    event.key == pygame.K_p
+                    and not self.game_over
+                    and not self.choosing_upgrade
                 ):
                     # Пауза
                     self.paused = not self.paused
@@ -170,7 +172,7 @@ class Game:
         level_colors = {
             1: (30, 30, 60),  # Темно-синий
             2: (60, 30, 30),  # Темно-красный
-            3: (30, 60, 30)  # Темно-зеленый
+            3: (30, 60, 30),  # Темно-зеленый
         }
 
         base_color = level_colors.get(self.selected_level, (30, 30, 60))
@@ -193,10 +195,12 @@ class Game:
         target_camera_y = self.player_world_y - HEIGHT // 2
 
         # Ограничиваем камеру границами карты
-        self.camera_x = max(self.map_min_x,
-                            min(target_camera_x, self.map_max_x))
-        self.camera_y = max(self.map_min_y,
-                            min(target_camera_y, self.map_max_y))
+        self.camera_x = max(
+            self.map_min_x, min(target_camera_x, self.map_max_x)
+        )
+        self.camera_y = max(
+            self.map_min_y, min(target_camera_y, self.map_max_y)
+        )
 
         # Если камера достигла границы, игрок начинает двигаться от центра
         player_offset_x = 0
@@ -207,14 +211,18 @@ class Game:
             player_offset_x = self.player_world_x - (WIDTH // 2)
         # Проверяем правую границу
         elif self.camera_x >= self.map_max_x:
-            player_offset_x = self.player_world_x - (self.map_width - WIDTH // 2)
+            player_offset_x = self.player_world_x - (
+                self.map_width - WIDTH // 2
+            )
 
         # Проверяем верхнюю границу
         if self.camera_y <= self.map_min_y:
             player_offset_y = self.player_world_y - (HEIGHT // 2)
         # Проверяем нижнюю границу
         elif self.camera_y >= self.map_max_y:
-            player_offset_y = self.player_world_y - (self.map_height - HEIGHT // 2)
+            player_offset_y = self.player_world_y - (
+                self.map_height - HEIGHT // 2
+            )
 
         # Возвращаем смещение игрока от центра
         return player_offset_x, player_offset_y
@@ -233,12 +241,7 @@ class Game:
 
     def get_visible_area(self):
         """Возвращает видимую область карты в мировых координатах"""
-        return pygame.Rect(
-            self.camera_x,
-            self.camera_y,
-            WIDTH,
-            HEIGHT
-        )
+        return pygame.Rect(self.camera_x, self.camera_y, WIDTH, HEIGHT)
 
     def move_player(self, keys):
         """Движение игрока с плавным перемещением карты"""
@@ -255,7 +258,7 @@ class Game:
 
         # Если есть движение, нормализуем вектор
         if dx != 0 or dy != 0:
-            length = max(0.1, (dx ** 2 + dy ** 2) ** 0.5)
+            length = max(0.1, (dx**2 + dy**2) ** 0.5)
             dx = (dx / length) * PLAYER_MOVEMENT_SPEED
             dy = (dy / length) * PLAYER_MOVEMENT_SPEED
 
@@ -303,9 +306,9 @@ class Game:
     def spawn_enemies(self, current_time):
         """Спавн врагов от границ видимой области"""
         if (
-                current_time - self.last_enemy_spawn > self.enemy_spawn_delay
-                and self.enemies_spawned < self.enemies_in_wave
-                and len(self.enemies) < MAX_ENEMIES_ON_SCREEN
+            current_time - self.last_enemy_spawn > self.enemy_spawn_delay
+            and self.enemies_spawned < self.enemies_in_wave
+            and len(self.enemies) < MAX_ENEMIES_ON_SCREEN
         ):
             # Получаем видимую область
             visible_area = self.get_visible_area()
@@ -314,42 +317,58 @@ class Game:
             spawn_distance = 50  # Расстояние от границы экрана
 
             # Определяем с какой стороны спавнить врага
-            side = random.choice(['top', 'bottom', 'left', 'right'])
+            side = random.choice(["top", "bottom", "left", "right"])
 
-            if side == 'top':
+            if side == "top":
                 enemy_world_x = random.randint(
                     visible_area.left - spawn_distance,
-                    visible_area.right + spawn_distance
+                    visible_area.right + spawn_distance,
                 )
-                enemy_world_y = visible_area.top - spawn_distance - ENEMY_MAX_RADIUS
+                enemy_world_y = (
+                    visible_area.top - spawn_distance - ENEMY_MAX_RADIUS
+                )
 
-            elif side == 'bottom':
+            elif side == "bottom":
                 enemy_world_x = random.randint(
                     visible_area.left - spawn_distance,
-                    visible_area.right + spawn_distance
+                    visible_area.right + spawn_distance,
                 )
-                enemy_world_y = visible_area.bottom + spawn_distance + ENEMY_MAX_RADIUS
+                enemy_world_y = (
+                    visible_area.bottom + spawn_distance + ENEMY_MAX_RADIUS
+                )
 
-            elif side == 'left':
-                enemy_world_x = visible_area.left - spawn_distance - ENEMY_MAX_RADIUS
+            elif side == "left":
+                enemy_world_x = (
+                    visible_area.left - spawn_distance - ENEMY_MAX_RADIUS
+                )
                 enemy_world_y = random.randint(
                     visible_area.top - spawn_distance,
-                    visible_area.bottom + spawn_distance
+                    visible_area.bottom + spawn_distance,
                 )
 
             else:  # right
-                enemy_world_x = visible_area.right + spawn_distance + ENEMY_MAX_RADIUS
+                enemy_world_x = (
+                    visible_area.right + spawn_distance + ENEMY_MAX_RADIUS
+                )
                 enemy_world_y = random.randint(
                     visible_area.top - spawn_distance,
-                    visible_area.bottom + spawn_distance
+                    visible_area.bottom + spawn_distance,
                 )
 
             # Ограничиваем координаты в пределах карты
-            enemy_world_x = max(ENEMY_MAX_RADIUS, min(enemy_world_x, self.map_width - ENEMY_MAX_RADIUS))
-            enemy_world_y = max(ENEMY_MAX_RADIUS, min(enemy_world_y, self.map_height - ENEMY_MAX_RADIUS))
+            enemy_world_x = max(
+                ENEMY_MAX_RADIUS,
+                min(enemy_world_x, self.map_width - ENEMY_MAX_RADIUS),
+            )
+            enemy_world_y = max(
+                ENEMY_MAX_RADIUS,
+                min(enemy_world_y, self.map_height - ENEMY_MAX_RADIUS),
+            )
 
             # Преобразуем мировые координаты в экранные для создания врага
-            screen_x, screen_y = self.world_to_screen(enemy_world_x, enemy_world_y)
+            screen_x, screen_y = self.world_to_screen(
+                enemy_world_x, enemy_world_y
+            )
 
             # Создаем врага
             enemy = Enemy(screen_x, screen_y)
@@ -367,16 +386,20 @@ class Game:
             enemy.move_towards(self.player_world_x, self.player_world_y)
 
             # Обновляем экранные координаты врага
-            enemy.x, enemy.y = self.world_to_screen(enemy.world_x, enemy.world_y)
+            enemy.x, enemy.y = self.world_to_screen(
+                enemy.world_x, enemy.world_y
+            )
 
             # Удаляем врагов, которые слишком далеко за пределами видимой области
             visible_area = self.get_visible_area()
             max_distance = 300  # Максимальное расстояние от видимой области
 
-            if (enemy.world_x < visible_area.left - max_distance or
-                    enemy.world_x > visible_area.right + max_distance or
-                    enemy.world_y < visible_area.top - max_distance or
-                    enemy.world_y > visible_area.bottom + max_distance):
+            if (
+                enemy.world_x < visible_area.left - max_distance
+                or enemy.world_x > visible_area.right + max_distance
+                or enemy.world_y < visible_area.top - max_distance
+                or enemy.world_y > visible_area.bottom + max_distance
+            ):
                 self.enemies.remove(enemy)
 
     def update_experience(self):
@@ -386,10 +409,14 @@ class Game:
             exp_orb.move_towards(self.player_world_x, self.player_world_y)
 
             # Обновляем экранные координаты опыта
-            exp_orb.x, exp_orb.y = self.world_to_screen(exp_orb.world_x, exp_orb.world_y)
+            exp_orb.x, exp_orb.y = self.world_to_screen(
+                exp_orb.world_x, exp_orb.world_y
+            )
 
             # Проверяем сбор опыта
-            if exp_orb.check_collection(self.player_world_x, self.player_world_y, self.player.radius):
+            if exp_orb.check_collection(
+                self.player_world_x, self.player_world_y, self.player.radius
+            ):
                 exp_gained = self.player.add_exp(exp_orb.value)
                 self.total_exp_collected += exp_orb.value
                 self.experience_orbs.remove(exp_orb)
@@ -434,8 +461,8 @@ class Game:
         """Обновление состояния волны"""
         # Проверка завершения волны
         if (
-                self.enemies_spawned >= self.enemies_in_wave
-                and len(self.enemies) == 0
+            self.enemies_spawned >= self.enemies_in_wave
+            and len(self.enemies) == 0
         ):
             if not self.wave_complete:
                 self.wave_complete = True
@@ -448,8 +475,8 @@ class Game:
                 # Переход к следующей волне
                 self.wave += 1
                 self.enemies_in_wave = (
-                        INITIAL_ENEMIES_PER_WAVE
-                        + self.wave * ENEMY_INCREASE_PER_WAVE
+                    INITIAL_ENEMIES_PER_WAVE
+                    + self.wave * ENEMY_INCREASE_PER_WAVE
                 )
                 self.enemies_spawned = 0
                 self.enemies_defeated = 0
@@ -471,10 +498,12 @@ class Game:
         # Проверка столкновений врагов с игроком
         for enemy in self.enemies[:]:
             # Обновляем экранные координаты врага
-            enemy.x, enemy.y = self.world_to_screen(enemy.world_x, enemy.world_y)
+            enemy.x, enemy.y = self.world_to_screen(
+                enemy.world_x, enemy.world_y
+            )
 
             if enemy.check_collision_with_player(
-                    self.player.x, self.player.y, self.player.radius
+                self.player.x, self.player.y, self.player.radius
             ):
                 self.player.take_damage(5)
                 self.enemies.remove(enemy)
@@ -485,7 +514,9 @@ class Game:
         for projectile in self.player.projectiles[:]:
             for enemy in self.enemies[:]:
                 # Обновляем экранные координаты врага
-                enemy.x, enemy.y = self.world_to_screen(enemy.world_x, enemy.world_y)
+                enemy.x, enemy.y = self.world_to_screen(
+                    enemy.world_x, enemy.world_y
+                )
 
                 if projectile.check_collision(enemy.x, enemy.y, enemy.radius):
                     damage_dealt = projectile.damage
@@ -502,7 +533,9 @@ class Game:
                     if not alive:
                         # Создаем опыт на месте врага
                         self.experience_orbs.append(
-                            Experience(enemy.world_x, enemy.world_y, enemy.exp_value)
+                            Experience(
+                                enemy.world_x, enemy.world_y, enemy.exp_value
+                            )
                         )
                         self.enemies.remove(enemy)
                         self.enemies_defeated += 1

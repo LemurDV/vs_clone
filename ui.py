@@ -16,7 +16,9 @@ from config import (
 )
 
 
-def draw_hud(screen, player_stats, wave_info, show_level_up=False, current_level=1):
+def draw_hud(
+    screen, player_stats, wave_info, show_level_up=False, current_level=1
+):
     """Отрисовка интерфейса (обновленная)"""
     # Фон для HUD
     pygame.draw.rect(

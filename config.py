@@ -143,20 +143,20 @@ LEVEL_DIFFICULTY = {
         "enemy_multiplier": 0.8,
         "enemy_speed_multiplier": 0.8,
         "player_health_multiplier": 1.2,
-        "wave_reward_multiplier": 1.2
+        "wave_reward_multiplier": 1.2,
     },
     2: {
         "enemy_multiplier": 1.0,
         "enemy_speed_multiplier": 1.0,
         "player_health_multiplier": 1.0,
-        "wave_reward_multiplier": 1.0
+        "wave_reward_multiplier": 1.0,
     },
     3: {
         "enemy_multiplier": 1.3,
         "enemy_speed_multiplier": 1.2,
         "player_health_multiplier": 0.8,
-        "wave_reward_multiplier": 0.8
-    }
+        "wave_reward_multiplier": 0.8,
+    },
 }
 
 # Настройки карт
@@ -170,7 +170,7 @@ CAMERA_SAFE_ZONE = 100
 MAP_PATHS = {
     1: "assets/maps/level1_map.jpg",
     2: "assets/maps/level2_map.jpg",
-    3: "assets/maps/level3_map.jpg"
+    3: "assets/maps/level3_map.jpg",
 }
 
 # Параметры улучшений

@@ -55,7 +55,7 @@ class Enemy:
         dx = target_world_x - self.world_x
         dy = target_world_y - self.world_y
 
-        distance = max(0.1, (dx ** 2 + dy ** 2) ** 0.5)
+        distance = max(0.1, (dx**2 + dy**2) ** 0.5)
         dx = (dx / distance) * self.speed
         dy = (dy / distance) * self.speed
 

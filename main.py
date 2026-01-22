@@ -1,11 +1,12 @@
 import pygame
-from main_menu import MainMenu
-from game import Game
 
 from config import (
     HEIGHT,
     WIDTH,
 )
+from game import Game
+from main_menu import MainMenu
+
 
 if __name__ == "__main__":
     pygame.init()
