@@ -10,7 +10,6 @@ from config import (
     INITIAL_ENEMIES_PER_WAVE,
     MAX_ENEMIES_ON_SCREEN,
     MIN_ENEMY_SPAWN_DELAY,
-    RED,
     WAVE_REWARD_EXP,
     WHITE,
     WIDTH,
@@ -490,17 +489,13 @@ class Game:
 
                 if projectile.check_collision(enemy.x, enemy.y, enemy.radius):
                     damage_dealt = projectile.damage
-                    alive, actual_damage = enemy.take_damage(
-                        damage_dealt,
-                        # projectile.color,
-                    )
+                    alive, actual_damage = enemy.take_damage(damage_dealt)
 
                     self.damage_texts.append(
                         DamageText(
                             enemy.x,
                             enemy.y - enemy.radius - 10,
                             damage_dealt,
-                            projectile.color,
                         )
                     )
 
@@ -522,6 +517,16 @@ class Game:
                     if projectile in self.player.projectiles:
                         self.player.projectiles.remove(projectile)
                     break  # Важно: снаряд поражает только одного врага
+
+        for exp_orb in self.experience_orbs[:]:
+            if exp_orb.check_collection(
+                self.player.x, self.player.y, self.player.radius
+            ):
+                exp_gained = self.player.add_exp(exp_orb.value)
+                self.total_exp_collected += exp_orb.value
+                self.experience_orbs.remove(exp_orb)
+                if exp_gained:
+                    self.show_upgrade_screen()
 
     def update_level_up_message(self, current_time):
         """Обновление таймера сообщения о повышении уровня"""

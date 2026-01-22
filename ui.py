@@ -33,7 +33,7 @@ def draw_hud(screen, player_stats, wave_info, show_level_up=False, current_level
     draw_wave_info(screen, wave_info, WIDTH - 250, 10)
 
     # Управление внизу слева
-    draw_controls(screen, 10, HEIGHT - 80)
+    draw_controls(screen, 10, HEIGHT - 100)
 
     # Статистика улучшений внизу справа
     draw_upgrade_stats(screen, player_stats, WIDTH - 250, HEIGHT - 100)
