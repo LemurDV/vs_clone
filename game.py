@@ -246,21 +246,22 @@ class Game:
     def move_player(self, keys):
         """Движение игрока с плавным перемещением карты"""
         dx, dy = 0, 0
+        player_movement_speed = self.player.current_movement_speed()
 
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-            dy -= PLAYER_MOVEMENT_SPEED
+            dy -= player_movement_speed
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            dy += PLAYER_MOVEMENT_SPEED
+            dy += player_movement_speed
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            dx -= PLAYER_MOVEMENT_SPEED
+            dx -= player_movement_speed
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            dx += PLAYER_MOVEMENT_SPEED
+            dx += player_movement_speed
 
         # Если есть движение, нормализуем вектор
         if dx != 0 or dy != 0:
             length = max(0.1, (dx**2 + dy**2) ** 0.5)
-            dx = (dx / length) * PLAYER_MOVEMENT_SPEED
-            dy = (dy / length) * PLAYER_MOVEMENT_SPEED
+            dx = (dx / length) * player_movement_speed
+            dy = (dy / length) * player_movement_speed
 
         # Новая позиция в мировых координатах
         new_player_world_x = self.player_world_x + dx
