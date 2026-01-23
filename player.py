@@ -87,29 +87,15 @@ class Player:
         self.crit_chance = 0
         self.last_crit = False
 
-    def move(self, keys):
-        """Движение игрока"""
+    def current_movement_speed(self):
         current_speed = self.movement_speed
 
-        # Применяем улучшение скорости
         if self.upgrades["movement_speed"] > 0:
-            current_speed = self.base_movement_speed * (
+            current_speed = self.base_movement_speed + (
                 UPGRADE_MOVEMENT_SPEED_MULTIPLIER
-                ** self.upgrades["movement_speed"]
+                * self.upgrades["movement_speed"]
             )
-
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            self.x -= current_speed
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            self.x += current_speed
-        if keys[pygame.K_UP] or keys[pygame.K_w]:
-            self.y -= current_speed
-        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
-            self.y += current_speed
-
-        # Ограничение движения в пределах экрана
-        self.x = max(self.radius, min(WIDTH - self.radius, self.x))
-        self.y = max(self.radius, min(HEIGHT - self.radius, self.y))
+        return current_speed
 
     def shoot(self, current_time):
         """Стрельба во все 4 направления"""
@@ -221,7 +207,7 @@ class Player:
         if self.upgrades["max_health"] > 0:
             self.max_health = int(
                 self.base_max_health
-                * (UPGRADE_MAX_HEALTH_MULTIPLIER ** self.upgrades["max_health"])
+                + (UPGRADE_MAX_HEALTH_MULTIPLIER ** self.upgrades["max_health"])
             )
         else:
             self.max_health = self.base_max_health
@@ -232,6 +218,7 @@ class Player:
 
     def apply_upgrade(self, upgrade_type):
         """Применение выбранного улучшения"""
+        logger.info(f"Upgrade type: {upgrade_type}")
         if upgrade_type in self.upgrades:
             self.upgrades[upgrade_type] += 1
 
@@ -260,13 +247,8 @@ class Player:
         if weapon_type in self.active_weapons_dict:
             # Улучшаем существующее оружие
             weapon = self.active_weapons_dict[weapon_type]
-            logger.debug(f"{self.damage=}")
             weapon.level_up(self.damage)
             logger.info(f"Улучшено {weapon.name} до уровня {weapon.level}")
-
-            # Обновляем счетчик в upgrades
-            logger.debug(f"{self.upgrades=}")
-            # self.upgrades[weapon_type] += 1
         else:
             # Создаем новое оружие
             if weapon_type == "aura":
@@ -368,7 +350,6 @@ class Player:
 
     def get_stats(self):
         """Получение статистики игрока"""
-        # Рассчитываем актуальные значения с учетом улучшений
         base_damage, _, _ = self.get_damage()
 
         actual_shoot_delay = self.base_shoot_delay
@@ -394,7 +375,7 @@ class Player:
             "max_health": self.max_health,
             "damage": base_damage,
             "shoot_delay": actual_shoot_delay,
-            "movement_speed": actual_speed,
+            "movement_speed": self.current_movement_speed(),
             "lifesteal": self.lifesteal * 100,  # в процентах
             "crit_chance": self.crit_chance * 100,  # в процентах
             "upgrades": self.upgrades.copy(),
