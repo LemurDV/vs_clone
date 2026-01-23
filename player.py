@@ -125,7 +125,6 @@ class Player:
             )
             current_shoot_delay = max(MIN_SHOOT_DELAY, int(current_shoot_delay))
 
-        logger.debug(f"{current_time - self.last_shot}, {current_shoot_delay}")
         if current_time - self.last_shot > current_shoot_delay:
             # Стрельба в 4 направления
             directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
@@ -233,7 +232,6 @@ class Player:
 
     def apply_upgrade(self, upgrade_type):
         """Применение выбранного улучшения"""
-        logger.debug(f"Upgrade type: {upgrade_type}")
         if upgrade_type in self.upgrades:
             self.upgrades[upgrade_type] += 1
 

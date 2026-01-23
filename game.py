@@ -603,7 +603,7 @@ class Game:
             draw_game_over(self.screen, player_stats, wave_info)
 
         # Отладочная информация
-        # self.draw_debug_info()
+        self.draw_debug_info()
 
         pygame.display.flip()
 
@@ -611,16 +611,21 @@ class Game:
         """Отрисовка отладочной информации"""
         font = pygame.font.Font(None, 24)
 
-        info = [
-            f"Глобальные координаты: ({int(self.player_world_x)}, {int(self.player_world_y)})",
-            f"Камера: ({int(self.camera_x)}, {int(self.camera_y)})",
-            f"Экранные координаты: ({int(self.player.x)}, {int(self.player.y)})",
-            f"Волна: {self.wave}, Врагов: {len(self.enemies)}",
-        ]
+        # info = [
+        #     f"Глобальные координаты: ({int(self.player_world_x)}, {int(self.player_world_y)})",
+        #     f"Камера: ({int(self.camera_x)}, {int(self.camera_y)})",
+        #     f"Экранные координаты: ({int(self.player.x)}, {int(self.player.y)})",
+        #     f"Волна: {self.wave}, Врагов: {len(self.enemies)}",
+        # ]
+
+        stats = self.player.get_stats()
+        upgrades = [f"{k}: {v}" for k, v in stats.pop("upgrades").items()]
+        info = [f"{k}: {v}" for k, v in stats.items()]
+        info.extend(upgrades)
 
         for i, text in enumerate(info):
             text_surface = font.render(text, True, (255, 255, 0))
-            self.screen.blit(text_surface, (WIDTH / 2.5, 10 + i * 25))
+            self.screen.blit(text_surface, (255, 10 + i * 25))
 
     def draw_pause_screen(self):
         """Отрисовка экрана паузы"""
