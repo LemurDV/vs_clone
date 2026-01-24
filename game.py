@@ -604,7 +604,7 @@ class Game:
             draw_game_over(self.screen, player_stats, wave_info)
 
         # Отладочная информация
-        self.draw_debug_info()
+        # self.draw_debug_info()
 
         pygame.display.flip()
 
