@@ -8,13 +8,13 @@ from settings import SCREEN_HEIGHT, SCREEN_WIDTH
 class Entity(ABC):
     """Абстрактный базовый класс для всех игровых сущностей"""
 
-    def __init__(self, x, y, width, height, color):
+    def __init__(self, x, y, width, height, color, radius=10, speed=0):
         self.rect = pygame.Rect(x, y, width, height)
         self.x = x
         self.y = y
-        self.radius = 10
+        self.radius = radius
         self.color = color
-        self.speed = 0
+        self.speed = speed
         self.active = True
         self.creation_time = pygame.time.get_ticks()
 

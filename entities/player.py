@@ -18,10 +18,13 @@ class Player(Entity):
         self.health = 100
         self.max_health = 100
         self.experience = 0
+        self.experience_needed = BASE_EXPERIENCE
+        self.experience_multiplier = EXPERIENCE_MULTIPLIER
         self.level = 1
         self.base_damage = 3
+        self.magnet_radius = MAGNET_RADIUS
         self.damage_multiplier = 1.0
-        self.weapons = []
+        self.weapons = {}
         self.upgrades = []
         self.last_shot_time = 0
         self.shoot_cooldown = 500  # ms
@@ -43,7 +46,7 @@ class Player(Entity):
         pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
 
         # Отрисовка оружия
-        for weapon in self.weapons:
+        for weapon in self.weapons.values():
             weapon.draw(screen)
         # Отрисовка здоровья
         self.draw_health_bar(screen)
@@ -90,13 +93,13 @@ class Player(Entity):
 
     def update_weapons(self, game):
         """Обновление оружия"""
-        for weapon in self.weapons:
+        for weapon in self.weapons.values():
             weapon.update(game)
 
     def add_weapon(self, weapon):
         """Добавление оружия"""
         weapon.owner = self
-        self.weapons.append(weapon)
+        self.weapons.update({weapon.name: weapon})
 
     def add_upgrade(self, upgrade):
         """Добавление улучшения"""
@@ -117,22 +120,20 @@ class Player(Entity):
 
     def check_level_up(self, game):
         """Проверка повышения уровня"""
-        if self.level in LEVELS:
-            level_info = LEVELS[self.level]
-            if (
-                self.experience >= level_info["exp_required"]
-                and not self.waiting_for_upgrade
-                and not game.game_paused
-            ):
-                self.level_up(game)
+        if (
+            self.experience >= self.experience_needed
+            and not self.waiting_for_upgrade
+            and not game.game_paused
+        ):
+            self.level_up(game)
 
     def level_up(self, game):
         """Повышение уровня"""
-        exp_needed = LEVELS.get(self.level, {"exp_required": 9999})[
-            "exp_required"
-        ]
-        self.experience -= exp_needed
         self.level += 1
+        if self.level % 5 == 0:
+            self.experience_multiplier += 0.5
+        self.experience = 0
+        self.experience_needed = int(self.experience_needed * self.experience_multiplier)
         self.max_health += 10
         self.health = self.max_health
         self.waiting_for_upgrade = True
@@ -148,3 +149,6 @@ class Player(Entity):
     def get_damage(self):
         """Получение урона с учетом множителей"""
         return self.base_damage * self.damage_multiplier
+
+    def increase_magnet_radius(self, value: int):
+        self.magnet_radius += value

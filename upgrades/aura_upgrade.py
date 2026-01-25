@@ -1,4 +1,7 @@
+from loguru import logger
+
 from upgrades.upgrade import Upgrade
+from weapons.aura_weapon import AuraWeapon
 
 
 class AuraUpgrade(Upgrade):
@@ -8,11 +11,10 @@ class AuraUpgrade(Upgrade):
         )
 
     def apply(self, player):
-        for weapon in player.weapons:
-            if weapon.name == "Аура":
-                weapon.radius *= 1.2
-                weapon.damage *= 1.2
-                print(
-                    f"Аура улучшена! Радиус: {weapon.radius}, Урон: {weapon.damage}"
-                )
-                break
+        if weapon := player.weapons.get("aura"):
+            weapon.level_up()
+            logger.info(
+                f"{weapon.name_ui} улучшена! {weapon.__dict__}"
+            )
+        else:
+            player.add_weapon(AuraWeapon())

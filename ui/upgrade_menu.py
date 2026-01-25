@@ -85,7 +85,8 @@ class UpgradeMenu:
         """Выбрать опцию улучшения"""
         if 0 <= index < len(self.upgrade_options):
             upgrade = self.upgrade_options[index]
-            upgrade.apply(self.game.player)
+            # upgrade.apply(self.game.player)
+            self.game.player.add_upgrade(upgrade)
             self.hide()
             # Уведомляем игру о выборе улучшения
             self.game.on_upgrade_selected()

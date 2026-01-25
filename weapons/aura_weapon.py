@@ -9,7 +9,7 @@ class AuraWeapon(Weapon):
     """Оружие - аура вокруг игрока"""
 
     def __init__(self):
-        super().__init__("Аура", 5, 500)  # Урон каждые 500ms
+        super().__init__("aura", "Аура", 5, 500)
         self.radius = 50
         self.color = PURPLE
 
@@ -36,7 +36,7 @@ class AuraWeapon(Weapon):
         if is_critical:
             total_damage *= 2
 
-        for enemy in game.enemies[:]:
+        for enemy in game.enemy_manager.enemies[:]:
             if enemy.active and self.owner.distance_to(enemy) <= self.radius:
                 if enemy.take_damage(total_damage, game, is_critical):
                     # Враг уже убит и опыт создан в take_damage
@@ -62,3 +62,17 @@ class AuraWeapon(Weapon):
                     self.owner.rect.centery - self.radius,
                 ),
             )
+
+    def level_up(self):
+        """Улучшение оружия"""
+        self.level += 1
+        self.increase_damage()
+        self.increase_radius()
+        return True
+        # return False
+
+    def increase_damage(self):
+        self.damage += AURA_MULTIPLIER_DAMAGE
+
+    def increase_radius(self):
+        self.radius += AURA_MULTIPLIER_RADIUS

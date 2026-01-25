@@ -1,8 +1,12 @@
 import random
 
-from upgrades.damage_upgrade import DamageUpgrade
-from upgrades.health_upgrade import HealthUpgrade
-from weapons.magic_bullet_weapon import MagicBulletWeapon
+from upgrades import (
+    AuraUpgrade,
+    DamageUpgrade,
+    HealthUpgrade,
+    MagicBulletUpgrade,
+    MagnetRadiusUpgrade,
+)
 
 
 class UpgradeManager:
@@ -19,7 +23,9 @@ class UpgradeManager:
             [
                 DamageUpgrade(),
                 HealthUpgrade(),
-                HealthUpgrade(),  # Можно дублировать для баланса
+                # MagicBulletUpgrade(),
+                AuraUpgrade(),
+                MagnetRadiusUpgrade(),
             ]
         )
 

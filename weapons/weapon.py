@@ -6,8 +6,9 @@ from settings import *
 class Weapon(ABC):
     """Абстрактный базовый класс оружия"""
 
-    def __init__(self, name, damage, cooldown):
+    def __init__(self, name, name_ui, damage, cooldown):
         self.name = name
+        self.name_ui = name_ui
         self.damage = damage
         self.cooldown = cooldown  # ms
         self.last_attack_time = 0

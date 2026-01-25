@@ -1,6 +1,5 @@
 import random
 
-from entities.experience_orb import ExperienceOrb
 from loot.coin import Coin
 from loot.health_potion import HealthPotion
 
@@ -10,9 +9,8 @@ class LootManager:
 
     def __init__(self):
         self.drop_chances = {
-            "experience": 1.0,  # 100% шанс на опыт
-            "health_potion": 0.05,  # 5% шанс на зелье здоровья
-            "coin": 0.3,  # 30% шанс на монету
+            "health_potion": 0.05,
+            "coin": 0.3,
         }
 
     def drop_from_enemy(self, enemy, game):

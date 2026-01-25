@@ -30,9 +30,10 @@ class BaseHud:
         self.screen.blit(health_text, (10, 10))
 
         # Уровень и опыт
-        exp_needed = LEVELS.get(self.game.player.level, {"exp_required": 9999})[
-            "exp_required"
-        ]
+        # exp_needed = LEVELS.get(self.game.player.level, {"exp_required": 9999})[
+        #     "exp_required"
+        # ]
+        exp_needed = self.game.player.experience_needed
         exp_text = self.font.render(
             f"Уровень: {self.game.player.level} | Опыт: {self.game.player.experience}/{exp_needed}",
             True,
@@ -42,8 +43,9 @@ class BaseHud:
 
     def draw_enemy_stats(self):
         """Отрисовка статистики врагов"""
+        enemies_len = len(self.game.enemy_manager.enemies)
         enemies_text = self.font.render(
-            f"Врагов: {len(self.game.enemies)} | Убито: {self.game.enemies_killed}",
+            f"Врагов: {enemies_len} | Убито: {self.game.enemies_killed}",
             True,
             WHITE,
         )
@@ -75,7 +77,7 @@ class BaseHud:
     def draw_weapon_stats(self):
         """Отрисовка статистики оружия"""
         y_pos = 100
-        for weapon in self.game.player.weapons:
+        for weapon in self.game.player.weapons.values():
             weapon_text = self.font.render(
                 f"{weapon.name} (Ур. {weapon.level})", True, WHITE
             )
