@@ -26,10 +26,10 @@ class Player(Entity):
         self.upgrades = []
         self.last_shot_time = 0
         self.shoot_cooldown = 500  # ms
-        self.sprite = pygame.image.load("assets/wizard.jpg").convert_alpha()
-        self.sprite = pygame.transform.scale(
-            self.sprite, (40, 50)
-        )
+        self.sprite = pygame.image.load(
+            "assets/characters/wizard.jpg"
+        ).convert_alpha()
+        self.sprite = pygame.transform.scale(self.sprite, (40, 50))
 
         # Флаг для ожидания выбора улучшения
         self.waiting_for_upgrade = False

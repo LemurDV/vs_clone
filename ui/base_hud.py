@@ -22,7 +22,9 @@ class BaseHud:
     def draw_player_stats(self):
         """Отрисовка статистики игрока"""
         # Здоровье
-        self.heart_image = pygame.image.load("assets/heart.png").convert_alpha()
+        self.heart_image = pygame.image.load(
+            "assets/stats/heart.png"
+        ).convert_alpha()
         self.heart_image = pygame.transform.scale(self.heart_image, (20, 20))
         self.screen.blit(self.heart_image, (10, 10))
         health_text = self.font.render(

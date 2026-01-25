@@ -5,8 +5,8 @@ import pygame
 
 
 class LootItem(ABC):
-    def __init__(self, x, y):
-        self.rect = pygame.Rect(x, y, 20, 20)
+    def __init__(self, x, y, width=20, height=20):
+        self.rect = pygame.Rect(x, y, width, height)
         self.lifetime = 10000  # 10 секунд
         self.creation_time = pygame.time.get_ticks()
         self.active = True

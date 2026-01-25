@@ -9,8 +9,8 @@ class LootManager:
 
     def __init__(self):
         self.drop_chances = {
-            "health_potion": 0.05,
-            "coin": 0.3,
+            "health_potion": 0.70,
+            "coin": 0.70,
         }
 
     def drop_from_enemy(self, enemy, game):
