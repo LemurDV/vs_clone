@@ -50,12 +50,16 @@ class DamageText:
 
         # Маска текста
         text_mask = pygame.mask.from_surface(text_surface)
-        final_surface.blit(text_mask.to_surface(
-            setcolor=color,
-            unsetcolor=(0, 0, 0, 0)
-        ), (0, 0))
+        final_surface.blit(
+            text_mask.to_surface(setcolor=color, unsetcolor=(0, 0, 0, 0)),
+            (0, 0),
+        )
 
         # Рисуем
-        screen.blit(final_surface,
-                    (self.x - final_surface.get_width() // 2,
-                     self.y - final_surface.get_height() // 2))
+        screen.blit(
+            final_surface,
+            (
+                self.x - final_surface.get_width() // 2,
+                self.y - final_surface.get_height() // 2,
+            ),
+        )

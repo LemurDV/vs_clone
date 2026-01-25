@@ -24,12 +24,14 @@ class AuraWeapon(Weapon):
 
     def attack(self, game):
         """Атака врагов в радиусе"""
-        owner_damage = self.owner.get_damage() if hasattr(self.owner,
-                                                          'get_damage') else 1
+        owner_damage = (
+            self.owner.get_damage() if hasattr(self.owner, "get_damage") else 1
+        )
         total_damage = self.damage * owner_damage
 
         # Шанс критического удара (например, 10%)
         import random
+
         is_critical = random.random() < 0.1
         if is_critical:
             total_damage *= 2

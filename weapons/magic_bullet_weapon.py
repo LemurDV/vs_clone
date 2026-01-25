@@ -38,12 +38,16 @@ class MagicBullet:
             self.y += (dy / distance) * self.speed
 
             # Проверка попадания
-            bullet_rect = pygame.Rect(self.x - self.radius,
-                                      self.y - self.radius,
-                                      self.radius * 2, self.radius * 2)
+            bullet_rect = pygame.Rect(
+                self.x - self.radius,
+                self.y - self.radius,
+                self.radius * 2,
+                self.radius * 2,
+            )
             if bullet_rect.colliderect(self.target.rect):
                 # Добавляем шанс крита
                 import random
+
                 is_critical = random.random() < 0.1
                 damage = self.damage * 2 if is_critical else self.damage
 

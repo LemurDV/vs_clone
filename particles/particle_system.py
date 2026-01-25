@@ -1,6 +1,7 @@
 import pygame
-from settings import *
+
 from entities.damage_text import DamageText
+from settings import *
 
 
 class ParticleSystem:

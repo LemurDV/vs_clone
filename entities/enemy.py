@@ -7,7 +7,9 @@ from settings import *
 class Enemy(Entity):
     """Базовый класс врага"""
 
-    def __init__(self, x, y, width, height, color, health, damage, experience_value):
+    def __init__(
+        self, x, y, width, height, color, health, damage, experience_value
+    ):
         super().__init__(x, y, width, height, color)
         self.health = health
         self.max_health = health
@@ -78,7 +80,7 @@ class Enemy(Entity):
                 self.rect.top - 15,  # Чуть выше
                 int(amount),
                 RED if is_critical else (RED if amount >= 10 else ORANGE),
-                is_critical
+                is_critical,
             )
 
         if self.health <= 0:

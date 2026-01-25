@@ -19,6 +19,10 @@ class Game:
 
     def __init__(self):
         self.screen = SCREEN
+        self.background = pygame.image.load("assets/map_1.png")
+        self.background = pygame.transform.scale(
+            self.background, (SCREEN_WIDTH, SCREEN_HEIGHT)
+        )
         self.clock = pygame.time.Clock()
         self.running = True
         self.font = pygame.font.Font(None, 24)
@@ -187,7 +191,7 @@ class Game:
 
     def draw(self):
         """Отрисовка игры"""
-        self.screen.fill(BLACK)
+        self.screen.blit(self.background, (0, 0))
 
         # Отрисовка сфер опыта
         for orb in self.experience_orbs:
