@@ -75,4 +75,4 @@ class AuraWeapon(Weapon):
         self.damage += AURA_MULTIPLIER_DAMAGE
 
     def increase_radius(self):
-        self.radius += 400
+        self.radius += AURA_MULTIPLIER_RADIUS
