@@ -23,14 +23,14 @@ ORANGE = (255, 165, 0)
 FPS = 60
 PLAYER_SPEED = 3
 ENEMY_SPEED = 2
-SPAWN_RATE = 1000  # ms
+SPAWN_RATE = 300  # ms
 EXPERIENCE_ORB_LIFETIME = 5000  # ms
 
 # Уровни
 LEVELS = {
-    1: {"exp_required": 10, "max_enemies": 10},
-    2: {"exp_required": 20, "max_enemies": 15},
-    3: {"exp_required": 30, "max_enemies": 20},
-    4: {"exp_required": 40, "max_enemies": 25},
-    5: {"exp_required": 50, "max_enemies": 30},
+    1: {"exp_required": 10, "max_enemies": 40},
+    2: {"exp_required": 20, "max_enemies": 80},
+    3: {"exp_required": 30, "max_enemies": 160},
+    4: {"exp_required": 40, "max_enemies": 200},
+    5: {"exp_required": 50, "max_enemies": 400},
 }
