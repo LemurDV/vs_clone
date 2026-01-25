@@ -24,20 +24,21 @@ class AuraWeapon(Weapon):
 
     def attack(self, game):
         """Атака врагов в радиусе"""
-        owner_damage = (
-            self.owner.get_damage() if hasattr(self.owner, "get_damage") else 1
-        )
+        owner_damage = self.owner.get_damage() if hasattr(self.owner,
+                                                          'get_damage') else 1
         total_damage = self.damage * owner_damage
+
+        # Шанс критического удара (например, 10%)
+        import random
+        is_critical = random.random() < 0.1
+        if is_critical:
+            total_damage *= 2
 
         for enemy in game.enemies[:]:
             if enemy.active and self.owner.distance_to(enemy) <= self.radius:
-                if enemy.take_damage(total_damage):
-                    # Враг убит - создаем сферу опыта
-                    game.spawn_experience_orb(
-                        enemy.rect.centerx,
-                        enemy.rect.centery,
-                        enemy.experience_value,
-                    )
+                if enemy.take_damage(total_damage, game, is_critical):
+                    # Враг уже убит и опыт создан в take_damage
+                    pass  # Ничего не делаем
 
     def draw(self, screen):
         """Отрисовка ауры"""

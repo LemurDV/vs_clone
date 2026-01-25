@@ -38,25 +38,19 @@ class MagicBullet:
             self.y += (dy / distance) * self.speed
 
             # Проверка попадания
-            bullet_rect = pygame.Rect(
-                self.x - self.radius,
-                self.y - self.radius,
-                self.radius * 2,
-                self.radius * 2,
-            )
+            bullet_rect = pygame.Rect(self.x - self.radius,
+                                      self.y - self.radius,
+                                      self.radius * 2, self.radius * 2)
             if bullet_rect.colliderect(self.target.rect):
-                if self.target.take_damage(self.damage):
-                    # Враг убит - создаем сферу опыта
-                    game.spawn_experience_orb(
-                        self.target.rect.centerx,
-                        self.target.rect.centery,
-                        self.target.experience_value,
-                    )
-                self.active = False
+                # Добавляем шанс крита
+                import random
+                is_critical = random.random() < 0.1
+                damage = self.damage * 2 if is_critical else self.damage
 
-        # Уничтожение по истечении времени жизни
-        if pygame.time.get_ticks() - self.creation_time > self.lifetime:
-            self.active = False
+                if self.target.take_damage(damage, game, is_critical):
+                    # Опыт уже создан в take_damage
+                    pass
+                self.active = False
 
     def draw(self, screen):
         """Отрисовка пули"""

@@ -3,6 +3,7 @@ import random
 from entities import BatEnemy, SlimeEnemy
 from entities.enemy import *
 from entities.player import Player
+from particles.particle_system import ParticleSystem
 from settings import *
 from ui.base_hud import BaseHud
 from ui.upgrade_menu import UpgradeMenu
@@ -28,6 +29,7 @@ class Game:
         self.experience_orbs = []
 
         # Системы
+        self.particle_system = ParticleSystem()
         self.upgrade_manager = UpgradeManager()
         self.upgrade_menu = UpgradeMenu(self)
         self.hud = BaseHud(self)
@@ -160,6 +162,8 @@ class Game:
         if self.player.active:
             self.player.update(self)
 
+        self.particle_system.update()
+
         # Обновление врагов
         for enemy in self.enemies[:]:
             if enemy.active:
@@ -196,6 +200,8 @@ class Game:
         # Отрисовка игрока
         if self.player.active:
             self.player.draw(self.screen)
+
+        self.particle_system.draw(self.screen)
 
         # Отрисовка интерфейса
         self.hud.draw_ui()

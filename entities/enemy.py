@@ -16,7 +16,6 @@ class Enemy(Entity):
         self.speed = ENEMY_SPEED
         self.last_attack_time = 0
         self.attack_cooldown = 1000  # ms
-        self.damage_texts = []
 
     def update(self, game):
         """Обновление врага"""
@@ -40,18 +39,9 @@ class Enemy(Entity):
             if self.check_collision(player):
                 self.attack(player)
 
-        for text in self.damage_texts[:]:
-            text.update()
-            if not text.active:
-                self.damage_texts.remove(text)
-
     def draw(self, screen):
         """Отрисовка врага"""
         pygame.draw.rect(screen, self.color, self.rect)
-
-        # Отрисовка текстов урона
-        for text in self.damage_texts:
-            text.draw(screen)
 
         # Отрисовка здоровья
         self.draw_health_bar(screen)
@@ -77,20 +67,29 @@ class Enemy(Entity):
             player.take_damage(self.damage)
             self.last_attack_time = current_time
 
-    def take_damage(self, amount):
+    def take_damage(self, amount, game=None, is_critical=False):
+        """Получение урона"""
         self.health -= amount
 
-        # Создаем текст урона
-        damage_text = DamageText(
-            self.rect.centerx,
-            self.rect.top - 10,
-            int(amount),
-            RED if amount >= 10 else ORANGE  # Разный цвет для разного урона
-        )
-        self.damage_texts.append(damage_text)
+        # Создаем текст урона через систему частиц
+        if game and game.particle_system:
+            game.particle_system.add_damage_text(
+                self.rect.centerx,
+                self.rect.top - 15,  # Чуть выше
+                int(amount),
+                RED if is_critical else (RED if amount >= 10 else ORANGE),
+                is_critical
+            )
 
         if self.health <= 0:
-            self.die()
+            # Сохраняем позицию перед уничтожением
+            x, y = self.rect.centerx, self.rect.centery
+            exp_value = self.experience_value
+            self.destroy()
+
+            # Создаем сферу опыта
+            if game:
+                game.spawn_experience_orb(x, y, exp_value)
             return True
         return False
 
