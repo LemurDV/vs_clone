@@ -77,21 +77,17 @@ class Enemy(Entity):
         if game and game.particle_system:
             game.particle_system.add_damage_text(
                 self.rect.centerx,
-                self.rect.top - 15,  # Чуть выше
+                self.rect.top - 15,
                 int(amount),
                 RED if is_critical else (RED if amount >= 10 else ORANGE),
                 is_critical,
             )
 
         if self.health <= 0:
-            # Сохраняем позицию перед уничтожением
-            x, y = self.rect.centerx, self.rect.centery
-            exp_value = self.experience_value
-            self.destroy()
-
-            # Создаем сферу опыта
+            # Вызываем смерть врага через игру
             if game:
-                game.spawn_experience_orb(x, y, exp_value)
+                game.enemy_died(self)
+            self.destroy()
             return True
         return False
 

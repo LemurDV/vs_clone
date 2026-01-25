@@ -1,13 +1,15 @@
 import random
 
+import pygame
+
 from entities import BatEnemy, SlimeEnemy
 from entities.enemy import *
 from entities.player import Player
+from loot.loot_manager import LootManager
 from particles.particle_system import ParticleSystem
 from settings import *
 from ui.base_hud import BaseHud
 from ui.upgrade_menu import UpgradeMenu
-from upgrades.damage_upgrade import DamageUpgrade
 from upgrades.new_weapon_upgrade import NewWeaponUpgrade
 from upgrades.upgrade_manager import UpgradeManager
 from weapons.aura_weapon import AuraWeapon
@@ -19,10 +21,6 @@ class Game:
 
     def __init__(self):
         self.screen = SCREEN
-        self.background = pygame.image.load("assets/map_1.png")
-        self.background = pygame.transform.scale(
-            self.background, (SCREEN_WIDTH, SCREEN_HEIGHT)
-        )
         self.clock = pygame.time.Clock()
         self.running = True
         self.font = pygame.font.Font(None, 24)
@@ -33,19 +31,24 @@ class Game:
         self.experience_orbs = []
 
         # Системы
-        self.particle_system = ParticleSystem()
         self.upgrade_manager = UpgradeManager()
         self.upgrade_menu = UpgradeMenu(self)
+        self.particle_system = ParticleSystem()
+        self.loot_manager = LootManager()
         self.hud = BaseHud(self)
+
+        # Лут и предметы
+        self.loot_items = []  # Для здоровья, монет и т.д.
 
         # Время
         self.start_time = pygame.time.get_ticks()
         self.last_spawn_time = 0
         self.game_time = 0
-        self.last_key_press_time = 0  # Для предотвращения множественных нажатий
+        self.last_key_press_time = 0
 
         # Статистика
         self.enemies_killed = 0
+        self.coins_collected = 0
 
         # Флаг для паузы при выборе улучшений
         self.game_paused = False
@@ -121,8 +124,20 @@ class Game:
 
     def spawn_experience_orb(self, x, y, value):
         """Создание сферы опыта"""
+        from entities.experience_orb import ExperienceOrb
+
         orb = ExperienceOrb(x, y, value)
         self.experience_orbs.append(orb)
+
+    def add_loot_item(self, item):
+        """Добавить предмет лута в мир"""
+        self.loot_items.append(item)
+
+    def enemy_died(self, enemy):
+        """Вызывается при смерти врага"""
+        # Вызываем дроп через менеджер
+        self.loot_manager.drop_from_enemy(enemy, self)
+        self.enemies_killed += 1
 
     def run(self):
         """Запуск основного цикла игры"""
@@ -166,15 +181,14 @@ class Game:
         if self.player.active:
             self.player.update(self)
 
-        self.particle_system.update()
-
         # Обновление врагов
         for enemy in self.enemies[:]:
             if enemy.active:
                 enemy.update(self)
             else:
+                # Враг умер - удаляем из списка
                 self.enemies.remove(enemy)
-                self.enemies_killed += 1
+                # enemy_died уже вызван в take_damage, так что не вызываем здесь
 
         # Обновление сфер опыта
         for orb in self.experience_orbs[:]:
@@ -182,6 +196,15 @@ class Game:
                 orb.update(self)
             else:
                 self.experience_orbs.remove(orb)
+
+        # Обновление предметов лута
+        for loot in self.loot_items[:]:
+            loot.update(self)
+            if not loot.active:
+                self.loot_items.remove(loot)
+
+        # Обновление системы частиц
+        self.particle_system.update()
 
         # Спавн новых врагов
         current_time = pygame.time.get_ticks()
@@ -191,11 +214,15 @@ class Game:
 
     def draw(self):
         """Отрисовка игры"""
-        self.screen.blit(self.background, (0, 0))
+        self.screen.fill(BLACK)
 
         # Отрисовка сфер опыта
         for orb in self.experience_orbs:
             orb.draw(self.screen)
+
+        # Отрисовка предметов лута
+        for loot in self.loot_items:
+            loot.draw(self.screen)
 
         # Отрисовка врагов
         for enemy in self.enemies:
@@ -205,6 +232,7 @@ class Game:
         if self.player.active:
             self.player.draw(self.screen)
 
+        # Отрисовка частиц (тексты урона и эффекты)
         self.particle_system.draw(self.screen)
 
         # Отрисовка интерфейса
