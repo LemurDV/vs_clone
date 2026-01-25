@@ -8,7 +8,16 @@ class Enemy(Entity):
     """Базовый класс врага"""
 
     def __init__(
-        self, x, y, width, height, color, health, damage, experience_value
+        self,
+        x,
+        y,
+        width,
+        height,
+        color,
+        health,
+        damage,
+        experience_value,
+        sprite_path,
     ):
         super().__init__(x, y, width, height, color)
         self.health = health
@@ -18,6 +27,8 @@ class Enemy(Entity):
         self.speed = ENEMY_SPEED
         self.last_attack_time = 0
         self.attack_cooldown = 1000  # ms
+        self.sprite = pygame.image.load(sprite_path).convert_alpha()
+        self.sprite = pygame.transform.scale(self.sprite, (width, height))
 
     def update(self, game):
         """Обновление врага"""
@@ -43,7 +54,8 @@ class Enemy(Entity):
 
     def draw(self, screen):
         """Отрисовка врага"""
-        pygame.draw.rect(screen, self.color, self.rect)
+        screen.blit(self.sprite, self.rect)
+        # pygame.draw.rect(screen, self.color, self.rect)
 
         # Отрисовка здоровья
         self.draw_health_bar(screen)

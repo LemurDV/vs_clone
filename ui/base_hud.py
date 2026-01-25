@@ -22,17 +22,16 @@ class BaseHud:
     def draw_player_stats(self):
         """Отрисовка статистики игрока"""
         # Здоровье
+        self.heart_image = pygame.image.load("assets/heart.png").convert_alpha()
+        self.heart_image = pygame.transform.scale(self.heart_image, (20, 20))
+        self.screen.blit(self.heart_image, (10, 10))
         health_text = self.font.render(
-            f"HP: {self.game.player.health}/{self.game.player.max_health}",
+            f"{self.game.player.health}/{self.game.player.max_health}",
             True,
             WHITE,
         )
-        self.screen.blit(health_text, (10, 10))
+        self.screen.blit(health_text, (35, 10))
 
-        # Уровень и опыт
-        # exp_needed = LEVELS.get(self.game.player.level, {"exp_required": 9999})[
-        #     "exp_required"
-        # ]
         exp_needed = self.game.player.experience_needed
         exp_text = self.font.render(
             f"Уровень: {self.game.player.level} | Опыт: {self.game.player.experience}/{exp_needed}",

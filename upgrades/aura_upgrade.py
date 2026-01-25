@@ -13,8 +13,6 @@ class AuraUpgrade(Upgrade):
     def apply(self, player):
         if weapon := player.weapons.get("aura"):
             weapon.level_up()
-            logger.info(
-                f"{weapon.name_ui} улучшена! {weapon.__dict__}"
-            )
+            logger.info(f"{weapon.name_ui} улучшена! {weapon.__dict__}")
         else:
             player.add_weapon(AuraWeapon())
