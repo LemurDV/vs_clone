@@ -1,30 +1,41 @@
-from loguru import logger
+from abc import ABC, abstractmethod
+
+from settings import *
 
 
-class Weapon:
-    def __init__(self, name, damage, cooldown, owner):
+class Weapon(ABC):
+    """Абстрактный базовый класс оружия"""
+
+    def __init__(self, name, name_ui, damage, cooldown):
         self.name = name
+        self.name_ui = name_ui
         self.damage = damage
-        self.cooldown = cooldown  # в миллисекундах!
-        self.owner = owner  # Ссылка на игрока
-        self.last_attack = 0
+        self.cooldown = cooldown  # ms
+        self.last_attack_time = 0
+        self.owner = None
         self.level = 1
-        self.max_level = 6  # Максимальный уровень для баланса
+        self.max_level = 5
 
-    def update(self, current_time, enemies):
-        """Обновление оружия - должен быть переопределен"""
+    @abstractmethod
+    def update(self, game):
+        """Обновление оружия"""
         pass
 
+    @abstractmethod
     def draw(self, screen):
-        """Отрисовка оружия - должен быть переопределен"""
+        """Отрисовка оружия"""
         pass
 
-    def level_up(self, player_dmg):
+    def can_attack(self):
+        """Проверка возможности атаки"""
+        current_time = pygame.time.get_ticks()
+        return current_time - self.last_attack_time > self.cooldown
+
+    def level_up(self):
         """Улучшение оружия"""
         if self.level < self.max_level:
             self.level += 1
-            # self.damage = int(self.damage * 1.2)  # +20% урона за уровень
-            self.damage = self.damage + int(player_dmg * 0.2)
-            logger.debug(f"{self.damage=}")
+            self.damage *= 1.5
+            self.cooldown = max(100, self.cooldown * 0.9)
             return True
-        return False  # Достигнут максимальный уровень
+        return False
