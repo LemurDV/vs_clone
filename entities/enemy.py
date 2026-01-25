@@ -1,7 +1,3 @@
-import random
-
-import pygame
-
 from entities.entity import Entity
 from entities.experience_orb import ExperienceOrb
 from settings import *

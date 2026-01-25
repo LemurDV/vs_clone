@@ -1,5 +1,3 @@
-import pygame
-
 from entities.entity import Entity
 from settings import *
 
@@ -14,14 +12,6 @@ class ExperienceOrb(Entity):
 
     def update(self, game):
         """Обновление сферы опыта"""
-        current_time = pygame.time.get_ticks()
-
-        # Уничтожение по истечении времени жизни
-        if current_time - self.creation_time > EXPERIENCE_ORB_LIFETIME:
-            self.destroy()
-            return
-
-        # Притягивание к игроку
         player = game.player
         if player and player.active:
             distance = self.distance_to(player)

@@ -1,5 +1,3 @@
-import pygame
-
 from entities.entity import Entity
 from settings import *
 

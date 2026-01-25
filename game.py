@@ -1,11 +1,10 @@
 import random
 
-import pygame
-
 from entities import BatEnemy, SlimeEnemy
 from entities.enemy import *
 from entities.player import Player
 from settings import *
+from ui.base_hud import BaseHud
 from ui.upgrade_menu import UpgradeMenu
 from upgrades.damage_upgrade import DamageUpgrade
 from upgrades.new_weapon_upgrade import NewWeaponUpgrade
@@ -31,6 +30,7 @@ class Game:
         # Системы
         self.upgrade_manager = UpgradeManager()
         self.upgrade_menu = UpgradeMenu(self)
+        self.hud = BaseHud(self)
 
         # Время
         self.start_time = pygame.time.get_ticks()
@@ -198,76 +198,9 @@ class Game:
             self.player.draw(self.screen)
 
         # Отрисовка интерфейса
-        self.draw_ui()
+        self.hud.draw_ui()
 
         # Отрисовка меню улучшений (если активно, поверх всего)
         self.upgrade_menu.draw(self.screen)
 
         pygame.display.flip()
-
-    def draw_ui(self):
-        """Отрисовка интерфейса"""
-        # Здоровье
-        health_text = self.font.render(
-            f"HP: {self.player.health}/{self.player.max_health}", True, WHITE
-        )
-        self.screen.blit(health_text, (10, 10))
-
-        # Уровень и опыт
-        exp_needed = LEVELS.get(self.player.level, {"exp_required": 9999})[
-            "exp_required"
-        ]
-        exp_text = self.font.render(
-            f"Уровень: {self.player.level} | Опыт: {self.player.experience}/{exp_needed}",
-            True,
-            WHITE,
-        )
-        self.screen.blit(exp_text, (10, 40))
-
-        # Враги
-        enemies_text = self.font.render(
-            f"Врагов: {len(self.enemies)} | Убито: {self.enemies_killed}",
-            True,
-            WHITE,
-        )
-        self.screen.blit(enemies_text, (10, 70))
-
-        # Время
-        minutes = self.game_time // 60000
-        seconds = (self.game_time % 60000) // 1000
-        time_text = self.font.render(
-            f"Время: {minutes:02d}:{seconds:02d}", True, WHITE
-        )
-        self.screen.blit(time_text, (SCREEN_WIDTH - 150, 10))
-
-        # Инструкции (только если нет меню)
-        if not self.game_paused:
-            controls = self.font.render(
-                "WASD - движение | ESC - выход", True, WHITE
-            )
-            self.screen.blit(
-                controls,
-                (
-                    SCREEN_WIDTH // 2 - controls.get_width() // 2,
-                    SCREEN_HEIGHT - 30,
-                ),
-            )
-
-        # Статистика по оружию
-        y_pos = 100
-        for weapon in self.player.weapons:
-            weapon_text = self.font.render(
-                f"{weapon.name} (Ур. {weapon.level})", True, WHITE
-            )
-            self.screen.blit(weapon_text, (10, y_pos))
-            y_pos += 25
-
-        # Индикатор паузы (если меню активно)
-        if self.game_paused:
-            pause_text = self.font.render(
-                "ПАУЗА: Выбор улучшения", True, YELLOW
-            )
-            self.screen.blit(
-                pause_text,
-                (SCREEN_WIDTH // 2 - pause_text.get_width() // 2, 20),
-            )
