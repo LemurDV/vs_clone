@@ -1,3 +1,4 @@
+from entities.damage_text import DamageText
 from entities.entity import Entity
 from entities.experience_orb import ExperienceOrb
 from settings import *
@@ -6,9 +7,7 @@ from settings import *
 class Enemy(Entity):
     """Базовый класс врага"""
 
-    def __init__(
-        self, x, y, width, height, color, health, damage, experience_value
-    ):
+    def __init__(self, x, y, width, height, color, health, damage, experience_value):
         super().__init__(x, y, width, height, color)
         self.health = health
         self.max_health = health
@@ -17,6 +16,7 @@ class Enemy(Entity):
         self.speed = ENEMY_SPEED
         self.last_attack_time = 0
         self.attack_cooldown = 1000  # ms
+        self.damage_texts = []
 
     def update(self, game):
         """Обновление врага"""
@@ -40,9 +40,19 @@ class Enemy(Entity):
             if self.check_collision(player):
                 self.attack(player)
 
+        for text in self.damage_texts[:]:
+            text.update()
+            if not text.active:
+                self.damage_texts.remove(text)
+
     def draw(self, screen):
         """Отрисовка врага"""
         pygame.draw.rect(screen, self.color, self.rect)
+
+        # Отрисовка текстов урона
+        for text in self.damage_texts:
+            text.draw(screen)
+
         # Отрисовка здоровья
         self.draw_health_bar(screen)
 
@@ -68,8 +78,17 @@ class Enemy(Entity):
             self.last_attack_time = current_time
 
     def take_damage(self, amount):
-        """Получение урона"""
         self.health -= amount
+
+        # Создаем текст урона
+        damage_text = DamageText(
+            self.rect.centerx,
+            self.rect.top - 10,
+            int(amount),
+            RED if amount >= 10 else ORANGE  # Разный цвет для разного урона
+        )
+        self.damage_texts.append(damage_text)
+
         if self.health <= 0:
             self.die()
             return True
