@@ -5,9 +5,8 @@ import pygame
 
 
 class LootItem(ABC):
-    def __init__(self, x, y):
-        self.rect = pygame.Rect(x, y, 20, 20)
-        self.lifetime = 10000  # 10 секунд
+    def __init__(self, x, y, width=20, height=20):
+        self.rect = pygame.Rect(x, y, width, height)
         self.creation_time = pygame.time.get_ticks()
         self.active = True
         self.magnet_radius = 80  # Радиус притяжения к игроку
@@ -24,25 +23,19 @@ class LootItem(ABC):
 
     def update(self, game):
         """Обновление лута"""
-        current_time = pygame.time.get_ticks()
-
-        # Уничтожение по времени
-        if current_time - self.creation_time > self.lifetime:
-            self.active = False
-            return
-
-        # Притягивание к игроку
         player = game.player
         if player and player.active:
-            dx = player.rect.centerx - self.rect.centerx
-            dy = player.rect.centery - self.rect.centery
-            distance = (dx**2 + dy**2) ** 0.5
+            distance = self.distance_to(player)
 
-            if distance < self.magnet_radius:
-                speed = 4 if distance > 20 else 0
+            if distance < player.magnet_radius:
+                # Движение к игроку
+                dx = player.rect.centerx - self.rect.centerx
+                dy = player.rect.centery - self.rect.centery
+
                 if distance > 0:
-                    self.rect.x += (dx / distance) * speed
-                    self.rect.y += (dy / distance) * speed
+                    dx = (dx / distance) * self.speed
+                    dy = (dy / distance) * self.speed
+                    self.move(dx, dy)
 
             # Проверка сбора
             if self.rect.colliderect(player.rect):

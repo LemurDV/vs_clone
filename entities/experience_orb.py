@@ -9,14 +9,17 @@ class ExperienceOrb(Entity):
         super().__init__(
             x=x,
             y=y,
-            width=8,
-            height=8,
+            width=20,
+            height=20,
             color=BLUE,
             radius=EXP_ORB_RADIUS,
             speed=EXP_ORB_SPEED,
         )
         self.value = value
-        # self.magnet_radius = 100  # Радиус притягивания к игроку
+        self.sprite = pygame.image.load(
+            "assets/items/exp_orb.jpg"
+        ).convert_alpha()
+        self.sprite = pygame.transform.scale(self.sprite, (20, 20))
 
     def update(self, game):
         """Обновление сферы опыта"""
@@ -44,4 +47,5 @@ class ExperienceOrb(Entity):
         # pygame.draw.circle(
         #     screen, self.color, self.rect.center, self.rect.width // 2
         # )
-        pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
+        screen.blit(self.sprite, self.rect)
+        # pygame.draw.circle(screen, self.color, self.rect.center, self.radius)

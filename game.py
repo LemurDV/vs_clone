@@ -14,7 +14,7 @@ class Game:
 
     def __init__(self):
         self.screen = SCREEN
-        self.background = pygame.image.load("assets/map_1.png")
+        self.background = pygame.image.load("assets/maps/map_1.png")
         self.background = pygame.transform.scale(
             self.background, (SCREEN_WIDTH, SCREEN_HEIGHT)
         )
