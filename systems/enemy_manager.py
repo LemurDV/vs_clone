@@ -1,7 +1,7 @@
 import random
 
-from entities import SlimeEnemy, BatEnemy
-from settings import SCREEN_WIDTH, SCREEN_HEIGHT
+from entities import BatEnemy, SlimeEnemy
+from settings import SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 class EnemyManager:

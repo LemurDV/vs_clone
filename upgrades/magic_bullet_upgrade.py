@@ -6,9 +6,7 @@ from weapons.magic_bullet_weapon import MagicBulletWeapon
 
 class MagicBulletUpgrade(Upgrade):
     def __init__(self):
-        super().__init__(
-            "Улучшение волшебной пули", "Увеличивает урон и а.спд"
-        )
+        super().__init__("Улучшение волшебной пули", "Увеличивает урон и а.спд")
 
     def apply(self, player):
         if weapon := player.weapons.get("magic_bullet"):

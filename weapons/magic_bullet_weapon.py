@@ -7,7 +7,12 @@ class MagicBulletWeapon(Weapon):
     """Оружие - магические пули, летящие к ближайшим врагам"""
 
     def __init__(self):
-        super().__init__(name="magic_bullet", name_ui="Магическая пуля", damage=3, cooldown=1000)
+        super().__init__(
+            name="magic_bullet",
+            name_ui="Магическая пуля",
+            damage=3,
+            cooldown=1000,
+        )
         self.bullets = []
         self.max_bullets = 1
         self.bullet_speed = 6

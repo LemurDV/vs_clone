@@ -7,7 +7,13 @@ class ExperienceOrb(Entity):
 
     def __init__(self, x, y, value):
         super().__init__(
-            x=x, y=y, width=8, height=8, color=BLUE, radius=EXP_ORB_RADIUS, speed=EXP_ORB_SPEED,
+            x=x,
+            y=y,
+            width=8,
+            height=8,
+            color=BLUE,
+            radius=EXP_ORB_RADIUS,
+            speed=EXP_ORB_SPEED,
         )
         self.value = value
         # self.magnet_radius = 100  # Радиус притягивания к игроку

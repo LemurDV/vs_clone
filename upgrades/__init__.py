@@ -2,8 +2,8 @@ from .aura_upgrade import AuraUpgrade
 from .damage_upgrade import DamageUpgrade
 from .health_upgrade import HealthUpgrade
 from .magic_bullet_upgrade import MagicBulletUpgrade
-from .speed_upgrade import SpeedUpgrade
 from .magnet_radius_upgrade import MagnetRadiusUpgrade
+from .speed_upgrade import SpeedUpgrade
 
 
 __all__ = [
@@ -12,6 +12,5 @@ __all__ = [
     "HealthUpgrade",
     "MagicBulletUpgrade",
     "SpeedUpgrade",
-    "MagnetRadiusUpgrade"
+    "MagnetRadiusUpgrade",
 ]
-

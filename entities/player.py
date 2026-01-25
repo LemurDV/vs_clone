@@ -3,10 +3,8 @@ from settings import *
 
 
 class Player(Entity):
-    """Класс игрока"""
-
     def __init__(self, x, y):
-        self.radius = 10  # Радиус вместо ширины/высоты
+        self.radius = 19
         super().__init__(
             x - self.radius,
             y - self.radius,
@@ -28,6 +26,10 @@ class Player(Entity):
         self.upgrades = []
         self.last_shot_time = 0
         self.shoot_cooldown = 500  # ms
+        self.sprite = pygame.image.load("assets/wizard.jpg").convert_alpha()
+        self.sprite = pygame.transform.scale(
+            self.sprite, (40, 50)
+        )
 
         # Флаг для ожидания выбора улучшения
         self.waiting_for_upgrade = False
@@ -43,7 +45,8 @@ class Player(Entity):
 
     def draw(self, screen):
         """Отрисовка игрока"""
-        pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
+        screen.blit(self.sprite, self.rect)
+        # pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
 
         # Отрисовка оружия
         for weapon in self.weapons.values():
@@ -133,7 +136,9 @@ class Player(Entity):
         if self.level % 5 == 0:
             self.experience_multiplier += 0.5
         self.experience = 0
-        self.experience_needed = int(self.experience_needed * self.experience_multiplier)
+        self.experience_needed = int(
+            self.experience_needed * self.experience_multiplier
+        )
         self.max_health += 10
         self.health = self.max_health
         self.waiting_for_upgrade = True
