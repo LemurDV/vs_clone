@@ -1,7 +1,11 @@
-from loguru import logger
-import pygame
+import random
 
-from settings import *
+from settings import (
+    PURPLE,
+    pygame,
+    AURA_MULTIPLIER_DAMAGE,
+    AURA_MULTIPLIER_RADIUS,
+)
 from weapons.weapon import Weapon
 
 
@@ -29,9 +33,6 @@ class AuraWeapon(Weapon):
         )
         total_damage = self.damage * owner_damage
 
-        # Шанс критического удара (например, 10%)
-        import random
-
         is_critical = random.random() < 0.1
         if is_critical:
             total_damage *= 2
@@ -39,8 +40,7 @@ class AuraWeapon(Weapon):
         for enemy in game.enemy_manager.enemies[:]:
             if enemy.active and self.owner.distance_to(enemy) <= self.radius:
                 if enemy.take_damage(total_damage, game, is_critical):
-                    # Враг уже убит и опыт создан в take_damage
-                    pass  # Ничего не делаем
+                    pass
 
     def draw(self, screen):
         """Отрисовка ауры"""
@@ -69,7 +69,6 @@ class AuraWeapon(Weapon):
         self.increase_damage()
         self.increase_radius()
         return True
-        # return False
 
     def increase_damage(self):
         self.damage += AURA_MULTIPLIER_DAMAGE
