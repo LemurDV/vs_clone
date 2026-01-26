@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 import pygame
 
-from settings import SCREEN_WIDTH, SCREEN_HEIGHT
+from settings import SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 class LootItem(ABC):

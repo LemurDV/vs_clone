@@ -3,10 +3,10 @@ import random
 from upgrades import (
     AuraUpgrade,
     DamageUpgrade,
+    ExpBoostUpgrade,
     HealthUpgrade,
     MagicBulletUpgrade,
     MagnetRadiusUpgrade,
-    ExpBoostUpgrade,
 )
 
 

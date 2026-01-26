@@ -1,10 +1,10 @@
 from .aura_upgrade import AuraUpgrade
 from .damage_upgrade import DamageUpgrade
+from .experience_boost_upgrade import ExpBoostUpgrade
 from .health_upgrade import HealthUpgrade
 from .magic_bullet_upgrade import MagicBulletUpgrade
 from .magnet_radius_upgrade import MagnetRadiusUpgrade
 from .speed_upgrade import SpeedUpgrade
-from .experience_boost_upgrade import ExpBoostUpgrade
 
 
 __all__ = [
