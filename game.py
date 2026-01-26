@@ -73,13 +73,6 @@ class Game:
         self.player.complete_level_up()
         self.game_paused = False
 
-    def spawn_experience_orb(self, x, y, value):
-        """Создание сферы опыта"""
-        from entities.experience_orb import ExperienceOrb
-
-        orb = ExperienceOrb(x, y, value)
-        self.experience_orbs.append(orb)
-
     def add_loot_item(self, item):
         """Добавить предмет лута в мир"""
         self.loot_items.append(item)

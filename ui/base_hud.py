@@ -34,6 +34,9 @@ class BaseHud:
         )
         self.screen.blit(health_text, (35, 10))
 
+        coins_text = self.font.render(f"{self.game.player.coins}", True, WHITE)
+        self.screen.blit(coins_text, (10, 30))
+
         exp_needed = self.game.player.experience_needed
         exp_text = self.font.render(
             f"Уровень: {self.game.player.level} | Опыт: {self.game.player.experience}/{exp_needed}",

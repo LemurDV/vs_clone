@@ -6,6 +6,7 @@ from upgrades import (
     HealthUpgrade,
     MagicBulletUpgrade,
     MagnetRadiusUpgrade,
+    ExpBoostUpgrade,
 )
 
 
@@ -22,10 +23,11 @@ class UpgradeManager:
         self.all_upgrades.extend(
             [
                 DamageUpgrade(),
-                HealthUpgrade(),
+                # HealthUpgrade(),
                 # MagicBulletUpgrade(),
                 AuraUpgrade(),
-                MagnetRadiusUpgrade(),
+                # MagnetRadiusUpgrade(),
+                ExpBoostUpgrade(),
             ]
         )
 

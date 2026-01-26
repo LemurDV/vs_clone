@@ -13,6 +13,4 @@ class MagnetRadiusUpgrade(Upgrade):
     def apply(self, player):
         """Применение улучшения"""
         player.increase_magnet_radius(MAGNET_RADIUS_MULTIPLIER)
-        logger.info(
-            f"Урон увеличен! Множитель урона: {player.damage_multiplier}"
-        )
+        logger.info("Радиус сбора увеличен!")
