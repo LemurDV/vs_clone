@@ -1,3 +1,5 @@
+from loguru import logger
+
 from settings import EXP_BOOST_MULTIPLIER
 from upgrades.upgrade import Upgrade
 
@@ -10,4 +12,4 @@ class ExpBoostUpgrade(Upgrade):
 
     def apply(self, player):
         player.increase_exp_boost(EXP_BOOST_MULTIPLIER)
-        print(f"Урон увеличен! Множитель урона: {player.damage_multiplier}")
+        logger.info("Получаемый опыт увеличен!")

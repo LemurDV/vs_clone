@@ -23,10 +23,10 @@ class UpgradeManager:
         self.all_upgrades.extend(
             [
                 DamageUpgrade(),
-                # HealthUpgrade(),
+                HealthUpgrade(),
                 # MagicBulletUpgrade(),
                 AuraUpgrade(),
-                # MagnetRadiusUpgrade(),
+                MagnetRadiusUpgrade(),
                 ExpBoostUpgrade(),
             ]
         )
