@@ -15,7 +15,7 @@ class SlimeEnemy(Enemy):
             color=GREEN,
             health=30,
             damage=5,
-            experience_value=10,
+            experience_value=15,
             sprite_path="assets/enemies/slime.png",
         )
         self.speed = 1.5
@@ -33,7 +33,7 @@ class BatEnemy(Enemy):
             color=RED,
             health=15,
             damage=3,
-            experience_value=5,
+            experience_value=10,
             sprite_path="assets/enemies/bat.png",
         )
-        self.speed = 3.0
+        self.speed = 2.5

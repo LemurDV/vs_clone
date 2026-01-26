@@ -11,7 +11,7 @@ class EnemyManager:
     def spawn_enemy(self, current_level: int):
         """Создание нового врага"""
         # Ограничение по количеству врагов в зависимости от уровня
-        max_enemies = 100
+        max_enemies = 20
         if len(self.enemies) >= max_enemies:
             return
 

@@ -7,6 +7,7 @@ from ui.base_hud import BaseHud
 from ui.upgrade_menu import UpgradeMenu
 from upgrades.upgrade_manager import UpgradeManager
 from weapons.aura_weapon import AuraWeapon
+from weapons.magic_bullet_weapon import MagicBulletWeapon
 
 
 class Game:
@@ -35,7 +36,7 @@ class Game:
         self.hud = BaseHud(self)
 
         # Лут и предметы
-        self.loot_items = []  # Для здоровья, монет и т.д.
+        self.loot_items = []  # TODO: добавить лут систему или манагера?
 
         # Время
         self.start_time = pygame.time.get_ticks()
@@ -56,9 +57,9 @@ class Game:
     def init_game(self):
         """Инициализация игры"""
         # Добавляем стартовое оружие
-        # star_weapon = MagicBulletWeapon()
-        star_weapon = AuraWeapon()
-        self.player.add_weapon(star_weapon)
+        start_weapon = MagicBulletWeapon()
+        # start_weapon = AuraWeapon()
+        self.player.add_weapon(start_weapon)
 
     def request_upgrade_menu(self):
         """Запрос на показ меню улучшений"""

@@ -24,7 +24,7 @@ class UpgradeManager:
             [
                 DamageUpgrade(),
                 HealthUpgrade(),
-                # MagicBulletUpgrade(),
+                MagicBulletUpgrade(),
                 AuraUpgrade(),
                 MagnetRadiusUpgrade(),
                 ExpBoostUpgrade(),

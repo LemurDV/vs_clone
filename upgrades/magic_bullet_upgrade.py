@@ -14,4 +14,5 @@ class MagicBulletUpgrade(Upgrade):
             logger.info(
                 f"{weapon.name_ui} улучшена! {weapon.damage=}, {weapon.max_bullets=}"
             )
+            return
         player.add_weapon(MagicBulletWeapon())
