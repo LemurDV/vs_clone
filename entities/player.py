@@ -15,12 +15,14 @@ class Player(Entity):
         self.speed = PLAYER_SPEED
         self.health = 100
         self.max_health = 100
+        self.coins = 0
         self.experience = 0
         self.experience_needed = BASE_EXPERIENCE
         self.experience_multiplier = EXPERIENCE_MULTIPLIER
         self.level = 1
         self.base_damage = 3
         self.magnet_radius = MAGNET_RADIUS
+        self.exp_boost = 1
         self.damage_multiplier = 1.0
         self.weapons = {}
         self.upgrades = []
@@ -119,7 +121,10 @@ class Player(Entity):
 
     def add_experience(self, amount):
         """Добавление опыта"""
-        self.experience += amount
+        self.experience += int(amount * self.exp_boost)
+
+    def add_coin(self, value: int):
+        self.coins += value
 
     def check_level_up(self, game):
         """Проверка повышения уровня"""
@@ -157,3 +162,6 @@ class Player(Entity):
 
     def increase_magnet_radius(self, value: int):
         self.magnet_radius += value
+
+    def increase_exp_boost(self, value: int):
+        self.exp_boost += value

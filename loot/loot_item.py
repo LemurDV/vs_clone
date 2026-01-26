@@ -1,7 +1,8 @@
-# loot/loot_item.py
 from abc import ABC, abstractmethod
 
 import pygame
+
+from settings import SCREEN_WIDTH, SCREEN_HEIGHT
 
 
 class LootItem(ABC):
@@ -10,6 +11,7 @@ class LootItem(ABC):
         self.creation_time = pygame.time.get_ticks()
         self.active = True
         self.magnet_radius = 80  # Радиус притяжения к игроку
+        self.speed = 5
 
     @abstractmethod
     def apply(self, player):
@@ -20,6 +22,24 @@ class LootItem(ABC):
     def draw(self, screen):
         """Отрисовка лута"""
         pass
+
+    def distance_to(self, other_entity):
+        """Расстояние до другой сущности"""
+        return (
+            (self.rect.centerx - other_entity.rect.centerx) ** 2
+            + (self.rect.centery - other_entity.rect.centery) ** 2
+        ) ** 0.5
+
+    def move(self, dx, dy):
+        """Перемещение сущности"""
+        self.rect.x += dx
+        self.rect.y += dy
+        self.rect.x = max(
+            self.rect.width, min(SCREEN_WIDTH - self.rect.width, self.rect.x)
+        )
+        self.rect.y = max(
+            self.rect.width, min(SCREEN_HEIGHT - self.rect.width, self.rect.y)
+        )
 
     def update(self, game):
         """Обновление лута"""

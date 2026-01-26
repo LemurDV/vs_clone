@@ -16,9 +16,7 @@ class Coin(LootItem):
 
     def apply(self, player):
         if hasattr(player, "coins"):
-            player.coins += self.value
+            player.add_coin(self.value)
 
     def draw(self, screen):
         screen.blit(self.sprite, self.rect)
-        # pygame.draw.circle(screen, self.color, self.rect.center, 8)
-        # pygame.draw.circle(screen, (100, 100, 0), self.rect.center, 6)

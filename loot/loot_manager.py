@@ -1,5 +1,6 @@
 import random
 
+from entities.experience_orb import ExperienceOrb
 from loot.coin import Coin
 from loot.health_potion import HealthPotion
 
@@ -9,22 +10,22 @@ class LootManager:
 
     def __init__(self):
         self.drop_chances = {
-            "health_potion": 0.70,
-            "coin": 0.70,
+            "health_potion": 0.1,
+            "coin": 0.15,
         }
 
     def drop_from_enemy(self, enemy, game):
         """Создать лут с врага"""
-        # Всегда опыт
-        game.spawn_experience_orb(
-            enemy.rect.centerx, enemy.rect.centery, enemy.experience_value
+        game.add_loot_item(
+            ExperienceOrb(
+                enemy.rect.centerx,
+                enemy.rect.centery,
+                enemy.experience_value,
+            ),
         )
 
         # Дополнительный лут
         for loot_type, chance in self.drop_chances.items():
-            if loot_type == "experience":
-                continue
-
             if random.random() < chance:
                 self.create_loot(
                     loot_type, enemy.rect.centerx, enemy.rect.centery, game
