@@ -18,7 +18,7 @@ class SlimeEnemy(Enemy):
             experience_value=15,
             sprite_path="assets/enemies/slime.png",
         )
-        self.speed = 1.5
+        self.speed = 0.8
 
 
 class BatEnemy(Enemy):
@@ -36,4 +36,4 @@ class BatEnemy(Enemy):
             experience_value=10,
             sprite_path="assets/enemies/bat.png",
         )
-        self.speed = 2.5
+        self.speed = 1.5
