@@ -35,25 +35,20 @@ class DamageText:
         if not self.active:
             return
 
-        # Выбираем цвет
-        if self.is_critical:
-            color = (255, 255, 0, self.alpha)  # Желтый для крита
-        else:
-            color = (*self.base_color, self.alpha)  # Базовый цвет
-
-        # Создаем поверхность с альфа-каналом
         text_surface = self.font.render(self.text, True, (255, 255, 255))
+
         final_surface = pygame.Surface(text_surface.get_size(), pygame.SRCALPHA)
 
-        # Применяем цвет с прозрачностью
-        final_surface.fill(color)
+        # Выбираем цвет
+        if self.is_critical:
+            color = (255, 255, 0, self.alpha)
+        else:
+            color = (*self.base_color, self.alpha)
 
-        # Маска текста
-        text_mask = pygame.mask.from_surface(text_surface)
-        final_surface.blit(
-            text_mask.to_surface(setcolor=color, unsetcolor=(0, 0, 0, 0)),
-            (0, 0),
-        )
+        mask = pygame.mask.from_surface(text_surface)
+        mask_surface = mask.to_surface(setcolor=color, unsetcolor=(0, 0, 0, 0))
+
+        final_surface.blit(mask_surface, (0, 0))
 
         # Рисуем
         screen.blit(
