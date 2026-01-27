@@ -1,6 +1,6 @@
 import pygame
 
-from settings import *
+from settings import RED, WHITE, YELLOW
 
 
 class DamageText:
@@ -35,13 +35,13 @@ class DamageText:
         if not self.active:
             return
 
-        text_surface = self.font.render(self.text, True, (255, 255, 255))
+        text_surface = self.font.render(self.text, True, WHITE)
 
         final_surface = pygame.Surface(text_surface.get_size(), pygame.SRCALPHA)
 
         # Выбираем цвет
         if self.is_critical:
-            color = (255, 255, 0, self.alpha)
+            color = (*YELLOW, self.alpha)
         else:
             color = (*self.base_color, self.alpha)
 

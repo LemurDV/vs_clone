@@ -1,6 +1,8 @@
 import math
 
-from settings import ORANGE, pygame
+import pygame
+
+from settings import ORANGE
 
 
 class Projectile:

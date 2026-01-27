@@ -1,7 +1,6 @@
-# ui/hud.py
 import pygame
 
-from settings import *
+from settings import SCREEN_HEIGHT, SCREEN_WIDTH, WHITE, YELLOW
 
 
 class BaseHud:

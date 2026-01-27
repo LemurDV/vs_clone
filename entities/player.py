@@ -1,5 +1,17 @@
+import pygame
+
 from entities.entity import Entity
-from settings import *
+from settings import (
+    BASE_EXPERIENCE,
+    BLUE,
+    EXPERIENCE_MULTIPLIER,
+    GREEN,
+    MAGNET_RADIUS,
+    PLAYER_SPEED,
+    RED,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+)
 
 
 class Player(Entity):

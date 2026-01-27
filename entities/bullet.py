@@ -1,5 +1,7 @@
+import pygame
+
 from entities.entity import Entity
-from settings import *
+from settings import ORANGE
 
 
 class Bullet(Entity):

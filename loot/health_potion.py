@@ -1,5 +1,7 @@
+import pygame
+
 from loot.loot_item import LootItem
-from settings import *
+from settings import GREEN
 
 
 class HealthPotion(LootItem):
