@@ -1,3 +1,5 @@
+from math import fabs
+
 from entities.damage_text import DamageText
 from entities.entity import Entity
 from entities.experience_orb import ExperienceOrb
@@ -38,8 +40,8 @@ class Enemy(Entity):
         # Движение к игроку
         player = game.player
         if player and player.active:
-            dx = player.rect.centerx - self.rect.centerx
-            dy = player.rect.centery - self.rect.centery
+            dx = player.rect.centerx - (self.x + self.rect.width / 2)
+            dy = player.rect.centery - (self.y + self.rect.height / 2)
 
             # Нормализация направления
             distance = max(0.1, (dx**2 + dy**2) ** 0.5)
@@ -102,8 +104,3 @@ class Enemy(Entity):
             self.destroy()
             return True
         return False
-
-    def die(self):
-        """Смерть врага"""
-        self.destroy()
-        return self.experience_value

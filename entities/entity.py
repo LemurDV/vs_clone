@@ -30,8 +30,11 @@ class Entity(ABC):
 
     def move(self, dx, dy):
         """Перемещение сущности"""
-        self.rect.x += dx
-        self.rect.y += dy
+        self.x += dx
+        self.y += dy
+
+        self.rect.x = int(self.x)
+        self.rect.y = int(self.y)
         self.rect.x = max(
             self.radius, min(SCREEN_WIDTH - self.radius, self.rect.x)
         )
