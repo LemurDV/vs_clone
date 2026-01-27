@@ -1,5 +1,6 @@
+import pygame
+
 from loot.loot_item import LootItem
-from settings import pygame
 
 
 class ExperienceOrb(LootItem):

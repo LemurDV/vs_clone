@@ -1,7 +1,14 @@
+import pygame
+
 from entities.player import Player
 from loot.loot_manager import LootManager
 from particles.particle_system import ParticleSystem
-from settings import *
+from settings import (
+    FPS,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+    SPAWN_RATE,
+)
 from systems.enemy_manager import EnemyManager
 from ui.base_hud import BaseHud
 from ui.upgrade_menu import UpgradeMenu
@@ -14,7 +21,7 @@ class Game:
     """Основной класс игры"""
 
     def __init__(self):
-        self.screen = SCREEN
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.background = pygame.image.load("assets/maps/map_1.png")
         self.background = pygame.transform.scale(
             self.background, (SCREEN_WIDTH, SCREEN_HEIGHT)

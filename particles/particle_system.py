@@ -1,7 +1,5 @@
-import pygame
-
 from entities.damage_text import DamageText
-from settings import *
+from settings import RED
 
 
 class ParticleSystem:

@@ -1,10 +1,11 @@
 import random
 
+import pygame
+
 from settings import (
     AURA_MULTIPLIER_DAMAGE,
     AURA_MULTIPLIER_RADIUS,
     PURPLE,
-    pygame,
 )
 from weapons.weapon import Weapon
 

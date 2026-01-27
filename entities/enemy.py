@@ -1,9 +1,13 @@
-from math import fabs
+import pygame
 
 from entities.damage_text import DamageText
 from entities.entity import Entity
 from entities.experience_orb import ExperienceOrb
-from settings import *
+from settings import (
+    ENEMY_SPEED,
+    GREEN,
+    RED,
+)
 
 
 class Enemy(Entity):

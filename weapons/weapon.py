@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from settings import *
+import pygame
 
 
 class Weapon(ABC):

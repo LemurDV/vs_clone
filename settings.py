@@ -1,13 +1,6 @@
-import pygame
-
-
-# Инициализация Pygame
-pygame.init()
-
 # Размеры окна
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Цвета
 BLACK = (0, 0, 0)
@@ -38,13 +31,6 @@ EXP_ORB_SPEED = 5
 # Уровни
 BASE_EXPERIENCE = 100
 EXPERIENCE_MULTIPLIER = 1.7
-# LEVELS = {
-#     1: {"exp_required": 100, "max_enemies": 40},
-#     2: {"exp_required": 20, "max_enemies": 80},
-#     3: {"exp_required": 30, "max_enemies": 160},
-#     4: {"exp_required": 40, "max_enemies": 200},
-#     5: {"exp_required": 50, "max_enemies": 400},
-# }
 
 # Настройки уровней оружий
 AURA_MULTIPLIER_DAMAGE = 2

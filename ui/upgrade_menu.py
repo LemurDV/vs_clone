@@ -1,4 +1,6 @@
-from settings import *
+import pygame
+
+from settings import GREEN, SCREEN_HEIGHT, SCREEN_WIDTH, WHITE, YELLOW
 
 
 class UpgradeMenu:
