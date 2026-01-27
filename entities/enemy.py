@@ -93,7 +93,7 @@ class Enemy(Entity):
                 self.rect.centerx,
                 self.rect.top - 15,
                 int(amount),
-                RED if is_critical else (RED if amount >= 10 else ORANGE),
+                RED,
                 is_critical,
             )
 
