@@ -20,7 +20,6 @@ class UpgradeManager:
 
     def initialize_upgrades(self):
         """Инициализация всех доступных улучшений"""
-        # Базовые улучшения
         self.all_upgrades.extend(
             [
                 DamageUpgrade(),

@@ -117,7 +117,7 @@ class Player(Entity):
 
     def update_statuses(self, game):
         if self.hp_regen:
-            self.is_regen(game.particle_system)
+            self.hp_regenerate(game.particle_system)
 
     def add_weapon(self, weapon):
         """Добавление оружия"""
@@ -175,7 +175,7 @@ class Player(Entity):
         # Запрашиваем меню улучшений у игры
         game.request_upgrade_menu()
 
-    def is_regen(self, particle_system):
+    def hp_regenerate(self, particle_system):
         current_time = pygame.time.get_ticks()
         if current_time - self.last_regent_time > 5_000:
             self.last_regent_time = pygame.time.get_ticks()
