@@ -1,7 +1,7 @@
 import random
 
 from entities import BatEnemy, SlimeEnemy
-from settings import SCREEN_HEIGHT, SCREEN_WIDTH
+from settings import MAX_ENEMIES_ON_SCREEN, SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 class EnemyManager:
@@ -11,7 +11,7 @@ class EnemyManager:
     def spawn_enemy(self, current_level: int):
         """Создание нового врага"""
         # Ограничение по количеству врагов в зависимости от уровня
-        max_enemies = 20
+        max_enemies = MAX_ENEMIES_ON_SCREEN
         if len(self.enemies) >= max_enemies:
             return
 

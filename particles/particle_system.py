@@ -11,7 +11,7 @@ class ParticleSystem:
 
     def add_damage_text(self, x, y, damage, color=RED, is_critical=False):
         """Добавить текст урона"""
-        text = DamageText(x, y, damage, color, is_critical)
+        text = DamageText(x=x, y=y, damage=damage, is_critical=is_critical)
         self.damage_texts.append(text)
 
     def add_particle(self, particle):
