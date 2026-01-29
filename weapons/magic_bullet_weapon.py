@@ -1,5 +1,10 @@
 import pygame
 
+from settings import (
+    MAGIC_BULLET_MULTIPLIER_BULLETS,
+    MAGIC_BULLET_MULTIPLIER_COOLDOWN,
+    MAGIC_BULLET_MULTIPLIER_DAMAGE,
+)
 from weapons.types.projectile import Projectile
 from weapons.weapon import Weapon
 
@@ -81,9 +86,9 @@ class MagicBulletWeapon(Weapon):
         """Улучшение оружия"""
         self.level += 1
         if self.level % 3 == 0:
-            self.max_bullets += 1
-        self.damage += 2
-        self.cooldown -= 30
+            self.max_bullets += MAGIC_BULLET_MULTIPLIER_BULLETS
+        self.damage += MAGIC_BULLET_MULTIPLIER_DAMAGE
+        self.cooldown -= MAGIC_BULLET_MULTIPLIER_COOLDOWN
         return True
 
     def increase_damage(self):

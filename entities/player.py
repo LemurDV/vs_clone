@@ -7,6 +7,7 @@ from settings import (
     EXPERIENCE_MULTIPLIER,
     GREEN,
     MAGNET_RADIUS,
+    PLAYER_HEALTH,
     PLAYER_SPEED,
     RED,
     SCREEN_HEIGHT,
@@ -25,8 +26,10 @@ class Player(Entity):
             BLUE,
         )
         self.speed = PLAYER_SPEED
-        self.health = 100
-        self.max_health = 100
+        self.health = PLAYER_HEALTH
+        self.max_health = PLAYER_HEALTH
+        self.hp_regen = 0
+        self.last_regent_time = 0
         self.coins = 0
         self.experience = 0
         self.experience_needed = BASE_EXPERIENCE
@@ -38,8 +41,6 @@ class Player(Entity):
         self.damage_multiplier = 1.0
         self.weapons = {}
         self.upgrades = []
-        self.last_shot_time = 0
-        self.shoot_cooldown = 500  # ms
         self.sprite = pygame.image.load(
             "assets/characters/wizard.jpg"
         ).convert_alpha()
@@ -55,6 +56,7 @@ class Player(Entity):
             self.handle_input()
 
         self.update_weapons(game)
+        self.update_statuses(game)
         self.check_level_up(game)
 
     def draw(self, screen):
@@ -113,6 +115,10 @@ class Player(Entity):
         for weapon in self.weapons.values():
             weapon.update(game)
 
+    def update_statuses(self, game):
+        if self.hp_regen:
+            self.is_regen(game.particle_system)
+
     def add_weapon(self, weapon):
         """Добавление оружия"""
         weapon.owner = self
@@ -137,6 +143,11 @@ class Player(Entity):
 
     def add_coin(self, value: int):
         self.coins += value
+
+    def heal(self, amount: int):
+        if self.health + amount > self.max_health:
+            self.health = self.max_health
+        self.health += amount
 
     def check_level_up(self, game):
         """Проверка повышения уровня"""
@@ -164,6 +175,15 @@ class Player(Entity):
         # Запрашиваем меню улучшений у игры
         game.request_upgrade_menu()
 
+    def is_regen(self, particle_system):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_regent_time > 5_000:
+            self.last_regent_time = pygame.time.get_ticks()
+            self.heal(self.hp_regen)
+            particle_system.add_heal_text(
+                x=self.x, y=self.y, heal=self.hp_regen
+            )
+
     def complete_level_up(self):
         """Завершение повышения уровня"""
         self.waiting_for_upgrade = False
@@ -177,3 +197,6 @@ class Player(Entity):
 
     def increase_exp_boost(self, value: int):
         self.exp_boost += value
+
+    def increase_hp_regeneration(self, value: int):
+        self.hp_regen += value

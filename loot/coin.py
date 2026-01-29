@@ -14,9 +14,8 @@ class Coin(LootItem):
         ).convert_alpha()
         self.sprite = pygame.transform.scale(self.sprite, (25, 25))
 
-    def apply(self, player):
-        if hasattr(player, "coins"):
-            player.add_coin(self.value)
+    def apply(self, player, game):
+        player.add_coin(self.value)
 
     def draw(self, screen):
         screen.blit(self.sprite, self.rect)

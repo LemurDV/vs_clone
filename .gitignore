@@ -4,6 +4,9 @@
 *.iws
 *.ipr
 
+# Continue AI
+.continue/
+
 # PyCharm
 .vscode/
 __pycache__/
