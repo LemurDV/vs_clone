@@ -8,7 +8,7 @@ class HPRegenUpgrade(Upgrade):
 
     def __init__(self):
         super().__init__(
-            "Улучшение получаемого опыта", "Улучшение получаемого опыта"
+            "Регенерация ХП", "Постепенно восстанавливает здоровье",
         )
 
     def apply(self, player):
