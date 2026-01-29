@@ -1,8 +1,6 @@
 import pygame
 
-from entities.damage_text import DamageText
 from entities.entity import Entity
-from entities.experience_orb import ExperienceOrb
 from settings import (
     ENEMY_SPEED,
     GREEN,
@@ -87,19 +85,18 @@ class Enemy(Entity):
             player.take_damage(self.damage)
             self.last_attack_time = current_time
 
-    def take_damage(self, amount, game=None, is_critical=False):
+    def take_damage(self, amount, game, is_critical=False):
         """Получение урона"""
         self.health -= amount
 
         # Создаем текст урона через систему частиц
-        if game and game.particle_system:
-            game.particle_system.add_damage_text(
-                self.rect.centerx,
-                self.rect.top - 15,
-                int(amount),
-                RED,
-                is_critical,
-            )
+        game.particle_system.add_damage_text(
+            self.rect.centerx,
+            self.rect.top - 15,
+            int(amount),
+            RED,
+            is_critical,
+        )
 
         if self.health <= 0:
             # Вызываем смерть врага через игру

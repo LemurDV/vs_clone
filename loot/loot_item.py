@@ -14,7 +14,7 @@ class LootItem(ABC):
         self.speed = 5
 
     @abstractmethod
-    def apply(self, player):
+    def apply(self, player, game):
         """Применение лута к игроку"""
         pass
 
@@ -59,5 +59,5 @@ class LootItem(ABC):
 
             # Проверка сбора
             if self.rect.colliderect(player.rect):
-                self.apply(player)
+                self.apply(player, game)
                 self.active = False

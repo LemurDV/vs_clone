@@ -1,7 +1,7 @@
 import random
 
-from entities.experience_orb import ExperienceOrb
 from loot.coin import Coin
+from loot.experience_orb import ExperienceOrb
 from loot.health_potion import HealthPotion
 
 

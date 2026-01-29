@@ -19,7 +19,7 @@ class ExperienceOrb(LootItem):
         ).convert_alpha()
         self.sprite = pygame.transform.scale(self.sprite, (20, 20))
 
-    def apply(self, player):
+    def apply(self, player, game):
         player.add_experience(self.value)
 
     def draw(self, screen):
