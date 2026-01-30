@@ -19,29 +19,23 @@ class AuraWeapon(Weapon):
         self.color = PURPLE
 
     def update(self, game):
-        """Обновление ауры"""
-        if not self.owner or not self.owner.active:
-            return
+        pass
 
-        if self.can_attack():
-            self.attack(game)
+    def can_attack(self):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_attack_time > self.cooldown:
             self.last_attack_time = pygame.time.get_ticks()
+            return True
+        return False
 
-    def attack(self, game):
-        """Атака врагов в радиусе"""
-        owner_damage = (
-            self.owner.get_damage() if hasattr(self.owner, "get_damage") else 1
-        )
-        total_damage = self.damage * owner_damage
+    def is_collision(self, enemy) -> bool:
+        return enemy.active and self.owner.distance_to(enemy) <= self.radius
 
-        is_critical = random.random() < 0.1
-        if is_critical:
-            total_damage *= 2
+    def action_after_deal_damage(self):
+        pass
 
-        for enemy in game.enemy_manager.enemies[:]:
-            if enemy.active and self.owner.distance_to(enemy) <= self.radius:
-                if enemy.take_damage(total_damage, game, is_critical):
-                    pass
+    def get_damage(self):
+        return self.damage + self.owner.get_damage() // 2
 
     def draw(self, screen):
         """Отрисовка ауры"""

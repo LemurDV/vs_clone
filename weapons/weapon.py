@@ -21,6 +21,15 @@ class Weapon(ABC):
         """Обновление оружия"""
         pass
 
+    def is_collision(self, enemy) -> bool:
+        pass
+
+    def action_after_deal_damage(self):
+        self.last_attack_time = pygame.time.get_ticks()
+
+    def get_damage(self):
+        return self.damage + self.owner.get_damage() // 2
+
     @abstractmethod
     def draw(self, screen):
         """Отрисовка оружия"""

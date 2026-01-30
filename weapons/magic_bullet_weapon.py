@@ -28,7 +28,7 @@ class MagicBulletWeapon(Weapon):
         # Обновление существующих пуль
         for bullet in self.bullets[:]:
             if bullet.active:
-                bullet.update(game)
+                bullet.update()
             else:
                 self.bullets.remove(bullet)
 
@@ -76,6 +76,34 @@ class MagicBulletWeapon(Weapon):
                 self.bullets.append(bullet)
 
         self.last_attack_time = pygame.time.get_ticks()
+
+    def action_after_deal_damage(self):
+        pass
+
+    def get_damage(self):
+        return self.damage + self.owner.get_damage() // 2
+
+
+
+    def is_collision(self, enemy):
+        for bullet in self.bullets[:]:
+            if bullet.active:
+                bullet.update()
+            else:
+                self.bullets.remove(bullet)
+                continue
+
+            # bullet_rect = pygame.Rect(
+            #     bullet.x - bullet.radius,
+            #     bullet.y - bullet.radius,
+            #     bullet.radius * 2,
+            #     bullet.radius * 2,
+            # )
+            # if bullet.rect.colliderect(enemy):
+            if bullet.rect.colliderect(enemy):
+                bullet.active = False
+                return True
+        return False
 
     def draw(self, screen):
         """Отрисовка пуль"""

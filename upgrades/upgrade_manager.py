@@ -25,10 +25,10 @@ class UpgradeManager:
                 DamageUpgrade(),
                 HealthUpgrade(),
                 MagicBulletUpgrade(),
-                AuraUpgrade(),
-                MagnetRadiusUpgrade(),
-                ExpBoostUpgrade(),
-                HPRegenUpgrade(),
+                # AuraUpgrade(),
+                # MagnetRadiusUpgrade(),
+                # ExpBoostUpgrade(),
+                # HPRegenUpgrade(),
             ]
         )
 

@@ -11,6 +11,7 @@ class Projectile:
     def __init__(self, x, y, target, damage):
         self.x = x
         self.y = y
+        self.rect = pygame.Rect(x, y, 15, 15)
         self.target = target
         self.damage = damage
         self.speed = 7
@@ -20,7 +21,7 @@ class Projectile:
         self.creation_time = pygame.time.get_ticks()
         self.lifetime = 3000  # 3 секунды
 
-    def update(self, game):
+    def update(self):
         """Обновление пули"""
         if not self.active or not self.target.active:
             self.active = False
@@ -35,25 +36,6 @@ class Projectile:
             # Нормализация и движение
             self.x += (dx / distance) * self.speed
             self.y += (dy / distance) * self.speed
-
-            # Проверка попадания
-            bullet_rect = pygame.Rect(
-                self.x - self.radius,
-                self.y - self.radius,
-                self.radius * 2,
-                self.radius * 2,
-            )
-            if bullet_rect.colliderect(self.target.rect):
-                # Добавляем шанс крита
-                import random
-
-                is_critical = random.random() < 0.1
-                damage = self.damage * 2 if is_critical else self.damage
-
-                if self.target.take_damage(damage, game, is_critical):
-                    # Опыт уже создан в take_damage
-                    pass
-                self.active = False
 
     def draw(self, screen):
         """Отрисовка пули"""
