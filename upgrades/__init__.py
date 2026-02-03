@@ -6,6 +6,7 @@ from .hp_regen_upgrade import HPRegenUpgrade
 from .lightning_ball_upgrade import LightningBallUpgrade
 from .magic_bullet_upgrade import MagicBulletUpgrade
 from .magnet_radius_upgrade import MagnetRadiusUpgrade
+from .scythe_upgrade import ScytheUpgrade
 from .speed_upgrade import SpeedUpgrade
 
 
@@ -19,4 +20,5 @@ __all__ = [
     "ExpBoostUpgrade",
     "HPRegenUpgrade",
     "LightningBallUpgrade",
+    "ScytheUpgrade",
 ]
