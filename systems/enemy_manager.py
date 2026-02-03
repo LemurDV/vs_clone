@@ -56,7 +56,7 @@ class EnemyManager:
         """Создание нового врага с учетом сложности"""
         self.update_difficulty()
 
-        max_enemies = MAX_ENEMIES_ON_SCREEN + (current_level + 50)
+        max_enemies = MAX_ENEMIES_ON_SCREEN + (current_level * 50)
         if len(self.enemies) >= max_enemies:
             return
 
@@ -87,8 +87,8 @@ class EnemyManager:
 
     def apply_difficulty_modifiers(self, enemy):
         """Применяем модификаторы сложности к врагу"""
-        enemy.health = int(enemy.health * self.health_multiplier)
-        enemy.max_health = int(enemy.max_health * self.health_multiplier)
+        # enemy.health = int(enemy.health * self.health_multiplier)
+        # enemy.max_health = int(enemy.max_health * self.health_multiplier)
 
         enemy.damage = int(enemy.damage * self.damage_multiplier)
 
@@ -96,7 +96,7 @@ class EnemyManager:
             enemy.experience_value * self.experience_multiplier
         )
 
-        enemy.speed = enemy.speed * self.speed_multiplier
+        # enemy.speed = enemy.speed * self.speed_multiplier
 
     def get_current_difficulty_stats(self):
         return {
