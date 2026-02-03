@@ -2,15 +2,15 @@ import pygame
 
 from entities.player import Player
 from loot.loot_manager import LootManager
-from systems.collision_system import CollisionSystem
-from systems.particle_system import ParticleSystem
 from settings import (
     FPS,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
     SPAWN_RATE,
 )
+from systems.collision_system import CollisionSystem
 from systems.enemy_manager import EnemyManager
+from systems.particle_system import ParticleSystem
 from ui.base_hud import BaseHud
 from ui.upgrade_menu import UpgradeMenu
 from upgrades.upgrade_manager import UpgradeManager
@@ -66,8 +66,8 @@ class Game:
     def init_game(self):
         """Инициализация игры"""
         # Добавляем стартовое оружие
-        start_weapon = MagicBulletWeapon()
-        # start_weapon = AuraWeapon()
+        # start_weapon = MagicBulletWeapon()
+        start_weapon = AuraWeapon()
         self.player.add_weapon(start_weapon)
 
     def request_upgrade_menu(self):
