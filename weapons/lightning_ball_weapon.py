@@ -26,8 +26,8 @@ class LightningBallWeapon(Weapon):
         self.max_balls = 2
         self.ball_speed = 5
         self.chain_range = 150
-        self.max_chain_targets = 8
-        self.chain_damage_reduction = 0.9
+        self.max_chain_targets = 6
+        self.chain_damage_reduction = 0.7
 
     def update(self, game):
         """Обновление шаров и обработка цепной молнии"""
