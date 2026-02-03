@@ -6,6 +6,7 @@ from upgrades import (
     ExpBoostUpgrade,
     HealthUpgrade,
     HPRegenUpgrade,
+    LightningBallUpgrade,
     MagicBulletUpgrade,
     MagnetRadiusUpgrade,
 )
@@ -24,6 +25,7 @@ class UpgradeManager:
             [
                 MagicBulletUpgrade(),
                 AuraUpgrade(),
+                LightningBallUpgrade(),
                 DamageUpgrade(),
                 HealthUpgrade(),
                 MagnetRadiusUpgrade(),

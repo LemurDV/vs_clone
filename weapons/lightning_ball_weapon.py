@@ -20,7 +20,7 @@ class LightningBallWeapon(Weapon):
         super().__init__(
             name="lightning_ball",
             name_ui="Шар молний",
-            damage=2,  # Базовый урон меньше, но цепной эффект компенсирует
+            damage=2,
             cooldown=1500,
         )
         self.balls = []  # Основные шары
