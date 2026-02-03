@@ -20,6 +20,7 @@ class LightningBallWeapon(Weapon):
             name_ui="Шар молний",
             damage=2,
             cooldown=800,
+            weapon_type="projectile",
         )
         self.balls = []
         self.max_balls = 2

@@ -7,12 +7,10 @@ class CollisionSystem:
 
     def update(self):
         for weapon in self.game.player.weapons.values():
-            if weapon.name == "aura" and weapon.can_attack():
+            if weapon.weapon_type == "aura" and weapon.can_attack():
                 self.check_aura_weapon(weapon)
-            elif weapon.name == "magic_bullet":
-                self.check_magic_bullet_weapon(weapon)
-            elif weapon.name == "lightning_ball":
-                self.check_magic_bullet_weapon(weapon)
+            elif weapon.weapon_type == "projectile":
+                self.check_projectile_weapon(weapon)
 
         magic_bullet = self.game.player.weapons.get("magic_bullet")
         if magic_bullet:
@@ -26,7 +24,7 @@ class CollisionSystem:
                 self.deal_damage(enemy=enemy, damage=damage)
         weapon.action_after_deal_damage()
 
-    def check_magic_bullet_weapon(self, weapon):
+    def check_projectile_weapon(self, weapon):
         """Проверка возможности выстрела новых пуль"""
         if weapon.can_attack():
             weapon.shoot(self.game.enemy_manager.enemies)

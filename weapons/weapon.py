@@ -6,7 +6,7 @@ import pygame
 class Weapon(ABC):
     """Абстрактный базовый класс оружия"""
 
-    def __init__(self, name, name_ui, damage, cooldown):
+    def __init__(self, name, name_ui, damage, cooldown, weapon_type):
         self.name = name
         self.name_ui = name_ui
         self.damage = damage
@@ -15,6 +15,7 @@ class Weapon(ABC):
         self.owner = None
         self.level = 1
         self.max_level = 5
+        self.weapon_type = weapon_type
 
     @abstractmethod
     def update(self, game):
