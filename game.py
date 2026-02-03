@@ -17,6 +17,7 @@ from upgrades.upgrade_manager import UpgradeManager
 from weapons.aura_weapon import AuraWeapon
 from weapons.lightning_ball_weapon import LightningBallWeapon
 from weapons.magic_bullet_weapon import MagicBulletWeapon
+from weapons.scythe import ScytheWeapon
 
 
 class Game:
@@ -69,7 +70,8 @@ class Game:
         # Добавляем стартовое оружие
         # start_weapon = MagicBulletWeapon()
         # start_weapon = AuraWeapon()
-        start_weapon = LightningBallWeapon()
+        # start_weapon = LightningBallWeapon()
+        start_weapon = ScytheWeapon()
         self.player.add_weapon(start_weapon)
 
     def request_upgrade_menu(self):

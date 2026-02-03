@@ -11,6 +11,8 @@ class CollisionSystem:
                 self.check_aura_weapon(weapon)
             elif weapon.weapon_type == "projectile":
                 self.check_projectile_weapon(weapon)
+            elif weapon.weapon_type == "melee":
+                self.check_melee_weapon(weapon)
 
         magic_bullet = self.game.player.weapons.get("magic_bullet")
         if magic_bullet:
@@ -28,6 +30,11 @@ class CollisionSystem:
         """Проверка возможности выстрела новых пуль"""
         if weapon.can_attack():
             weapon.shoot(self.game.enemy_manager.enemies)
+            weapon.action_after_deal_damage()
+
+    def check_melee_weapon(self, weapon):
+        if weapon.can_attack():
+            weapon.shoot(self.game.enemy_manager.enemies, self.game)
             weapon.action_after_deal_damage()
 
     def check_bullets_collisions(self, weapon):

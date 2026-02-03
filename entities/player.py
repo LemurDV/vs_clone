@@ -41,6 +41,7 @@ class Player(Entity):
         self.damage_multiplier = 1.0
         self.weapons = {}
         self.upgrades = []
+        self.elements = []
         self.sprite = pygame.image.load(
             "assets/characters/wizard.jpg"
         ).convert_alpha()
@@ -128,6 +129,9 @@ class Player(Entity):
         """Добавление улучшения"""
         upgrade.apply(self)
         self.upgrades.append(upgrade)
+
+    def add_element(self, element):
+        self.elements.append(element)
 
     def take_damage(self, amount):
         """Получение урона"""

@@ -9,6 +9,7 @@ from upgrades import (
     LightningBallUpgrade,
     MagicBulletUpgrade,
     MagnetRadiusUpgrade,
+    ScytheUpgrade,
 )
 
 
@@ -26,6 +27,7 @@ class UpgradeManager:
                 MagicBulletUpgrade(),
                 AuraUpgrade(),
                 LightningBallUpgrade(),
+                ScytheUpgrade(),
                 DamageUpgrade(),
                 HealthUpgrade(),
                 MagnetRadiusUpgrade(),
