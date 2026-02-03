@@ -16,6 +16,7 @@ class Weapon(ABC):
         self.level = 1
         self.max_level = 5
         self.weapon_type = weapon_type
+        self.hit_enemies = 0
 
     @abstractmethod
     def update(self, game):
@@ -27,6 +28,7 @@ class Weapon(ABC):
 
     def action_after_deal_damage(self):
         self.last_attack_time = pygame.time.get_ticks()
+        self.hit_enemies = 0
 
     def get_damage(self):
         return self.damage + self.owner.get_damage() // 2

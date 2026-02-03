@@ -35,10 +35,10 @@ class AuraWeapon(Weapon):
         return False
 
     def is_collision(self, enemy) -> bool:
-        return enemy.active and self.owner.distance_to(enemy) <= self.radius
-
-    def action_after_deal_damage(self):
-        pass
+        if enemy.active and self.owner.distance_to(enemy) <= self.radius:
+            self.hit_enemies += 1
+            return True
+        return False
 
     def get_damage(self):
         return self.damage + self.owner.get_damage() // 2

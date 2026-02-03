@@ -84,13 +84,12 @@ class ScytheWeapon(Weapon):
 
         # Находим всех врагов в конусе в этом направлении
         hit_enemies = self.get_enemies_in_cone(enemies, self.attack_direction)
+        self.hit_enemies = len(hit_enemies)
 
         if hit_enemies:
             total_damage = self.damage + self.owner.get_damage()
             for enemy in hit_enemies:
                 enemy.take_damage(total_damage, game)
-
-            self.action_after_deal_damage()
 
     def get_enemies_in_cone(self, enemies, direction):
         """Возвращает врагов, находящихся в конусе атаки в заданном направлении"""
@@ -210,9 +209,12 @@ class ScytheWeapon(Weapon):
         self.attack_range += SCYTHE_MULTIPLIER_RANGE
 
         if self.level % 2 == 0:
-            self.attack_angle = min(
-                360, self.attack_angle + SCYTHE_MULTIPLIER_ANGLE
-            )
+            if self.attack_angle + SCYTHE_MULTIPLIER_ANGLE > 360:
+                self.attack_angle = 360
+            else:
+                self.attack_angle = min(
+                    360, self.attack_angle + SCYTHE_MULTIPLIER_ANGLE
+                )
 
         return True
 

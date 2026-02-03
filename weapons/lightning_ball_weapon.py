@@ -42,7 +42,7 @@ class LightningBallWeapon(Weapon):
             if ball.is_collision():
                 # Наносим урон первой цели
                 ball.target.take_damage(ball.damage, game)
-
+                self.hit_enemies += 1
                 # Запускаем цепную молнию
                 self.apply_chain_lightning(ball, game)
 
@@ -84,6 +84,7 @@ class LightningBallWeapon(Weapon):
             used_targets.add(next_target)
             current_target = next_target
             chain_count += 1
+            self.hit_enemies += 1
 
     def find_next_chain_target(self, source, used_targets, all_enemies):
         """Находит следующую цель для цепной молнии"""
@@ -161,11 +162,7 @@ class LightningBallWeapon(Weapon):
             self.balls.append(ball)
 
         # Сбрасываем таймер
-        self.action_after_deal_damage()
-
-    def action_after_deal_damage(self):
-        """Сбрасываем таймер после выстрела"""
-        self.last_attack_time = pygame.time.get_ticks()
+        # self.action_after_deal_damage()
 
     def draw(self, screen):
         """Отрисовка шаров и эффектов молний"""
