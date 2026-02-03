@@ -14,23 +14,19 @@ from weapons.weapon import Weapon
 
 
 class LightningBallWeapon(Weapon):
-    """Оружие - шары молний, которые распространяют ток по нескольким врагам"""
-
     def __init__(self):
         super().__init__(
             name="lightning_ball",
             name_ui="Шар молний",
             damage=2,
-            cooldown=1500,
+            cooldown=800,
         )
-        self.balls = []  # Основные шары
-        self.max_balls = 4
+        self.balls = []
+        self.max_balls = 2
         self.ball_speed = 5
-        self.chain_range = 190  # Дистанция распространения молнии
-        self.max_chain_targets = 4  # Максимум целей на один шар
-        self.chain_damage_reduction = (
-            0.9  # Урон уменьшается на 30% с каждым переходом
-        )
+        self.chain_range = 150
+        self.max_chain_targets = 8
+        self.chain_damage_reduction = 0.9
 
     def update(self, game):
         """Обновление шаров и обработка цепной молнии"""
@@ -203,29 +199,24 @@ class LightningBallWeapon(Weapon):
                     self.lightning_effects.remove(effect)
 
     def level_up(self):
-        """Улучшение оружия"""
         self.level += 1
 
-        # Увеличиваем количество шаров
         self.max_balls += LIGHTNING_BALL_MULTIPLIER_BULLETS
 
-        # Увеличиваем урон
         self.damage += LIGHTNING_BALL_MULTIPLIER_DAMAGE
 
-        # Уменьшаем кулдаун
         self.cooldown = max(
             500, self.cooldown - LIGHTNING_BALL_MULTIPLIER_COOLDOWN
         )
 
-        # Улучшаем цепную молнию
         if self.level % 2 == 0:
             self.max_chain_targets += 1
             logger.info(
                 f"Цепная молния теперь поражает {self.max_chain_targets} целей!"
             )
 
-        if self.level % 3 == 0:
-            self.chain_range += 20
+        if self.level % 5 == 0:
+            self.chain_range += 30
             logger.info(f"Дальность молнии увеличена до {self.chain_range}!")
 
         return True
