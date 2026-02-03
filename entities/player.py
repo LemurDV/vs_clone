@@ -28,7 +28,8 @@ class Player(Entity):
         self.speed = PLAYER_SPEED
         self.health = PLAYER_HEALTH
         self.max_health = PLAYER_HEALTH
-        self.hp_regen = 0
+        self.hp_regen = 2
+        self.vampire = 0
         self.last_regent_time = 0
         self.coins = 0
         self.experience = 0

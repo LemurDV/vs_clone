@@ -33,11 +33,15 @@ class Enemy(Entity):
         self.attack_cooldown = 1000  # ms
         self.sprite = pygame.image.load(sprite_path).convert_alpha()
         self.sprite = pygame.transform.scale(self.sprite, (width, height))
+        self.is_bleeding = False
+        self.last_bleed_time = 0
 
     def update(self, game):
         """Обновление врага"""
         if not self.active:
             return
+
+        self.update_statuses(game)
 
         # Движение к игроку
         player = game.player
@@ -56,12 +60,18 @@ class Enemy(Entity):
             if self.check_collision(player):
                 self.attack(player)
 
+    def update_statuses(self, game):
+        if self.is_bleeding and self.time_to_bleed():
+            self.last_bleed_time = pygame.time.get_ticks()
+            self.take_damage(1, game)
+
+    def time_to_bleed(self):
+        current_time = pygame.time.get_ticks()
+        return current_time - self.last_bleed_time > 2_000
+
     def draw(self, screen):
         """Отрисовка врага"""
         screen.blit(self.sprite, self.rect)
-        # pygame.draw.rect(screen, self.color, self.rect)
-
-        # Отрисовка здоровья
         self.draw_health_bar(screen)
 
     def draw_health_bar(self, screen):

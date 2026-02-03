@@ -4,6 +4,7 @@ import random
 class CollisionSystem:
     def __init__(self, game):
         self.game = game
+        self.player = game.player
 
     def update(self):
         for weapon in self.game.player.weapons.values():
@@ -24,18 +25,29 @@ class CollisionSystem:
             if weapon.is_collision(enemy=enemy):
                 damage = weapon.get_damage()
                 self.deal_damage(enemy=enemy, damage=damage)
-        weapon.action_after_deal_damage()
+        self.actions_after_deal_damage(weapon=weapon)
 
     def check_projectile_weapon(self, weapon):
         """Проверка возможности выстрела новых пуль"""
         if weapon.can_attack():
             weapon.shoot(self.game.enemy_manager.enemies)
-            weapon.action_after_deal_damage()
+            self.actions_after_deal_damage(weapon=weapon)
 
     def check_melee_weapon(self, weapon):
         if weapon.can_attack():
             weapon.shoot(self.game.enemy_manager.enemies, self.game)
-            weapon.action_after_deal_damage()
+            self.actions_after_deal_damage(weapon=weapon)
+
+    def actions_after_deal_damage(self, weapon):
+        if self.player.vampire and weapon.hit_enemies > 0:
+            total_vampire = weapon.hit_enemies * self.player.vampire
+            self.player.heal(total_vampire)
+            self.game.particle_system.add_heal_text(
+                x=self.player.x,
+                y=self.player.y,
+                heal=total_vampire,
+            )
+        weapon.action_after_deal_damage()
 
     def check_bullets_collisions(self, weapon):
         """Проверка столкновений существующих пуль"""

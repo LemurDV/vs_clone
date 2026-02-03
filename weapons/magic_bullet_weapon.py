@@ -39,6 +39,7 @@ class MagicBulletWeapon(Weapon):
             if bullet.is_collision():
                 # Наносим урон врагу
                 bullet.target.take_damage(bullet.damage, game)
+                self.hit_enemies += 1
                 # Помечаем пулю как неактивную
                 bullet.active = False
 
@@ -79,10 +80,6 @@ class MagicBulletWeapon(Weapon):
 
         # Сбрасываем таймер атаки
         self.action_after_deal_damage()
-
-    def action_after_deal_damage(self):
-        """Сбрасываем таймер после выстрела"""
-        self.last_attack_time = pygame.time.get_ticks()
 
     def draw(self, screen):
         """Отрисовка пуль"""
