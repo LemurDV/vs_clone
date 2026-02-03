@@ -26,10 +26,10 @@ class EnemyManager:
         self.speed_multiplier = 1.0
 
         # На сколько увеличивать каждый множитель за минуту
-        self.health_increase_per_minute = 0.15  # +15% здоровья в минуту
+        self.health_increase_per_minute = 0.9  # +15% здоровья в минуту
         self.damage_increase_per_minute = 0.1  # +10% урона в минуту
         self.exp_increase_per_minute = (
-            10.0  # +1000% опыта в минуту! (как ты хотел)
+            20.0  # +1000% опыта в минуту!
         )
         self.speed_increase_per_minute = 0.05  # +5% скорости в минуту
 
@@ -79,7 +79,7 @@ class EnemyManager:
         """Создание нового врага с учетом сложности"""
         self.update_difficulty()
 
-        max_enemies = MAX_ENEMIES_ON_SCREEN + (current_level * 50)
+        max_enemies = MAX_ENEMIES_ON_SCREEN + (current_level * 5)
         if len(self.enemies) >= max_enemies:
             return
 
@@ -98,8 +98,8 @@ class EnemyManager:
 
     def apply_difficulty_modifiers(self, enemy):
         """Применяем модификаторы сложности к врагу"""
-        # enemy.health = int(enemy.health * self.health_multiplier)
-        # enemy.max_health = int(enemy.max_health * self.health_multiplier)
+        enemy.health = int(enemy.health * self.health_multiplier)
+        enemy.max_health = int(enemy.max_health * self.health_multiplier)
 
         enemy.damage = int(enemy.damage * self.damage_multiplier)
 
@@ -107,7 +107,7 @@ class EnemyManager:
             enemy.experience_value * self.experience_multiplier
         )
 
-        # enemy.speed = enemy.speed * self.speed_multiplier
+        enemy.speed = enemy.speed * self.speed_multiplier
 
     def get_current_difficulty_stats(self):
         return {

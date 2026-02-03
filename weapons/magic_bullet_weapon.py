@@ -18,6 +18,7 @@ class MagicBulletWeapon(Weapon):
             name_ui="Магическая пуля",
             damage=3,
             cooldown=1000,
+            weapon_type="projectile"
         )
         self.bullets = []
         self.max_bullets = 3

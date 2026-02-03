@@ -14,7 +14,13 @@ class AuraWeapon(Weapon):
     """Оружие - аура вокруг игрока"""
 
     def __init__(self):
-        super().__init__("aura", "Аура", 2, 800)
+        super().__init__(
+            name="aura",
+            name_ui="Аура",
+            damage=2,
+            cooldown=800,
+            weapon_type="aura",
+        )
         self.radius = 50
         self.color = PURPLE
 
