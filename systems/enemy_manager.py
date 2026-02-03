@@ -3,7 +3,7 @@ import random
 from loguru import logger
 import pygame
 
-from entities import BatEnemy, SlimeEnemy
+from entities import BatEnemy, BossSlimeEnemy, SlimeEnemy
 from settings import MAX_ENEMIES_ON_SCREEN, SCREEN_HEIGHT, SCREEN_WIDTH
 
 
@@ -39,6 +39,7 @@ class EnemyManager:
         new_elapsed_minutes = (current_time - self.start_time) // 60000
 
         if new_elapsed_minutes > self.elapsed_minutes:
+            self.spawn_boss()
             self.elapsed_minutes = new_elapsed_minutes
 
             self.current_difficulty += self.difficulty_increase_amount
@@ -52,14 +53,12 @@ class EnemyManager:
             logger.info(f"Множитель здоровья: x{self.health_multiplier:.1f}")
             logger.info(f"Текущая сложность: {self.current_difficulty:.1f}")
 
-    def spawn_enemy(self, current_level: int):
-        """Создание нового врага с учетом сложности"""
-        self.update_difficulty()
+    def spawn_boss(self):
+        x, y = self.randomize_x_y()
+        boss = BossSlimeEnemy(x=x, y=y)
+        self.enemies.append(boss)
 
-        max_enemies = MAX_ENEMIES_ON_SCREEN + (current_level * 50)
-        if len(self.enemies) >= max_enemies:
-            return
-
+    def randomize_x_y(self):
         side = random.randint(0, 3)
         if side == 0:  # Сверху
             x = random.randint(0, SCREEN_WIDTH)
@@ -73,6 +72,18 @@ class EnemyManager:
         else:  # Слева
             x = -20
             y = random.randint(0, SCREEN_HEIGHT)
+
+        return x, y
+
+    def spawn_enemy(self, current_level: int):
+        """Создание нового врага с учетом сложности"""
+        self.update_difficulty()
+
+        max_enemies = MAX_ENEMIES_ON_SCREEN + (current_level * 50)
+        if len(self.enemies) >= max_enemies:
+            return
+
+        x, y = self.randomize_x_y()
 
         # Выбор типа врага
         enemy_type = random.random()

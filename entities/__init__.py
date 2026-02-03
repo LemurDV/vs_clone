@@ -21,6 +21,24 @@ class SlimeEnemy(Enemy):
         self.speed = 0.8
 
 
+class BossSlimeEnemy(Enemy):
+    """Босс слайм"""
+
+    def __init__(self, x, y):
+        super().__init__(
+            x=x,
+            y=y,
+            width=40,
+            height=40,
+            color=GREEN,
+            health=100,
+            damage=30,
+            experience_value=100000,
+            sprite_path="assets/enemies/boss_slime.png",
+        )
+        self.speed = 0.8
+
+
 class BatEnemy(Enemy):
     """Летучая мышь - быстрый враг с малым здоровьем"""
 
