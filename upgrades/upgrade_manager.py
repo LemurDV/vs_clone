@@ -22,10 +22,10 @@ class UpgradeManager:
         """Инициализация всех доступных улучшений"""
         self.all_upgrades.extend(
             [
-                DamageUpgrade(),
-                HealthUpgrade(),
                 MagicBulletUpgrade(),
                 AuraUpgrade(),
+                DamageUpgrade(),
+                HealthUpgrade(),
                 MagnetRadiusUpgrade(),
                 ExpBoostUpgrade(),
                 HPRegenUpgrade(),

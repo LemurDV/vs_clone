@@ -9,5 +9,5 @@ class DamageUpgrade(Upgrade):
 
     def apply(self, player):
         """Применение улучшения"""
-        player.damage_multiplier *= 1.2
+        player.increase_damage(2)
         print(f"Урон увеличен! Множитель урона: {player.damage_multiplier}")

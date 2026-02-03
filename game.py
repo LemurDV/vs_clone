@@ -2,14 +2,15 @@ import pygame
 
 from entities.player import Player
 from loot.loot_manager import LootManager
-from particles.particle_system import ParticleSystem
 from settings import (
     FPS,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
     SPAWN_RATE,
 )
+from systems.collision_system import CollisionSystem
 from systems.enemy_manager import EnemyManager
+from systems.particle_system import ParticleSystem
 from ui.base_hud import BaseHud
 from ui.upgrade_menu import UpgradeMenu
 from upgrades.upgrade_manager import UpgradeManager
@@ -34,14 +35,6 @@ class Game:
         self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.experience_orbs = []
 
-        # Системы
-        self.enemy_manager = EnemyManager()
-        self.upgrade_manager = UpgradeManager()
-        self.upgrade_menu = UpgradeMenu(self)
-        self.particle_system = ParticleSystem()
-        self.loot_manager = LootManager()
-        self.hud = BaseHud(self)
-
         # Лут и предметы
         self.loot_items = []  # TODO: добавить лут систему или манагера?
 
@@ -57,6 +50,15 @@ class Game:
 
         # Флаг для паузы при выборе улучшений
         self.game_paused = False
+
+        # Системы
+        self.enemy_manager = EnemyManager()
+        self.collision_system = CollisionSystem(self)
+        self.upgrade_manager = UpgradeManager()
+        self.upgrade_menu = UpgradeMenu(self)
+        self.particle_system = ParticleSystem()
+        self.loot_manager = LootManager()
+        self.hud = BaseHud(self)
 
         # Инициализация
         self.init_game()
@@ -132,6 +134,7 @@ class Game:
         # Обновление игрока
         if self.player.active:
             self.player.update(self)
+            self.collision_system.update()
 
         # Обновление врагов
         # for enemy in self.enemies[:]:

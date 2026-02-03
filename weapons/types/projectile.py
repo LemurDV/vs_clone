@@ -14,58 +14,62 @@ class Projectile:
         self.target = target
         self.damage = damage
         self.speed = 7
-        self.radius = 4
+        self.radius = 7
         self.color = ORANGE
         self.active = True
-        self.creation_time = pygame.time.get_ticks()
-        self.lifetime = 3000  # 3 секунды
 
-    def update(self, game):
-        """Обновление пули"""
+        # Прямоугольник для столкновений
+        self.rect = pygame.Rect(x - 7, y - 7, 14, 14)
+
+    def update(self):
+        """Двигаемся к цели"""
         if not self.active or not self.target.active:
             self.active = False
             return
 
-        # Расчет направления к цели
+        # Двигаемся к цели
         dx = self.target.rect.centerx - self.x
         dy = self.target.rect.centery - self.y
-        distance = math.sqrt(dx**2 + dy**2)
 
-        if distance > 0:
-            # Нормализация и движение
-            self.x += (dx / distance) * self.speed
-            self.y += (dy / distance) * self.speed
+        # Если цель очень близко - попадание
+        distance = math.sqrt(dx * dx + dy * dy)
+        if distance < self.speed:
+            self.x = self.target.rect.centerx
+            self.y = self.target.rect.centery
+        else:
+            # Плавное движение
+            self.x += dx / distance * self.speed
+            self.y += dy / distance * self.speed
 
-            # Проверка попадания
-            bullet_rect = pygame.Rect(
-                self.x - self.radius,
-                self.y - self.radius,
-                self.radius * 2,
-                self.radius * 2,
-            )
-            if bullet_rect.colliderect(self.target.rect):
-                # Добавляем шанс крита
-                import random
+        # Обновляем прямоугольник
+        self.rect.center = (int(self.x), int(self.y))
 
-                is_critical = random.random() < 0.1
-                damage = self.damage * 2 if is_critical else self.damage
+    def is_collision(self):
+        """Проверяем, попали ли в цель"""
+        if not self.active or not self.target.active:
+            return False
 
-                if self.target.take_damage(damage, game, is_critical):
-                    # Опыт уже создан в take_damage
-                    pass
-                self.active = False
+        # Простая проверка расстояния
+        distance = math.sqrt(
+            (self.x - self.target.rect.centerx) ** 2
+            + (self.y - self.target.rect.centery) ** 2
+        )
+
+        # Попали, если близко к цели
+        return distance < max(self.radius, self.target.rect.width // 2)
 
     def draw(self, screen):
-        """Отрисовка пули"""
+        """Рисуем пулю"""
         if self.active:
             pygame.draw.circle(
                 screen, self.color, (int(self.x), int(self.y)), self.radius
             )
 
-    def distance_to_target(self):
-        """Расстояние до цели"""
-        if not self.target.active:
-            return float("inf")
-        dx = self.target.rect.centerx - self.x
-        dy = self.target.rect.centery - self.y
-        return math.sqrt(dx**2 + dy**2)
+            glow_color = (
+                min(255, self.color[0] + 100),
+                min(255, self.color[1] + 100),
+                min(255, self.color[2] + 100),
+            )
+            pygame.draw.circle(
+                screen, glow_color, (int(self.x), int(self.y)), self.radius // 2
+            )

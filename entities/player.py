@@ -192,6 +192,9 @@ class Player(Entity):
         """Получение урона с учетом множителей"""
         return self.base_damage * self.damage_multiplier
 
+    def increase_damage(self, value: int):
+        self.base_damage = self.base_damage + value
+
     def increase_magnet_radius(self, value: int):
         self.magnet_radius += value
 
