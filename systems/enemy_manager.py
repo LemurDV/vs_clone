@@ -79,7 +79,7 @@ class EnemyManager:
         """Создание нового врага с учетом сложности"""
         self.update_difficulty()
 
-        max_enemies = MAX_ENEMIES_ON_SCREEN + (current_level * 50)
+        max_enemies = MAX_ENEMIES_ON_SCREEN + (current_level * 5)
         if len(self.enemies) >= max_enemies:
             return
 
