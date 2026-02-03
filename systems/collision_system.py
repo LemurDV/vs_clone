@@ -11,6 +11,8 @@ class CollisionSystem:
                 self.check_aura_weapon(weapon)
             elif weapon.name == "magic_bullet":
                 self.check_magic_bullet_weapon(weapon)
+            elif weapon.name == "lightning_ball":
+                self.check_magic_bullet_weapon(weapon)
 
         magic_bullet = self.game.player.weapons.get("magic_bullet")
         if magic_bullet:
