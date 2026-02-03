@@ -24,12 +24,12 @@ class LightningBallWeapon(Weapon):
             cooldown=1500,
         )
         self.balls = []  # Основные шары
-        self.max_balls = 2  # Максимум шаров
+        self.max_balls = 4
         self.ball_speed = 5
-        self.chain_range = 120  # Дистанция распространения молнии
-        self.max_chain_targets = 3  # Максимум целей на один шар
+        self.chain_range = 190  # Дистанция распространения молнии
+        self.max_chain_targets = 4  # Максимум целей на один шар
         self.chain_damage_reduction = (
-            0.7  # Урон уменьшается на 30% с каждым переходом
+            0.9  # Урон уменьшается на 30% с каждым переходом
         )
 
     def update(self, game):
