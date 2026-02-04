@@ -4,13 +4,11 @@ from loguru import logger
 import pygame
 
 from settings import (
-    DARK_GREEN,
-    GREEN,
+    BLACK,
     SCYTHE_MULTIPLIER_ANGLE,
     SCYTHE_MULTIPLIER_COOLDOWN,
     SCYTHE_MULTIPLIER_DAMAGE,
     SCYTHE_MULTIPLIER_RANGE,
-    WHITE,
     YELLOW,
 )
 from weapons.weapon import Weapon
@@ -171,7 +169,9 @@ class ScytheWeapon(Weapon):
         s = pygame.Surface(
             (screen.get_width(), screen.get_height()), pygame.SRCALPHA
         )
-        pygame.draw.polygon(s, (255, 0, 0, 100), points)  # Красный, 100 альфа
+        pygame.draw.polygon(
+            s, (255, 255, 255, 100), points
+        )
         screen.blit(s, (0, 0))
 
         # Текст с параметрами
@@ -179,7 +179,7 @@ class ScytheWeapon(Weapon):
         text = font.render(
             f"Range: {self.attack_range}  Angle: {self.attack_angle}°",
             True,
-            WHITE,
+            BLACK,
         )
         screen.blit(text, (player_center[0] - 100, player_center[1] - 40))
 

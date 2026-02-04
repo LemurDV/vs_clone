@@ -29,14 +29,14 @@ class Player(Entity):
         self.health = PLAYER_HEALTH
         self.max_health = PLAYER_HEALTH
         self.hp_regen = 2
-        self.vampire = 0
+        self.vampire = 1
         self.last_regent_time = 0
         self.coins = 0
         self.experience = 0
         self.experience_needed = BASE_EXPERIENCE
         self.experience_multiplier = EXPERIENCE_MULTIPLIER
         self.level = 1
-        self.base_damage = 6
+        self.base_damage = 12
         self.magnet_radius = MAGNET_RADIUS
         self.exp_boost = 1
         self.damage_multiplier = 1.0
@@ -167,7 +167,8 @@ class Player(Entity):
         """Повышение уровня"""
         self.level += 1
         if self.level % 5 == 0:
-            self.experience_multiplier += 0.5
+            self.experience_multiplier += 0.2
+            self.increase_damage_multiplier()
         self.experience = 0
         self.experience_needed = int(
             self.experience_needed * self.experience_multiplier
@@ -208,3 +209,6 @@ class Player(Entity):
 
     def increase_hp_regeneration(self, value: int):
         self.hp_regen += value
+
+    def increase_damage_multiplier(self):
+        self.damage_multiplier += 0.1
