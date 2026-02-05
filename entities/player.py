@@ -1,3 +1,4 @@
+from loguru import logger
 import pygame
 
 from entities.entity import Entity
@@ -55,7 +56,7 @@ class Player(Entity):
         """Обновление игрока"""
         # Если ждем выбора улучшения - не обновляем движение
         if not self.waiting_for_upgrade:
-            self.handle_input()
+            self.handle_input(game)
 
         self.update_weapons(game)
         self.update_statuses(game)
@@ -87,7 +88,7 @@ class Player(Entity):
             screen, GREEN, (bar_x, bar_y, health_width, bar_height)
         )
 
-    def handle_input(self):
+    def handle_input(self, game):
         """Обработка ввода игрока"""
         keys = pygame.key.get_pressed()
         dx, dy = 0, 0
@@ -100,6 +101,8 @@ class Player(Entity):
             dx -= self.speed
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             dx += self.speed
+        if keys[pygame.K_l]:
+            game.request_element_menu()
 
         # Нормализация диагонального движения
         if dx != 0 and dy != 0:
@@ -176,9 +179,7 @@ class Player(Entity):
         self.max_health += 10
         self.health = self.max_health
         self.waiting_for_upgrade = True
-        print(f"Уровень повышен! Текущий уровень: {self.level}")
-
-        # Запрашиваем меню улучшений у игры
+        logger.info(f"Уровень повышен! Текущий уровень: {self.level}")
         game.request_upgrade_menu()
 
     def hp_regenerate(self, particle_system):

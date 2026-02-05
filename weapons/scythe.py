@@ -169,9 +169,7 @@ class ScytheWeapon(Weapon):
         s = pygame.Surface(
             (screen.get_width(), screen.get_height()), pygame.SRCALPHA
         )
-        pygame.draw.polygon(
-            s, (255, 255, 255, 100), points
-        )
+        pygame.draw.polygon(s, (255, 255, 255, 100), points)
         screen.blit(s, (0, 0))
 
         # Текст с параметрами
