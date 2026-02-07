@@ -6,7 +6,11 @@ from weapons.lightning_ball_weapon import LightningBallWeapon
 
 class LightningBallUpgrade(Upgrade):
     def __init__(self):
-        super().__init__("Улучшение шаровой молнии", "Увеличивает урон")
+        super().__init__(
+            name="Улучшение шаровой молнии",
+            description="Увеличивает урон",
+            image_path="assets/upgrades/ene_ball.png",
+        )
 
     def apply(self, player):
         if weapon := player.weapons.get("lightning_ball"):

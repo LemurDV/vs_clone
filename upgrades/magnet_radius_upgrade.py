@@ -7,7 +7,9 @@ from upgrades.upgrade import Upgrade
 class MagnetRadiusUpgrade(Upgrade):
     def __init__(self):
         super().__init__(
-            "Улучшение радиуса сбора", "Увеличивает радиус сбора предметов"
+            name="Улучшение радиуса сбора",
+            description="Увеличивает радиус сбора предметов",
+            image_path="assets/upgrades/magnet_radius.png",
         )
 
     def apply(self, player):

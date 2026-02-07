@@ -136,15 +136,26 @@ class UpgradeMenu:
                 hover_bg.fill((255, 255, 255, 30))
                 screen.blit(hover_bg, (option_rect.x + 2, option_rect.y + 2))
 
-            # Текст улучшения
+            img_x = SCREEN_WIDTH // 2 - 190
+            img_y = (
+                y_pos + 19
+            )  # Центрируем по вертикали в рамке (70/2 - 32/2 = 19)
+            screen.blit(upgrade.image, (img_x, img_y))
+
+            # Текст улучшения (смещаем правее, чтобы освободить место для изображения)
             name_text = self.font.render(f"{upgrade.name}", True, color)
             desc_text = self.small_font.render(
                 f"{upgrade.description}", True, WHITE
             )
             hotkey_text = self.small_font.render(f"[{i + 1}]", True, GREEN)
 
-            screen.blit(name_text, (SCREEN_WIDTH // 2 - 180, y_pos + 10))
-            screen.blit(desc_text, (SCREEN_WIDTH // 2 - 180, y_pos + 40))
+            text_offset = 40
+            screen.blit(
+                name_text, (SCREEN_WIDTH // 2 - 180 + text_offset, y_pos + 10)
+            )
+            screen.blit(
+                desc_text, (SCREEN_WIDTH // 2 - 180 + text_offset, y_pos + 40)
+            )
             screen.blit(hotkey_text, (SCREEN_WIDTH // 2 - 220, y_pos + 25))
 
         # Инструкция

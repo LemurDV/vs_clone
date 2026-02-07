@@ -17,8 +17,8 @@ DARK_GREEN = (0, 150, 0)
 # Игровые константы
 FPS = 60
 ENEMY_SPEED = 2
-SPAWN_RATE = 50  # ms
-MAX_ENEMIES_ON_SCREEN = 20
+SPAWN_RATE = 20  # ms
+MAX_ENEMIES_ON_SCREEN = 200
 EXPERIENCE_ORB_LIFETIME = 5000  # ms
 
 # Настройки игрока

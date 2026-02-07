@@ -8,8 +8,9 @@ class HPRegenUpgrade(Upgrade):
 
     def __init__(self):
         super().__init__(
-            "Регенерация ХП",
-            "Постепенно восстанавливает здоровье",
+            name="Регенерация ХП",
+            description="Постепенно восстанавливает здоровье",
+            image_path="assets/upgrades/hp_regen.png",
         )
 
     def apply(self, player):

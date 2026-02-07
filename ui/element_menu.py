@@ -149,9 +149,7 @@ class ElementMenu:
             )
             hotkey_text = self.small_font.render(f"[{i + 1}]", True, GREEN)
 
-            text_offset = (
-                40 if hasattr(element, "image") and element.image else 0
-            )
+            text_offset = 40
             screen.blit(
                 name_text, (SCREEN_WIDTH // 2 - 180 + text_offset, y_pos + 10)
             )
