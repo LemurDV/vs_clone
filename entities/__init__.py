@@ -13,12 +13,12 @@ class SlimeEnemy(Enemy):
             width=25,
             height=25,
             color=GREEN,
-            health=30,
+            health=12,
             damage=5,
             experience_value=30,
             sprite_path="assets/enemies/slime.png",
         )
-        self.speed = 0.8
+        self.speed = 0.5
 
 
 class BossSlimeEnemy(Enemy):
@@ -31,12 +31,12 @@ class BossSlimeEnemy(Enemy):
             width=40,
             height=40,
             color=GREEN,
-            health=100,
+            health=500,
             damage=30,
-            experience_value=200000,
+            experience_value=2000000,
             sprite_path="assets/enemies/boss_slime.png",
         )
-        self.speed = 0.8
+        self.speed = 0.5
 
 
 class BatEnemy(Enemy):
@@ -49,9 +49,9 @@ class BatEnemy(Enemy):
             width=20,
             height=20,
             color=RED,
-            health=15,
+            health=10,
             damage=3,
             experience_value=20,
             sprite_path="assets/enemies/bat.png",
         )
-        self.speed = 1.5
+        self.speed = 0.8
