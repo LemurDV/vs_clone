@@ -1,4 +1,3 @@
-# ui/base_menu.py
 import pygame
 
 from settings import GREEN, SCREEN_HEIGHT, SCREEN_WIDTH, WHITE, YELLOW
