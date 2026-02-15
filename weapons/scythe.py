@@ -15,8 +15,6 @@ from weapons.weapon import Weapon
 
 
 class ScytheWeapon(Weapon):
-    """Оружие - коса, которая бьет в конусе в направлении ближайшего врага"""
-
     def __init__(self):
         super().__init__(
             name="scythe",
@@ -72,24 +70,12 @@ class ScytheWeapon(Weapon):
         dy = nearest_enemy.rect.centery - self.owner.rect.centery
 
         # Сохраняем направление атаки (в радианах)
-        self.attack_direction = math.atan2(dy, dx)
+        self.attack_direction: float = math.atan2(dy, dx)
 
         # Запускаем атаку
         self.is_attacking = True
         self.attack_start_time = pygame.time.get_ticks()
         self.attack_progress = 0
-
-        # Находим всех врагов в конусе в этом направлении
-        # hit_enemies = self.get_enemies_in_cone(
-        #     enemies=active_enemies,
-        #     direction=self.attack_direction
-        # ),
-        # self.len_hit_enemies = len(hit_enemies)
-
-        # if hit_enemies:
-        # total_damage = self.damage + self.owner.get_damage()
-        # for enemy in hit_enemies:
-        #     enemy.take_damage(total_damage, game)
 
     def detect_enemies_in_range(self, enemies, direction) -> None:
         """Возвращает врагов, находящихся в конусе атаки в заданном направлении"""

@@ -6,8 +6,6 @@ from entities import Enemy
 
 
 class Weapon(ABC):
-    """Абстрактный базовый класс оружия"""
-
     def __init__(self, name, name_ui, damage, cooldown, weapon_type):
         self.name = name
         self.name_ui = name_ui
@@ -38,8 +36,15 @@ class Weapon(ABC):
 
     def action_after_deal_damage(self):
         self.last_attack_time = pygame.time.get_ticks()
+
+    def reset_hit_enemies(self):
         self.hit_enemies = []
         self.len_hit_enemies = 0
+
+    def remove_enemy_from_list(self, enemy: Enemy):
+        if enemy in self.hit_enemies:
+            self.hit_enemies.remove(enemy)
+            self.len_hit_enemies -= 1
 
     def get_damage(self):
         return self.damage + self.owner.get_damage() // 2

@@ -1,5 +1,7 @@
 import random
 
+from loguru import logger
+
 from entities import Enemy
 from weapons.lightning_ball_weapon import LightningBallWeapon
 from weapons.magic_bullet_weapon import MagicBulletWeapon
@@ -21,30 +23,23 @@ class CollisionSystem:
                 elif weapon.weapon_type == "melee":
                     self.melee_weapon_actions(weapon)
 
-                if weapon.hit_enemies:
-                    self.deal_damage_to_enemies(
-                        enemies=weapon.hit_enemies,
-                        weapon=weapon,
-                    )
-                    self.actions_after_deal_damage(weapon=weapon)
-
-        projectile_weapon = self.game.player.weapons.get("projectile")
-        if projectile_weapon:
-            self.check_projectiles_collisions(projectile_weapon)
+            if weapon.hit_enemies:
+                self.deal_damage_to_enemies(
+                    enemies=weapon.hit_enemies,
+                    weapon=weapon,
+                )
+                self.actions_after_deal_damage(weapon=weapon)
 
     def aura_weapon_actions(self, weapon):
-        for enemy in self.game.enemy_manager.enemies[:]:
+        for enemy in self.game.enemy_manager.active_enemies[:]:
             if weapon.is_collision(enemy=enemy):
                 weapon.add_enemy_to_hit(enemy=enemy)
-                # damage = weapon.get_damage()
-                # self.deal_damage(enemy=enemy, damage=damage)
-        # self.actions_after_deal_damage(weapon=weapon)
 
     def projectile_weapon_actions(
         self, weapon: MagicBulletWeapon | LightningBallWeapon
     ):
         weapon.shoot(self.game.enemy_manager.enemies)
-        # self.actions_after_deal_damage(weapon=weapon)
+        self.check_projectiles_collisions(weapon=weapon)
 
     def melee_weapon_actions(self, weapon: ScytheWeapon):
         active_enemies = self.game.enemy_manager.active_enemies
@@ -53,7 +48,6 @@ class CollisionSystem:
             enemies=active_enemies,
             direction=weapon.attack_direction,
         )
-        # self.actions_after_deal_damage(weapon=weapon)
 
     def actions_after_deal_damage(self, weapon):
         if self.player.vampire and weapon.len_hit_enemies > 0:
@@ -65,8 +59,11 @@ class CollisionSystem:
                 heal=total_vampire,
             )
         weapon.action_after_deal_damage()
+        weapon.reset_hit_enemies()
 
-    def check_projectiles_collisions(self, weapon):
+    def check_projectiles_collisions(
+        self, weapon: MagicBulletWeapon | LightningBallWeapon
+    ):
         for projectile in weapon.projectiles[:]:
             if not projectile.active:
                 continue
@@ -76,15 +73,16 @@ class CollisionSystem:
             if projectile.target.active and projectile.is_collision():
                 damage = projectile.damage
                 self.deal_damage(enemy=projectile.target, damage=damage)
+                weapon.remove_enemy_from_list(enemy=projectile.target)
                 projectile.active = False
-                weapon.bullets.remove(projectile)
+                weapon.projectiles.remove(projectile)
 
     def deal_damage_to_enemies(self, enemies: list[Enemy], weapon) -> None:
         for enemy in enemies:
             self.deal_damage(enemy=enemy, damage=weapon.get_damage())
 
     def deal_damage(self, enemy, damage):
-        is_critical = random.random() < 0.1
+        is_critical = random.random() < 0.05
         if is_critical:
             damage *= 1.5
 

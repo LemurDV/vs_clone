@@ -16,7 +16,7 @@ class MagicBulletUpgrade(Upgrade):
         if weapon := player.weapons.get("magic_bullet"):
             weapon.level_up()
             logger.info(
-                f"{weapon.name_ui} улучшена! {weapon.damage=}, {weapon.max_bullets=}"
+                f"{weapon.name_ui} улучшена! {weapon.damage=}, {weapon.max_projectiles=}"
             )
             return
         player.add_weapon(MagicBulletWeapon())

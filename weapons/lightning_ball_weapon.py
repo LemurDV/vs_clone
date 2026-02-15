@@ -25,9 +25,9 @@ class LightningBallWeapon(Weapon):
         self.projectiles = []
         self.lightning_effects = []
         self.max_projectiles = 2
-        self.ball_speed = 5
+        self.ball_speed: float = 3.0
         self.chain_range = 150
-        self.max_chain_targets = 6
+        self.max_chain_targets = 4
         self.chain_damage_reduction = 0.7
 
     def update(self, game):
@@ -39,15 +39,9 @@ class LightningBallWeapon(Weapon):
                 self.projectiles.remove(ball)
                 continue
 
-            # Проверяем столкновение шара
             if ball.is_collision():
-                # Наносим урон первой цели
-                # ball.target.take_damage(ball.damage, game)
                 self.add_enemy_to_hit(enemy=ball.target)
-                # Запускаем цепную молнию
                 self.apply_chain_lightning(ball, game)
-
-                # Деактивируем шар
                 ball.active = False
 
     def apply_chain_lightning(self, source_ball, game):
@@ -75,8 +69,6 @@ class LightningBallWeapon(Weapon):
             if current_damage < 1:
                 break
 
-            # Наносим урон
-            # next_target.take_damage(current_damage, game)
             self.add_enemy_to_hit(enemy=next_target)
 
             # Рисуем молнию между целями
@@ -144,18 +136,14 @@ class LightningBallWeapon(Weapon):
             active_enemies, key=lambda e: self.owner.distance_to(e)
         )[:balls_to_shoot]
 
-        # Создаем шары
         for enemy in enemies_by_distance:
-            total_damage = self.damage + self.owner.get_damage()
-
-            # Используем кастомный класс шара молнии
             ball = LightningBallProjectile(
                 self.owner.rect.centerx,
                 self.owner.rect.centery,
                 enemy,
-                total_damage,
+                self.damage + self.owner.get_damage() // 2,
+                self.ball_speed,
             )
-            ball.speed = self.ball_speed
             self.projectiles.append(ball)
 
     def draw(self, screen):
@@ -197,7 +185,7 @@ class LightningBallWeapon(Weapon):
         self.damage += LIGHTNING_BALL_MULTIPLIER_DAMAGE
 
         self.cooldown = max(
-            500, self.cooldown - LIGHTNING_BALL_MULTIPLIER_COOLDOWN
+            700, self.cooldown - LIGHTNING_BALL_MULTIPLIER_COOLDOWN
         )
 
         if self.level % 2 == 0:

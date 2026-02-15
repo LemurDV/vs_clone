@@ -10,19 +10,17 @@ from weapons.weapon import Weapon
 
 
 class MagicBulletWeapon(Weapon):
-    """Оружие - магические пули, летящие к ближайшим врагам"""
-
     def __init__(self):
         super().__init__(
             name="magic_bullet",
             name_ui="Магическая пуля",
-            damage=3,
+            damage=7,
             cooldown=1000,
             weapon_type="projectile",
         )
         self.projectiles = []
         self.max_projectiles = 3
-        self.bullet_speed = 6
+        self.bullet_speed: float = 6.0
 
     def update(self, game):
         """Обновление пуль и проверка столкновений"""
@@ -33,12 +31,7 @@ class MagicBulletWeapon(Weapon):
                 self.projectiles.remove(bullet)
                 continue
 
-            # Если пуля столкнулась с врагом
             if bullet.is_collision():
-                # Наносим урон врагу
-                # bullet.target.take_damage(bullet.damage, game)
-                # self.hit_enemies.append(bullet.target)
-                # self.len_hit_enemies += 1
                 self.add_enemy_to_hit(enemy=bullet.target)
                 bullet.active = False
 
@@ -60,17 +53,12 @@ class MagicBulletWeapon(Weapon):
 
         # Создаем пули
         for enemy in enemies_by_distance:
-            # Урон
-            total_damage = self.damage + self.owner.get_damage()
-
-            # Создаем пулю
             bullet = Projectile(
                 self.owner.rect.centerx,
                 self.owner.rect.centery,
                 enemy,
-                total_damage,
+                self.damage + self.owner.get_damage(),
             )
-            bullet.speed = self.bullet_speed
 
             self.projectiles.append(bullet)
 

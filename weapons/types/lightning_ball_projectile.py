@@ -10,12 +10,13 @@ from weapons.types.projectile import Projectile
 class LightningBallProjectile(Projectile):
     """Кастомный класс шара молнии"""
 
-    def __init__(self, x, y, target, damage):
-        super().__init__(x, y, target, damage)
+    def __init__(self, x, y, target, damage, speed):
+        super().__init__(x, y, target, damage, speed)
         self.color = BLUE
         self.radius = 10  # Больше обычной пули
         self.rect = pygame.Rect(x - 10, y - 10, 20, 20)
         self.pulse_time = 0  # Для пульсации
+        self.speed = speed
 
     def draw(self, screen):
         """Рисуем шар молнии с эффектом пульсации"""

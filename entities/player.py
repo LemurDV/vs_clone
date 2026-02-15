@@ -14,6 +14,7 @@ from settings import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
 )
+from weapons.scythe import ScytheWeapon
 
 
 class Player(Entity):
@@ -118,7 +119,7 @@ class Player(Entity):
     def update_weapons(self, game):
         """Обновление оружия"""
         for weapon in self.weapons.values():
-            weapon.update(game)
+            weapon.update(game=game)
 
     def update_statuses(self, game):
         if self.hp_regen:
