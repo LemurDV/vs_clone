@@ -21,7 +21,7 @@ class BaseMenu:
     def show(self, options):
         """Показать меню с указанными опциями"""
         self.active = True
-        self.options = options[:3]
+        self.options = options
         self.selected_option = 0
         self.hovered_option = -1
         self.last_key_time = pygame.time.get_ticks()

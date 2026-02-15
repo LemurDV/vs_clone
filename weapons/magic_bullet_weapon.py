@@ -20,39 +20,35 @@ class MagicBulletWeapon(Weapon):
             cooldown=1000,
             weapon_type="projectile",
         )
-        self.bullets = []
-        self.max_bullets = 3
+        self.projectiles = []
+        self.max_projectiles = 3
         self.bullet_speed = 6
 
     def update(self, game):
         """Обновление пуль и проверка столкновений"""
-        # Обновляем все пули
-        for bullet in self.bullets[:]:
+        for bullet in self.projectiles[:]:
             bullet.update()
 
-            # Если пуля неактивна - удаляем
             if not bullet.active:
-                self.bullets.remove(bullet)
+                self.projectiles.remove(bullet)
                 continue
 
             # Если пуля столкнулась с врагом
             if bullet.is_collision():
                 # Наносим урон врагу
-                bullet.target.take_damage(bullet.damage, game)
-                self.hit_enemies += 1
-                # Помечаем пулю как неактивную
+                # bullet.target.take_damage(bullet.damage, game)
+                # self.hit_enemies.append(bullet.target)
+                # self.len_hit_enemies += 1
+                self.add_enemy_to_hit(enemy=bullet.target)
                 bullet.active = False
 
-    def shoot(self, enemies):
+    def shoot(self, active_enemies):
         """Выстрел пулями к ближайшим врагам"""
-        # Считаем только активных врагов
-        active_enemies = [e for e in enemies if e.active]
-
         if not active_enemies:
             return
 
         # Сколько пуль можем выпустить
-        bullets_to_shoot = self.max_bullets - len(self.bullets)
+        bullets_to_shoot = self.max_projectiles - len(self.projectiles)
 
         if bullets_to_shoot <= 0:
             return
@@ -76,22 +72,22 @@ class MagicBulletWeapon(Weapon):
             )
             bullet.speed = self.bullet_speed
 
-            self.bullets.append(bullet)
+            self.projectiles.append(bullet)
 
         # Сбрасываем таймер атаки
         self.action_after_deal_damage()
 
     def draw(self, screen):
         """Отрисовка пуль"""
-        for bullet in self.bullets:
+        for bullet in self.projectiles:
             bullet.draw(screen)
 
     def level_up(self):
         """Улучшение оружия"""
         self.level += 1
         # if self.level % 3 == 0:
-        #     self.max_bullets += MAGIC_BULLET_MULTIPLIER_BULLETS
-        self.max_bullets += MAGIC_BULLET_MULTIPLIER_BULLETS
+        #     self.max_projectiles += MAGIC_BULLET_MULTIPLIER_BULLETS
+        self.max_projectiles += MAGIC_BULLET_MULTIPLIER_BULLETS
         self.damage += MAGIC_BULLET_MULTIPLIER_DAMAGE
         self.cooldown -= MAGIC_BULLET_MULTIPLIER_COOLDOWN
         return True

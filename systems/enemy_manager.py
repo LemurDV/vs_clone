@@ -31,6 +31,10 @@ class EnemyManager:
         self.exp_increase_per_minute = 20.0
         self.speed_increase_per_minute = 0.05  # +5% скорости в минуту
 
+    @property
+    def active_enemies(self):
+        return [enemy for enemy in self.enemies if enemy.active]
+
     def update_difficulty(self):
         """Обновляем сложность с течением времени"""
         current_time = pygame.time.get_ticks()

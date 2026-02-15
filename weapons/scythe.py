@@ -53,13 +53,12 @@ class ScytheWeapon(Weapon):
                 self.is_attacking = False
                 self.attack_progress = 0
 
-    def shoot(self, enemies, game):
+    def shoot(self, active_enemies, game):
         """Атака косой в направлении ближайшего врага"""
         if self.is_attacking:
             return
 
         # Находим ближайшего активного врага для определения направления
-        active_enemies = [e for e in enemies if e.active]
         if not active_enemies:
             return
 
@@ -81,20 +80,19 @@ class ScytheWeapon(Weapon):
         self.attack_progress = 0
 
         # Находим всех врагов в конусе в этом направлении
-        hit_enemies = self.get_enemies_in_cone(enemies, self.attack_direction)
-        self.hit_enemies = len(hit_enemies)
+        # hit_enemies = self.get_enemies_in_cone(
+        #     enemies=active_enemies,
+        #     direction=self.attack_direction
+        # ),
+        # self.len_hit_enemies = len(hit_enemies)
 
-        if hit_enemies:
-            total_damage = self.damage + self.owner.get_damage()
-            for enemy in hit_enemies:
-                enemy.take_damage(total_damage, game)
+        # if hit_enemies:
+        # total_damage = self.damage + self.owner.get_damage()
+        # for enemy in hit_enemies:
+        #     enemy.take_damage(total_damage, game)
 
-    def get_enemies_in_cone(self, enemies, direction):
+    def detect_enemies_in_range(self, enemies, direction) -> None:
         """Возвращает врагов, находящихся в конусе атаки в заданном направлении"""
-        if not self.owner:
-            return []
-
-        hit_enemies = []
         player_pos = pygame.math.Vector2(self.owner.rect.center)
 
         # Преобразуем направление в вектор
@@ -115,9 +113,7 @@ class ScytheWeapon(Weapon):
 
             # Проверяем угол
             if self.is_in_cone(player_pos, facing_vector, enemy_pos):
-                hit_enemies.append(enemy)
-
-        return hit_enemies
+                self.add_enemy_to_hit(enemy=enemy)
 
     def is_in_cone(self, player_pos, facing_vector, enemy_pos):
         """Проверяет, находится ли точка в конусе"""
