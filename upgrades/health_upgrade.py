@@ -6,7 +6,9 @@ class HealthUpgrade(Upgrade):
 
     def __init__(self):
         super().__init__(
-            "Усиление здоровья", "Увеличивает максимальное здоровье на 20"
+            name="Усиление здоровья",
+            description="Увеличивает максимальное здоровье на 20",
+            image_path="assets/upgrades/health.png",
         )
 
     def apply(self, player):

@@ -7,7 +7,9 @@ from weapons.aura_weapon import AuraWeapon
 class AuraUpgrade(Upgrade):
     def __init__(self):
         super().__init__(
-            "Улучшение ауры", "Увеличивает радиус и урон ауры на 20%"
+            name="Улучшение ауры",
+            description="Увеличивает радиус и урон ауры на 20%",
+            image_path="assets/upgrades/aura.png",
         )
 
     def apply(self, player):

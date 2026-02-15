@@ -4,7 +4,9 @@ from upgrades.upgrade import Upgrade
 class SpeedUpgrade(Upgrade):
     def __init__(self):
         super().__init__(
-            "Увеличение скорости", "Увеличивает скорость передвижения на 20%"
+            name="Увеличение скорости",
+            description="Увеличивает скорость передвижения на 20%",
+            image_path="assets/upgrades/speed.png",
         )
 
     def apply(self, player):

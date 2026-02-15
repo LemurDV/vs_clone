@@ -9,7 +9,9 @@ class ExpBoostUpgrade(Upgrade):
 
     def __init__(self):
         super().__init__(
-            "Улучшение получаемого опыта", "Улучшение получаемого опыта"
+            name="Улучшение получаемого опыта",
+            description="Улучшение получаемого опыта",
+            image_path="assets/upgrades/exp.png",
         )
 
     def apply(self, player):

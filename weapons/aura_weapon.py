@@ -2,6 +2,7 @@ import random
 
 import pygame
 
+from entities import Enemy
 from settings import (
     AURA_MULTIPLIER_DAMAGE,
     AURA_MULTIPLIER_RADIUS,
@@ -36,7 +37,6 @@ class AuraWeapon(Weapon):
 
     def is_collision(self, enemy) -> bool:
         if enemy.active and self.owner.distance_to(enemy) <= self.radius:
-            self.hit_enemies += 1
             return True
         return False
 

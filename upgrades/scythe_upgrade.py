@@ -6,7 +6,11 @@ from weapons.scythe import ScytheWeapon
 
 class ScytheUpgrade(Upgrade):
     def __init__(self):
-        super().__init__("Улучшение косы", "Увеличивает урон")
+        super().__init__(
+            name="Улучшение косы",
+            description="Увеличивает урон",
+            image_path="assets/upgrades/scythe.png",
+        )
 
     def apply(self, player):
         if weapon := player.weapons.get("scythe"):

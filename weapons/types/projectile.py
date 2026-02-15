@@ -6,14 +6,12 @@ from settings import ORANGE
 
 
 class Projectile:
-    """Класс летающего объекта"""
-
-    def __init__(self, x, y, target, damage):
+    def __init__(self, x, y, target, damage, speed: float = 7.0):
         self.x = x
         self.y = y
         self.target = target
         self.damage = damage
-        self.speed = 7
+        self.speed = speed
         self.radius = 7
         self.color = ORANGE
         self.active = True

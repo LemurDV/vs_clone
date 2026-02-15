@@ -1,5 +1,12 @@
 import random
 
+from loguru import logger
+
+from entities import Enemy
+from weapons.lightning_ball_weapon import LightningBallWeapon
+from weapons.magic_bullet_weapon import MagicBulletWeapon
+from weapons.scythe import ScytheWeapon
+
 
 class CollisionSystem:
     def __init__(self, game):
@@ -8,39 +15,43 @@ class CollisionSystem:
 
     def update(self):
         for weapon in self.game.player.weapons.values():
-            if weapon.weapon_type == "aura" and weapon.can_attack():
-                self.check_aura_weapon(weapon)
-            elif weapon.weapon_type == "projectile":
-                self.check_projectile_weapon(weapon)
-            elif weapon.weapon_type == "melee":
-                self.check_melee_weapon(weapon)
+            if weapon.can_attack():
+                if weapon.weapon_type == "aura":
+                    self.aura_weapon_actions(weapon)
+                elif weapon.weapon_type == "projectile":
+                    self.projectile_weapon_actions(weapon)
+                elif weapon.weapon_type == "melee":
+                    self.melee_weapon_actions(weapon)
 
-        magic_bullet = self.game.player.weapons.get("magic_bullet")
-        if magic_bullet:
-            self.check_bullets_collisions(magic_bullet)
+            if weapon.hit_enemies:
+                self.deal_damage_to_enemies(
+                    enemies=weapon.hit_enemies,
+                    weapon=weapon,
+                )
+                self.actions_after_deal_damage(weapon=weapon)
 
-    def check_aura_weapon(self, weapon):
-        """Проверка ауры"""
-        for enemy in self.game.enemy_manager.enemies[:]:
+    def aura_weapon_actions(self, weapon):
+        for enemy in self.game.enemy_manager.active_enemies[:]:
             if weapon.is_collision(enemy=enemy):
-                damage = weapon.get_damage()
-                self.deal_damage(enemy=enemy, damage=damage)
-        self.actions_after_deal_damage(weapon=weapon)
+                weapon.add_enemy_to_hit(enemy=enemy)
 
-    def check_projectile_weapon(self, weapon):
-        """Проверка возможности выстрела новых пуль"""
-        if weapon.can_attack():
-            weapon.shoot(self.game.enemy_manager.enemies)
-            self.actions_after_deal_damage(weapon=weapon)
+    def projectile_weapon_actions(
+        self, weapon: MagicBulletWeapon | LightningBallWeapon
+    ):
+        weapon.shoot(self.game.enemy_manager.enemies)
+        self.check_projectiles_collisions(weapon=weapon)
 
-    def check_melee_weapon(self, weapon):
-        if weapon.can_attack():
-            weapon.shoot(self.game.enemy_manager.enemies, self.game)
-            self.actions_after_deal_damage(weapon=weapon)
+    def melee_weapon_actions(self, weapon: ScytheWeapon):
+        active_enemies = self.game.enemy_manager.active_enemies
+        weapon.shoot(active_enemies=active_enemies, game=self.game)
+        weapon.detect_enemies_in_range(
+            enemies=active_enemies,
+            direction=weapon.attack_direction,
+        )
 
     def actions_after_deal_damage(self, weapon):
-        if self.player.vampire and weapon.hit_enemies > 0:
-            total_vampire = weapon.hit_enemies * self.player.vampire
+        if self.player.vampire and weapon.len_hit_enemies > 0:
+            total_vampire = weapon.len_hit_enemies * self.player.vampire
             self.player.heal(total_vampire)
             self.game.particle_system.add_heal_text(
                 x=self.player.x,
@@ -48,25 +59,30 @@ class CollisionSystem:
                 heal=total_vampire,
             )
         weapon.action_after_deal_damage()
+        weapon.reset_hit_enemies()
 
-    def check_bullets_collisions(self, weapon):
-        """Проверка столкновений существующих пуль"""
-        for bullet in weapon.bullets[:]:
-            if not bullet.active:
+    def check_projectiles_collisions(
+        self, weapon: MagicBulletWeapon | LightningBallWeapon
+    ):
+        for projectile in weapon.projectiles[:]:
+            if not projectile.active:
                 continue
 
-            # Обновляем позицию пули
-            bullet.update()
+            projectile.update()
 
-            # Проверяем столкновение с целью
-            if bullet.target.active and bullet.is_collision():
-                damage = bullet.damage
-                self.deal_damage(enemy=bullet.target, damage=damage)
-                bullet.active = False
-                weapon.bullets.remove(bullet)
+            if projectile.target.active and projectile.is_collision():
+                damage = projectile.damage
+                self.deal_damage(enemy=projectile.target, damage=damage)
+                weapon.remove_enemy_from_list(enemy=projectile.target)
+                projectile.active = False
+                weapon.projectiles.remove(projectile)
+
+    def deal_damage_to_enemies(self, enemies: list[Enemy], weapon) -> None:
+        for enemy in enemies:
+            self.deal_damage(enemy=enemy, damage=weapon.get_damage())
 
     def deal_damage(self, enemy, damage):
-        is_critical = random.random() < 0.1
+        is_critical = random.random() < 0.05
         if is_critical:
             damage *= 1.5
 

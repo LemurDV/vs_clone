@@ -1,5 +1,6 @@
 import pygame
 
+from elements.element_manager import ElementManager
 from entities.player import Player
 from loot.loot_manager import LootManager
 from settings import (
@@ -12,6 +13,7 @@ from systems.collision_system import CollisionSystem
 from systems.enemy_manager import EnemyManager
 from systems.particle_system import ParticleSystem
 from ui.base_hud import BaseHud
+from ui.element_menu import ElementMenu
 from ui.upgrade_menu import UpgradeMenu
 from upgrades.upgrade_manager import UpgradeManager
 from weapons.aura_weapon import AuraWeapon
@@ -56,8 +58,13 @@ class Game:
         # Системы
         self.enemy_manager = EnemyManager()
         self.collision_system = CollisionSystem(self)
+        # upgrades
         self.upgrade_manager = UpgradeManager()
         self.upgrade_menu = UpgradeMenu(self)
+        # elements
+        self.element_manager = ElementManager()
+        self.element_menu = ElementMenu(self)
+
         self.particle_system = ParticleSystem()
         self.loot_manager = LootManager()
         self.hud = BaseHud(self)
@@ -75,30 +82,27 @@ class Game:
         self.player.add_weapon(start_weapon)
 
     def request_upgrade_menu(self):
-        """Запрос на показ меню улучшений"""
         self.game_paused = True
-        random_upgrades = self.upgrade_manager.get_random_upgrades(
-            3, self.player
-        )
+        random_upgrades = self.upgrade_manager.get_random_upgrades(count=3)
         self.upgrade_menu.show(random_upgrades)
 
+    def request_element_menu(self):
+        self.game_paused = True
+        random_elements = self.element_manager.get_random_elements(count=3)
+        self.element_menu.show(random_elements)
+
     def on_upgrade_selected(self):
-        """Вызывается после выбора улучшения"""
         self.player.complete_level_up()
         self.game_paused = False
 
     def add_loot_item(self, item):
-        """Добавить предмет лута в мир"""
         self.loot_items.append(item)
 
     def enemy_died(self, enemy):
-        """Вызывается при смерти врага"""
-        # Вызываем дроп через менеджер
         self.loot_manager.drop_from_enemy(enemy, self)
         self.enemies_killed += 1
 
     def run(self):
-        """Запуск основного цикла игры"""
         while self.running:
             self.handle_events()
             self.update()
@@ -106,7 +110,6 @@ class Game:
             self.clock.tick(FPS)
 
     def handle_events(self):
-        """Обработка событий"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -118,6 +121,9 @@ class Game:
                 if self.game_paused and self.upgrade_menu.active:
                     self.upgrade_menu.handle_keydown(event.key)
 
+                if self.game_paused and self.element_menu.active:
+                    self.element_menu.handle_keydown(event.key)
+
             # Передаем события мыши в меню улучшений
             elif self.game_paused and self.upgrade_menu.active:
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -126,6 +132,13 @@ class Game:
                     )
                 elif event.type == pygame.MOUSEMOTION:
                     self.upgrade_menu.handle_mouse_motion(event.pos)
+            elif self.game_paused and self.element_menu.active:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.element_menu.handle_mouse_click(
+                        event.pos, event.button
+                    )
+                elif event.type == pygame.MOUSEMOTION:
+                    self.element_menu.handle_mouse_motion(event.pos)
 
     def update(self):
         """Обновление игры"""
@@ -140,8 +153,6 @@ class Game:
             self.player.update(self)
             self.collision_system.update()
 
-        # Обновление врагов
-        # for enemy in self.enemies[:]:
         for enemy in self.enemy_manager.enemies:
             if enemy.active:
                 enemy.update(self)
@@ -200,5 +211,6 @@ class Game:
 
         # Отрисовка меню улучшений (если активно, поверх всего)
         self.upgrade_menu.draw(self.screen)
+        self.element_menu.draw(self.screen)
 
         pygame.display.flip()

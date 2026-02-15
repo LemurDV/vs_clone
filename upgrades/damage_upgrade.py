@@ -5,9 +5,13 @@ class DamageUpgrade(Upgrade):
     """Улучшение урона"""
 
     def __init__(self):
-        super().__init__("Усиление урона", "Увеличивает урон на 20%")
+        super().__init__(
+            name="Усиление урона",
+            description="Увеличивает урон на 20%",
+            image_path="assets/upgrades/damage.png",
+        )
 
     def apply(self, player):
         """Применение улучшения"""
-        player.increase_damage(4)
+        player.increase_damage(1)
         print(f"Урон увеличен! Множитель урона: {player.damage_multiplier}")

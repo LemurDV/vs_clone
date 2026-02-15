@@ -26,10 +26,14 @@ class EnemyManager:
         self.speed_multiplier = 1.0
 
         # На сколько увеличивать каждый множитель за минуту
-        self.health_increase_per_minute = 0.9  # +15% здоровья в минуту
+        self.health_increase_per_minute = 0.15  # +15% здоровья в минуту
         self.damage_increase_per_minute = 0.1  # +10% урона в минуту
-        self.exp_increase_per_minute = 20.0  # +1000% опыта в минуту!
+        self.exp_increase_per_minute = 20.0
         self.speed_increase_per_minute = 0.05  # +5% скорости в минуту
+
+    @property
+    def active_enemies(self):
+        return [enemy for enemy in self.enemies if enemy.active]
 
     def update_difficulty(self):
         """Обновляем сложность с течением времени"""

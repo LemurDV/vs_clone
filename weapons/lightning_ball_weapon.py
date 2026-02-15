@@ -22,31 +22,26 @@ class LightningBallWeapon(Weapon):
             cooldown=800,
             weapon_type="projectile",
         )
-        self.balls = []
-        self.max_balls = 2
-        self.ball_speed = 5
+        self.projectiles = []
+        self.lightning_effects = []
+        self.max_projectiles = 2
+        self.ball_speed: float = 3.0
         self.chain_range = 150
-        self.max_chain_targets = 6
+        self.max_chain_targets = 4
         self.chain_damage_reduction = 0.7
 
     def update(self, game):
         """Обновление шаров и обработка цепной молнии"""
-        for ball in self.balls[:]:
+        for ball in self.projectiles[:]:
             ball.update()
 
             if not ball.active:
-                self.balls.remove(ball)
+                self.projectiles.remove(ball)
                 continue
 
-            # Проверяем столкновение шара
             if ball.is_collision():
-                # Наносим урон первой цели
-                ball.target.take_damage(ball.damage, game)
-                self.hit_enemies += 1
-                # Запускаем цепную молнию
+                self.add_enemy_to_hit(enemy=ball.target)
                 self.apply_chain_lightning(ball, game)
-
-                # Деактивируем шар
                 ball.active = False
 
     def apply_chain_lightning(self, source_ball, game):
@@ -74,8 +69,7 @@ class LightningBallWeapon(Weapon):
             if current_damage < 1:
                 break
 
-            # Наносим урон
-            next_target.take_damage(current_damage, game)
+            self.add_enemy_to_hit(enemy=next_target)
 
             # Рисуем молнию между целями
             self.create_lightning_effect(current_target, next_target)
@@ -84,7 +78,6 @@ class LightningBallWeapon(Weapon):
             used_targets.add(next_target)
             current_target = next_target
             chain_count += 1
-            self.hit_enemies += 1
 
     def find_next_chain_target(self, source, used_targets, all_enemies):
         """Находит следующую цель для цепной молнии"""
@@ -125,19 +118,15 @@ class LightningBallWeapon(Weapon):
             "width": 3,
         }
 
-        if not hasattr(self, "lightning_effects"):
-            self.lightning_effects = []
         self.lightning_effects.append(effect)
 
-    def shoot(self, enemies):
+    def shoot(self, active_enemies):
         """Выстрел шарами молний"""
-        active_enemies = [e for e in enemies if e.active]
-
         if not active_enemies:
             return
 
         # Сколько шаров можем выпустить
-        balls_to_shoot = self.max_balls - len(self.balls)
+        balls_to_shoot = self.max_projectiles - len(self.projectiles)
 
         if balls_to_shoot <= 0:
             return
@@ -147,27 +136,19 @@ class LightningBallWeapon(Weapon):
             active_enemies, key=lambda e: self.owner.distance_to(e)
         )[:balls_to_shoot]
 
-        # Создаем шары
         for enemy in enemies_by_distance:
-            total_damage = self.damage + self.owner.get_damage()
-
-            # Используем кастомный класс шара молнии
             ball = LightningBallProjectile(
                 self.owner.rect.centerx,
                 self.owner.rect.centery,
                 enemy,
-                total_damage,
+                self.damage + self.owner.get_damage() // 2,
+                self.ball_speed,
             )
-            ball.speed = self.ball_speed
-            self.balls.append(ball)
-
-        # Сбрасываем таймер
-        # self.action_after_deal_damage()
+            self.projectiles.append(ball)
 
     def draw(self, screen):
         """Отрисовка шаров и эффектов молний"""
-        # Отрисовываем шары
-        for ball in self.balls:
+        for ball in self.projectiles:
             ball.draw(screen)
 
         # Отрисовываем эффекты молний
@@ -199,12 +180,12 @@ class LightningBallWeapon(Weapon):
     def level_up(self):
         self.level += 1
 
-        self.max_balls += LIGHTNING_BALL_MULTIPLIER_BULLETS
+        self.max_projectiles += LIGHTNING_BALL_MULTIPLIER_BULLETS
 
         self.damage += LIGHTNING_BALL_MULTIPLIER_DAMAGE
 
         self.cooldown = max(
-            500, self.cooldown - LIGHTNING_BALL_MULTIPLIER_COOLDOWN
+            700, self.cooldown - LIGHTNING_BALL_MULTIPLIER_COOLDOWN
         )
 
         if self.level % 2 == 0:
