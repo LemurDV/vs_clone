@@ -24,6 +24,7 @@ class UpgradeManager:
                 MagicBulletUpgrade(),
                 AuraUpgrade(),
                 LightningBallUpgrade(),
+                LightningBallUpgrade(),
                 ScytheUpgrade(),
                 DamageUpgrade(),
                 HealthUpgrade(),

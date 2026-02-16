@@ -4,6 +4,7 @@ from .experience_boost_upgrade import ExpBoostUpgrade
 from .health_upgrade import HealthUpgrade
 from .hp_regen_upgrade import HPRegenUpgrade
 from .lightning_ball_upgrade import LightningBallUpgrade
+from .laser_beam_upgrade import LightningBallUpgrade
 from .magic_bullet_upgrade import MagicBulletUpgrade
 from .magnet_radius_upgrade import MagnetRadiusUpgrade
 from .scythe_upgrade import ScytheUpgrade
@@ -19,6 +20,7 @@ __all__ = [
     "MagnetRadiusUpgrade",
     "ExpBoostUpgrade",
     "HPRegenUpgrade",
+    "LightningBallUpgrade",
     "LightningBallUpgrade",
     "ScytheUpgrade",
 ]
