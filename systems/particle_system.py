@@ -1,4 +1,4 @@
-from loguru import logger
+import random
 
 from entities.damage_text import DamageText
 from entities.heal_text import HealText
@@ -13,10 +13,24 @@ class ParticleSystem:
         self.particles = []
         self.heal_texts = []
 
+        # Разный разброс для разных типов
+        self.text_spread = 25
+        self.heal_spread = 30
+        self.critical_spread = 35
+
     def add_damage_text(self, x, y, damage, color=RED, is_critical=False):
-        """Добавить текст урона"""
+        """Добавить текст урона со случайным смещением"""
+        spread = self.critical_spread if is_critical else self.text_spread
+
+        offset_x = random.randint(-spread, spread)
+        offset_y = random.randint(-spread, spread)
+
         text = DamageText(
-            x=x, y=y, damage=damage, color=color, is_critical=is_critical
+            x=x + offset_x,
+            y=y + offset_y,
+            damage=damage,
+            color=color,
+            is_critical=is_critical,
         )
         self.damage_texts.append(text)
 
@@ -25,7 +39,13 @@ class ParticleSystem:
         self.particles.append(particle)
 
     def add_heal_text(self, x, y, heal):
-        text = HealText(x=x, y=y, heal=heal)
+        """Добавить текст хила со случайным смещением"""
+        offset_x = random.randint(-self.text_spread, self.text_spread)
+        offset_y = (
+            random.randint(-self.text_spread, self.text_spread) - 10
+        )  # Чуть выше
+
+        text = HealText(x=x + offset_x, y=y + offset_y, heal=heal)
         self.heal_texts.append(text)
 
     def update(self):

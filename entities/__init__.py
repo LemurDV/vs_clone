@@ -1,5 +1,4 @@
-from settings import *
-
+from settings import GREEN, RED
 from .enemy import Enemy
 
 
@@ -49,7 +48,7 @@ class BatEnemy(Enemy):
             width=20,
             height=20,
             color=RED,
-            health=10,
+            health=11,
             damage=3,
             experience_value=5,
             sprite_path="assets/enemies/bat.png",
