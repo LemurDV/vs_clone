@@ -16,10 +16,13 @@ from ui.base_hud import BaseHud
 from ui.element_menu import ElementMenu
 from ui.upgrade_menu import UpgradeMenu
 from upgrades.upgrade_manager import UpgradeManager
-from weapons.aura_weapon import AuraWeapon
-from weapons.lightning_ball_weapon import LightningBallWeapon
-from weapons.magic_bullet_weapon import MagicBulletWeapon
-from weapons.scythe import ScytheWeapon
+from weapons import (
+    AuraWeapon,
+    LaserBeamWeapon,
+    LightningBallWeapon,
+    MagicBulletWeapon,
+    ScytheWeapon,
+)
 
 
 class Game:
@@ -75,10 +78,11 @@ class Game:
     def init_game(self):
         """Инициализация игры"""
         # Добавляем стартовое оружие
-        # start_weapon = MagicBulletWeapon()
+        start_weapon = MagicBulletWeapon()
         # start_weapon = AuraWeapon()
         # start_weapon = LightningBallWeapon()
-        start_weapon = ScytheWeapon()
+        # start_weapon = ScytheWeapon()
+        # start_weapon = LaserBeamWeapon()
         self.player.add_weapon(start_weapon)
 
     def request_upgrade_menu(self):

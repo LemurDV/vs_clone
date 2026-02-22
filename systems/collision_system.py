@@ -22,6 +22,8 @@ class CollisionSystem:
                     self.projectile_weapon_actions(weapon)
                 elif weapon.weapon_type == "melee":
                     self.melee_weapon_actions(weapon)
+                elif weapon.weapon_type == "beam":
+                    self.beam_weapon_actions(weapon)
 
             if weapon.hit_enemies:
                 self.deal_damage_to_enemies(
@@ -48,6 +50,9 @@ class CollisionSystem:
             enemies=active_enemies,
             direction=weapon.attack_direction,
         )
+
+    def beam_weapon_actions(self, weapon):
+        weapon.shoot(self.game)
 
     def actions_after_deal_damage(self, weapon):
         if self.player.vampire and weapon.len_hit_enemies > 0:

@@ -26,7 +26,7 @@ class Weapon(ABC):
 
     def add_enemy_to_hit(self, enemy: Enemy) -> None:
         self.hit_enemies.append(enemy)
-        self.len_hit_enemies += 1
+        self.len_hit_enemies = len(set(self.hit_enemies))
 
     def is_collision(self, enemy) -> bool:
         pass
