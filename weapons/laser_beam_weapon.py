@@ -3,7 +3,7 @@ import math
 from loguru import logger
 import pygame
 
-from weapons.weapon import Weapon
+from weapons.weapon import Weapon, WeaponTypes
 
 
 class LaserBeamWeapon(Weapon):
@@ -13,7 +13,7 @@ class LaserBeamWeapon(Weapon):
             name_ui="Лазерный луч",
             damage=3,
             cooldown=2200,
-            weapon_type="beam",
+            weapon_type=WeaponTypes.BEAM,
         )
 
         self.beam_length = 150

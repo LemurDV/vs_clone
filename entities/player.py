@@ -14,7 +14,6 @@ from settings import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
 )
-from weapons.scythe import ScytheWeapon
 
 
 class Player(Entity):
@@ -39,6 +38,7 @@ class Player(Entity):
         self.experience_multiplier = EXPERIENCE_MULTIPLIER
         self.level = 1
         self.base_damage = 5
+        self.critical_chance = 0.05
         self.magnet_radius = MAGNET_RADIUS
         self.exp_boost = 1
         self.damage_multiplier = 1.0

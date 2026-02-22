@@ -1,21 +1,45 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 
 import pygame
 
 from entities import Enemy
 
 
+class WeaponTypes(Enum):
+    AURA = "aura"
+    BEAM = "beam"
+    PROJECTILE = "projectile"
+    MELEE = "melee"
+
+
 class Weapon(ABC):
-    def __init__(self, name, name_ui, damage, cooldown, weapon_type):
+    def __init__(
+        self,
+        name: str,
+        name_ui: str,
+        damage: int,
+        cooldown: int,
+        weapon_type: WeaponTypes,
+        causes_bleeding_chance: float = 0.0,
+        causes_burn_chance: float = 0.0,
+        causes_poison_chance: float = 0.0,
+    ):
         self.name = name
         self.name_ui = name_ui
         self.damage = damage
-        self.cooldown = cooldown  # ms
+        self.cooldown = cooldown
+        self.causes_bleeding_chance: float = causes_bleeding_chance
+        self.bleed_damage: int = 1
+        self.causes_burn_chance: float = causes_burn_chance
+        self.burn_damage: int = 1
+        self.causes_poison_chance: float = causes_poison_chance
+        self.poison_damage: int = 1
         self.last_attack_time = 0
         self.owner = None
         self.level = 1
         self.max_level = 5
-        self.weapon_type = weapon_type  # TODO сделать enum
+        self.weapon_type: WeaponTypes = weapon_type
         self.hit_enemies = []
         self.len_hit_enemies = 0
 
@@ -61,9 +85,4 @@ class Weapon(ABC):
 
     def level_up(self):
         """Улучшение оружия"""
-        if self.level < self.max_level:
-            self.level += 1
-            self.damage *= 1.5
-            self.cooldown = max(100, self.cooldown * 0.9)
-            return True
-        return False
+        pass

@@ -78,10 +78,10 @@ class Game:
     def init_game(self):
         """Инициализация игры"""
         # Добавляем стартовое оружие
-        start_weapon = MagicBulletWeapon()
+        # start_weapon = MagicBulletWeapon()
         # start_weapon = AuraWeapon()
         # start_weapon = LightningBallWeapon()
-        # start_weapon = ScytheWeapon()
+        start_weapon = ScytheWeapon()
         # start_weapon = LaserBeamWeapon()
         self.player.add_weapon(start_weapon)
 

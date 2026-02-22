@@ -1,11 +1,8 @@
-from settings import *
-
+from settings import GREEN, RED
 from .enemy import Enemy
 
 
 class SlimeEnemy(Enemy):
-    """Слайм - медленный враг с умеренным здоровьем"""
-
     def __init__(self, x, y):
         super().__init__(
             x=x,
@@ -22,8 +19,6 @@ class SlimeEnemy(Enemy):
 
 
 class BossSlimeEnemy(Enemy):
-    """Босс слайм"""
-
     def __init__(self, x, y):
         super().__init__(
             x=x,
@@ -40,8 +35,6 @@ class BossSlimeEnemy(Enemy):
 
 
 class BatEnemy(Enemy):
-    """Летучая мышь - быстрый враг с малым здоровьем"""
-
     def __init__(self, x, y):
         super().__init__(
             x=x,
@@ -49,7 +42,7 @@ class BatEnemy(Enemy):
             width=20,
             height=20,
             color=RED,
-            health=10,
+            health=11,
             damage=3,
             experience_value=5,
             sprite_path="assets/enemies/bat.png",

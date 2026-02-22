@@ -3,6 +3,7 @@ from .laser_beam_weapon import LaserBeamWeapon
 from .lightning_ball_weapon import LightningBallWeapon
 from .magic_bullet_weapon import MagicBulletWeapon
 from .scythe import ScytheWeapon
+from .weapon import WeaponTypes
 
 
 __all__ = [
@@ -11,4 +12,5 @@ __all__ = [
     "LightningBallWeapon",
     "MagicBulletWeapon",
     "ScytheWeapon",
+    "WeaponTypes",
 ]

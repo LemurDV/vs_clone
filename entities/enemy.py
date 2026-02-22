@@ -6,6 +6,7 @@ from settings import (
     GREEN,
     RED,
 )
+from systems.effect_manager import StatusEffect
 
 
 class Enemy(Entity):
@@ -35,6 +36,7 @@ class Enemy(Entity):
         self.sprite = pygame.transform.scale(self.sprite, (width, height))
         self.is_bleeding = False
         self.last_bleed_time = 0
+        self.active_effects = {}
 
     def update(self, game):
         """Обновление врага"""
@@ -60,14 +62,50 @@ class Enemy(Entity):
             if self.check_collision(player):
                 self.attack(player)
 
-    def update_statuses(self, game):
-        if self.is_bleeding and self.time_to_bleed():
-            self.last_bleed_time = pygame.time.get_ticks()
-            self.take_damage(1, game)
+    def apply_effect(self, effect: StatusEffect) -> None:
+        effect.start_time = pygame.time.get_ticks()
 
-    def time_to_bleed(self):
+        existing_effect: StatusEffect = self.active_effects.get(
+            effect.effect_type
+        )
+
+        if existing_effect:
+            if (
+                existing_effect.current_stack_count
+                == existing_effect.max_stack_count
+            ):
+                pass
+            else:
+                existing_effect.current_stack_count += 1
+                existing_effect.damage_per_tick = min(
+                    existing_effect.damage_per_tick
+                    * existing_effect.current_stack_count,
+                    effect.max_damage_per_tick,
+                )
+            existing_effect.duration = effect.duration
+        else:
+            self.active_effects.update({effect.effect_type: effect})
+
+    def update_statuses(self, game):
+        if not self.active_effects:
+            return
+
         current_time = pygame.time.get_ticks()
-        return current_time - self.last_bleed_time > 2_000
+
+        for effect_type in list(self.active_effects.keys()):
+            effect = self.active_effects[effect_type]
+
+            if current_time - effect.start_time > effect.duration:
+                self.active_effects.pop(effect_type)
+                continue
+
+            if current_time - effect.last_tick_time > effect.tick_interval:
+                effect.last_tick_time = current_time
+                self.take_damage(
+                    amount=effect.damage_per_tick,
+                    game=game,
+                    color=effect.color,
+                )
 
     def draw(self, screen):
         """Отрисовка врага"""
@@ -95,7 +133,7 @@ class Enemy(Entity):
             player.take_damage(self.damage)
             self.last_attack_time = current_time
 
-    def take_damage(self, amount, game, is_critical=False):
+    def take_damage(self, amount, game, is_critical=False, color=RED):
         """Получение урона"""
         self.health -= amount
 
@@ -104,7 +142,7 @@ class Enemy(Entity):
             self.rect.centerx,
             self.rect.top - 15,
             int(amount),
-            RED,
+            color,
             is_critical,
         )
 
