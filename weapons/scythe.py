@@ -22,16 +22,17 @@ class ScytheWeapon(Weapon):
             damage=5,
             cooldown=1200,
             weapon_type="melee",
+            # causes_bleeding_chance=1.0,
+            # causes_burn_chance=1.0,
+            # causes_poison_chance=1.0,
         )
 
-        # Параметры конуса атаки
         self.attack_range = 80
         self.attack_angle = 60
         self.attack_duration = 300
         self.attack_start_time = 0
         self.is_attacking = False
 
-        # Направление атаки (в радианах)
         self.attack_direction = 0  # 0 = вправо
 
         # Для анимации (если захотим визуализировать без спрайта)
