@@ -4,12 +4,12 @@ from upgrades.upgrade import Upgrade
 from weapons import LaserBeamWeapon
 
 
-class LightningBallUpgrade(Upgrade):
+class LaserBeamUpgrade(Upgrade):
     def __init__(self):
         super().__init__(
             name="Улучшение лазерного луча",
             description="Увеличивает урон",
-            image_path="assets/upgrades/ene_ball.png",
+            image_path="assets/upgrades/laser_beam_1.png",
         )
 
     def apply(self, player):
