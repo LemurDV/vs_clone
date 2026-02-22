@@ -1,6 +1,12 @@
 import random
 
-from elements import BloodElement
+from elements import (
+    BloodElement,
+    FireElement,
+    ToxicElement,
+    WaterElement,
+    WindElement,
+)
 
 
 class ElementManager:
@@ -12,8 +18,10 @@ class ElementManager:
         self.all_elements.extend(
             [
                 BloodElement(),
-                BloodElement(),
-                BloodElement(),
+                ToxicElement(),
+                WaterElement(),
+                FireElement(),
+                WindElement(),
             ]
         )
 
@@ -30,3 +38,6 @@ class ElementManager:
 
     def add_new_upgrade(self, element):
         self.all_elements.append(element)
+
+    def remove_selected_element(self, element):
+        self.all_elements.remove(element)

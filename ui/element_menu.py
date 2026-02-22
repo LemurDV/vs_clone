@@ -9,6 +9,7 @@ class ElementMenu(BaseMenu):
         if 0 <= index < len(self.options):
             element = self.options[index]
             self.game.player.add_element(element)
+            self.game.element_manager.remove_selected_element(element)
             self.hide()
             self.game.on_upgrade_selected()
             return True
