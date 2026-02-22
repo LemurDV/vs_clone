@@ -4,7 +4,12 @@ from loguru import logger
 import pygame
 
 from entities import BatEnemy, BossSlimeEnemy, SlimeEnemy
-from settings import MAX_ENEMIES_ON_SCREEN, SCREEN_HEIGHT, SCREEN_WIDTH
+from settings import (
+    BASE_ENEMIES_NUMBER,
+    MAX_ENEMIES_ON_SCREEN,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+)
 
 
 class EnemyManager:
