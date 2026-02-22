@@ -10,7 +10,7 @@ from settings import (
     LIGHTNING_BALL_MULTIPLIER_DAMAGE,
 )
 from weapons.types.lightning_ball_projectile import LightningBallProjectile
-from weapons.weapon import Weapon
+from weapons.weapon import Weapon, WeaponTypes
 
 
 class LightningBallWeapon(Weapon):
@@ -20,7 +20,7 @@ class LightningBallWeapon(Weapon):
             name_ui="Шар молний",
             damage=2,
             cooldown=800,
-            weapon_type="projectile",
+            weapon_type=WeaponTypes.PROJECTILE,
         )
         self.projectiles = []
         self.lightning_effects = []

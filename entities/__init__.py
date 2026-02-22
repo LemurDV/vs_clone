@@ -3,8 +3,6 @@ from .enemy import Enemy
 
 
 class SlimeEnemy(Enemy):
-    """Слайм - медленный враг с умеренным здоровьем"""
-
     def __init__(self, x, y):
         super().__init__(
             x=x,
@@ -21,8 +19,6 @@ class SlimeEnemy(Enemy):
 
 
 class BossSlimeEnemy(Enemy):
-    """Босс слайм"""
-
     def __init__(self, x, y):
         super().__init__(
             x=x,
@@ -39,8 +35,6 @@ class BossSlimeEnemy(Enemy):
 
 
 class BatEnemy(Enemy):
-    """Летучая мышь - быстрый враг с малым здоровьем"""
-
     def __init__(self, x, y):
         super().__init__(
             x=x,

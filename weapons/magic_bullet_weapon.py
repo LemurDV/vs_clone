@@ -1,12 +1,10 @@
-import pygame
-
 from settings import (
     MAGIC_BULLET_MULTIPLIER_BULLETS,
     MAGIC_BULLET_MULTIPLIER_COOLDOWN,
     MAGIC_BULLET_MULTIPLIER_DAMAGE,
 )
 from weapons.types.projectile import Projectile
-from weapons.weapon import Weapon
+from weapons.weapon import Weapon, WeaponTypes
 
 
 class MagicBulletWeapon(Weapon):
@@ -16,7 +14,7 @@ class MagicBulletWeapon(Weapon):
             name_ui="Магическая пуля",
             damage=7,
             cooldown=1000,
-            weapon_type="projectile",
+            weapon_type=WeaponTypes.PROJECTILE,
         )
         self.projectiles = []
         self.max_projectiles = 3

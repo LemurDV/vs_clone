@@ -1,26 +1,21 @@
-import random
-
 import pygame
 
-from entities import Enemy
 from settings import (
     AURA_MULTIPLIER_DAMAGE,
     AURA_MULTIPLIER_RADIUS,
     PURPLE,
 )
-from weapons.weapon import Weapon
+from weapons.weapon import Weapon, WeaponTypes
 
 
 class AuraWeapon(Weapon):
-    """Оружие - аура вокруг игрока"""
-
     def __init__(self):
         super().__init__(
             name="aura",
             name_ui="Аура",
             damage=2,
             cooldown=800,
-            weapon_type="aura",
+            weapon_type=WeaponTypes.AURA,
         )
         self.radius = 50
         self.color = PURPLE

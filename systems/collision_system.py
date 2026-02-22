@@ -16,13 +16,13 @@ class CollisionSystem:
     def update(self):
         for weapon in self.game.player.weapons.values():
             if weapon.can_attack():
-                if weapon.weapon_type == "aura":
+                if weapon.weapon_type.value == "aura":
                     self.aura_weapon_actions(weapon)
-                elif weapon.weapon_type == "projectile":
+                elif weapon.weapon_type.value == "projectile":
                     self.projectile_weapon_actions(weapon)
-                elif weapon.weapon_type == "melee":
+                elif weapon.weapon_type.value == "melee":
                     self.melee_weapon_actions(weapon)
-                elif weapon.weapon_type == "beam":
+                elif weapon.weapon_type.value == "beam":
                     self.beam_weapon_actions(weapon)
 
             if weapon.hit_enemies:

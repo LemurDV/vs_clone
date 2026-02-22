@@ -1,6 +1,5 @@
 import math
 
-from loguru import logger
 import pygame
 
 from settings import (
@@ -11,7 +10,7 @@ from settings import (
     SCYTHE_MULTIPLIER_RANGE,
     YELLOW,
 )
-from weapons.weapon import Weapon
+from weapons.weapon import Weapon, WeaponTypes
 
 
 class ScytheWeapon(Weapon):
@@ -21,7 +20,7 @@ class ScytheWeapon(Weapon):
             name_ui="Смертельная коса",
             damage=5,
             cooldown=1200,
-            weapon_type="melee",
+            weapon_type=WeaponTypes.MELEE,
             # causes_bleeding_chance=1.0,
             # causes_burn_chance=1.0,
             # causes_poison_chance=1.0,
