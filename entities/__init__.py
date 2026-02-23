@@ -1,4 +1,5 @@
 from settings import GREEN, RED
+
 from .enemy import Enemy
 
 

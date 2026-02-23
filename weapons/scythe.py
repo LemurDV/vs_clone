@@ -14,16 +14,26 @@ from weapons.weapon import Weapon, WeaponTypes
 
 
 class ScytheWeapon(Weapon):
-    def __init__(self):
+    def __init__(
+        self,
+        name: str = "scythe",
+        name_ui: str = "Смертельная коса",
+        damage: int = 5,
+        cooldown: int = 1200,
+        weapon_type=WeaponTypes.MELEE,
+        causes_bleeding_chance: float = 0.0,
+        causes_burn_chance: float = 0.0,
+        causes_poison_chance: float = 0.0,
+    ):
         super().__init__(
-            name="scythe",
-            name_ui="Смертельная коса",
-            damage=5,
-            cooldown=1200,
-            weapon_type=WeaponTypes.MELEE,
-            # causes_bleeding_chance=1.0,
-            # causes_burn_chance=1.0,
-            # causes_poison_chance=1.0,
+            name=name,
+            name_ui=name_ui,
+            damage=damage,
+            cooldown=cooldown,
+            weapon_type=weapon_type,
+            causes_bleeding_chance=causes_bleeding_chance,
+            causes_burn_chance=causes_burn_chance,
+            causes_poison_chance=causes_poison_chance,
         )
 
         self.attack_range = 80
@@ -183,6 +193,9 @@ class ScytheWeapon(Weapon):
 
     def level_up(self):
         """Улучшение косы"""
+        if self.level == 6:
+            return False
+
         self.level += 1
         self.damage += SCYTHE_MULTIPLIER_DAMAGE
         self.cooldown = max(700, self.cooldown - SCYTHE_MULTIPLIER_COOLDOWN)

@@ -4,8 +4,9 @@ import pygame
 
 
 class BaseElement(ABC):
-    def __init__(self, name, description, image_path=None):
+    def __init__(self, name, name_ui, description, image_path=None):
         self.name = name
+        self.name_ui = name_ui
         self.description = description
         self.image_path = image_path
         self.image = None

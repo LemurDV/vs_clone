@@ -14,10 +14,11 @@ from settings import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
 )
+from systems.evolution_manager import EvolutionManager
 
 
 class Player(Entity):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int, evolution_manager: EvolutionManager):
         self.radius = 19
         super().__init__(
             x - self.radius,
@@ -50,6 +51,7 @@ class Player(Entity):
         ).convert_alpha()
         self.sprite = pygame.transform.scale(self.sprite, (40, 50))
 
+        self.evolution_manager = evolution_manager
         # Флаг для ожидания выбора улучшения
         self.waiting_for_upgrade = False
 
@@ -137,6 +139,17 @@ class Player(Entity):
 
     def add_element(self, element):
         self.elements.append(element)
+        self.check_weapon_evolutions()
+
+    def check_weapon_evolutions(self):
+        """Проверка и применение эволюций оружия"""
+        if not self.evolution_manager:
+            return
+
+        evolutions = self.evolution_manager.check_evolutions(self)
+
+        for weapon, recipe in evolutions:
+            self.evolution_manager.apply_evolution(self, weapon, recipe)
 
     def take_damage(self, amount):
         """Получение урона"""

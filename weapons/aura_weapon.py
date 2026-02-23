@@ -9,13 +9,26 @@ from weapons.weapon import Weapon, WeaponTypes
 
 
 class AuraWeapon(Weapon):
-    def __init__(self):
-        super().__init__(
+    def __init__(
+            self,
             name="aura",
             name_ui="Аура",
             damage=2,
             cooldown=800,
             weapon_type=WeaponTypes.AURA,
+            causes_bleeding_chance: float = 0.0,
+            causes_burn_chance: float = 0.0,
+            causes_poison_chance: float = 0.0,
+    ):
+        super().__init__(
+            name=name,
+            name_ui=name_ui,
+            damage=damage,
+            cooldown=cooldown,
+            weapon_type=weapon_type,
+            causes_bleeding_chance=causes_bleeding_chance,
+            causes_burn_chance=causes_burn_chance,
+            causes_poison_chance=causes_poison_chance,
         )
         self.radius = 50
         self.color = PURPLE
