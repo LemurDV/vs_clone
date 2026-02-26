@@ -15,15 +15,15 @@ from weapons.weapon import Weapon, WeaponTypes
 
 class LightningBallWeapon(Weapon):
     def __init__(
-            self,
-            name="lightning_ball",
-            name_ui="Шар молний",
-            damage=2,
-            cooldown=800,
-            weapon_type=WeaponTypes.PROJECTILE,
-            causes_bleeding_chance: float = 0.0,
-            causes_burn_chance: float = 0.0,
-            causes_poison_chance: float = 0.0,
+        self,
+        name="lightning_ball",
+        name_ui="Шар молний",
+        damage=2,
+        cooldown=800,
+        weapon_type=WeaponTypes.PROJECTILE,
+        causes_bleeding_chance: float = 0.0,
+        causes_burn_chance: float = 0.0,
+        causes_poison_chance: float = 0.0,
     ):
         super().__init__(
             name=name,

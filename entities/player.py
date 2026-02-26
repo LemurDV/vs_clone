@@ -14,11 +14,13 @@ from settings import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
 )
-from systems.evolution_manager import EvolutionManager
+from systems.evolution_manager import WeaponEvolutionManager
 
 
 class Player(Entity):
-    def __init__(self, x: int, y: int, evolution_manager: EvolutionManager):
+    def __init__(
+        self, x: int, y: int, evolution_manager: WeaponEvolutionManager
+    ):
         self.radius = 19
         super().__init__(
             x - self.radius,

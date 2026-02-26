@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Type
 
-from weapons import BloodScytheWeapon
+from evolved_weapons import BloodScytheWeapon, DemonicScytheWeapon
 
 
 @dataclass
@@ -12,7 +12,7 @@ class EvolutionRecipe:
     required_level: int = 1
 
 
-class EvolutionManager:
+class WeaponEvolutionManager:
     def __init__(self):
         self.recipes: Dict[str, List[EvolutionRecipe]] = {}
         self.weapon_classes: Dict[str, Type] = {}
@@ -22,8 +22,8 @@ class EvolutionManager:
     def _setup_recipes(self):
         recipes = [
             # ("scythe", "inferno_scythe", ["fire"], 3),
-            ("scythe", "blood_scythe", ["blood"], 1),
-            # ("scythe", "demonic_scythe", ["fire", "blood"], 5),
+            # ("scythe", "blood_scythe", ["blood"], 1),
+            ("scythe", "demonic_scythe", ["fire", "blood"], 1),
             # ("magic_bullet", "fire_bullet", ["fire"], 2),
             # ("magic_bullet", "inferno_bullet", ["fire", "wind"], 4),
             # ("aura", "blood_aura", ["blood"], 2),
@@ -41,7 +41,7 @@ class EvolutionManager:
         self.weapon_classes = {
             # "inferno_scythe": InfernoScytheWeapon,
             "blood_scythe": BloodScytheWeapon,
-            # "demonic_scythe": DemonicScytheWeapon,
+            "demonic_scythe": DemonicScytheWeapon,
             # "fire_bullet": FireBulletWeapon,
             # "inferno_bullet": InfernoBulletWeapon,
             # "blood_aura": BloodAuraWeapon,
@@ -81,6 +81,7 @@ class EvolutionManager:
         new_weapon.owner = player
         new_weapon.level = weapon.level  # Сохраняем уровень
 
+        self.weapon_classes.pop(recipe.result_weapon)
         player.weapons[weapon.name] = new_weapon
 
         return True

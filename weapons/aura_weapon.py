@@ -10,15 +10,15 @@ from weapons.weapon import Weapon, WeaponTypes
 
 class AuraWeapon(Weapon):
     def __init__(
-            self,
-            name="aura",
-            name_ui="Аура",
-            damage=2,
-            cooldown=800,
-            weapon_type=WeaponTypes.AURA,
-            causes_bleeding_chance: float = 0.0,
-            causes_burn_chance: float = 0.0,
-            causes_poison_chance: float = 0.0,
+        self,
+        name="aura",
+        name_ui="Аура",
+        damage=2,
+        cooldown=800,
+        weapon_type=WeaponTypes.AURA,
+        causes_bleeding_chance: float = 0.0,
+        causes_burn_chance: float = 0.0,
+        causes_poison_chance: float = 0.0,
     ):
         super().__init__(
             name=name,

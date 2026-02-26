@@ -8,15 +8,15 @@ from weapons.weapon import Weapon, WeaponTypes
 
 class LaserBeamWeapon(Weapon):
     def __init__(
-            self,
-            name="laser_beam",
-            name_ui="Лазерный луч",
-            damage=3,
-            cooldown=2200,
-            weapon_type=WeaponTypes.BEAM,
-            causes_bleeding_chance: float = 0.0,
-            causes_burn_chance: float = 0.0,
-            causes_poison_chance: float = 0.0,
+        self,
+        name="laser_beam",
+        name_ui="Лазерный луч",
+        damage=3,
+        cooldown=2200,
+        weapon_type=WeaponTypes.BEAM,
+        causes_bleeding_chance: float = 0.0,
+        causes_burn_chance: float = 0.0,
+        causes_poison_chance: float = 0.0,
     ):
         super().__init__(
             name=name,

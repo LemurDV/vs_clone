@@ -11,7 +11,7 @@ from settings import (
 )
 from systems.collision_system import CollisionSystem
 from systems.enemy_manager import EnemyManager
-from systems.evolution_manager import EvolutionManager
+from systems.evolution_manager import WeaponEvolutionManager
 from systems.particle_system import ParticleSystem
 from ui.base_hud import BaseHud
 from ui.element_menu import ElementMenu
@@ -43,7 +43,7 @@ class Game:
         self.player = Player(
             x=SCREEN_WIDTH // 2,
             y=SCREEN_HEIGHT // 2,
-            evolution_manager=EvolutionManager(),
+            evolution_manager=WeaponEvolutionManager(),
         )
         self.experience_orbs = []
 

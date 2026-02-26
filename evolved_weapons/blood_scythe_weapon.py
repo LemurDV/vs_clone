@@ -30,3 +30,6 @@ class BloodScytheWeapon(ScytheWeapon):
 
         # Для анимации (если захотим визуализировать без спрайта)
         self.attack_progress = 0  # 0..1
+
+    def level_up(self):
+        return False

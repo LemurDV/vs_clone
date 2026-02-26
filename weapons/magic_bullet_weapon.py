@@ -9,15 +9,15 @@ from weapons.weapon import Weapon, WeaponTypes
 
 class MagicBulletWeapon(Weapon):
     def __init__(
-            self,
-            name="magic_bullet",
-            name_ui="Магическая пуля",
-            damage=7,
-            cooldown=1000,
-            weapon_type=WeaponTypes.PROJECTILE,
-            causes_bleeding_chance: float = 0.0,
-            causes_burn_chance: float = 0.0,
-            causes_poison_chance: float = 0.0,
+        self,
+        name="magic_bullet",
+        name_ui="Магическая пуля",
+        damage=7,
+        cooldown=1000,
+        weapon_type=WeaponTypes.PROJECTILE,
+        causes_bleeding_chance: float = 0.0,
+        causes_burn_chance: float = 0.0,
+        causes_poison_chance: float = 0.0,
     ):
         super().__init__(
             name=name,
