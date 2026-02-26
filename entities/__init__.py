@@ -1,4 +1,5 @@
 from settings import GREEN, RED
+
 from .enemy import Enemy
 
 
@@ -10,7 +11,7 @@ class SlimeEnemy(Enemy):
             width=25,
             height=25,
             color=GREEN,
-            health=12,
+            health=18,
             damage=5,
             experience_value=2,
             sprite_path="assets/enemies/slime.png",
@@ -42,7 +43,7 @@ class BatEnemy(Enemy):
             width=20,
             height=20,
             color=RED,
-            health=11,
+            health=15,
             damage=3,
             experience_value=5,
             sprite_path="assets/enemies/bat.png",

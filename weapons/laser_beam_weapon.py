@@ -7,13 +7,26 @@ from weapons.weapon import Weapon, WeaponTypes
 
 
 class LaserBeamWeapon(Weapon):
-    def __init__(self):
+    def __init__(
+        self,
+        name="laser_beam",
+        name_ui="Лазерный луч",
+        damage=3,
+        cooldown=2200,
+        weapon_type=WeaponTypes.BEAM,
+        causes_bleeding_chance: float = 0.0,
+        causes_burn_chance: float = 0.0,
+        causes_poison_chance: float = 0.0,
+    ):
         super().__init__(
-            name="laser_beam",
-            name_ui="Лазерный луч",
-            damage=3,
-            cooldown=2200,
-            weapon_type=WeaponTypes.BEAM,
+            name=name,
+            name_ui=name_ui,
+            damage=damage,
+            cooldown=cooldown,
+            weapon_type=weapon_type,
+            causes_bleeding_chance=causes_bleeding_chance,
+            causes_burn_chance=causes_burn_chance,
+            causes_poison_chance=causes_poison_chance,
         )
 
         self.beam_length = 150

@@ -137,7 +137,6 @@ class Enemy(Entity):
         """Получение урона"""
         self.health -= amount
 
-        # Создаем текст урона через систему частиц
         game.particle_system.add_damage_text(
             self.rect.centerx,
             self.rect.top - 15,
@@ -147,7 +146,6 @@ class Enemy(Entity):
         )
 
         if self.health <= 0:
-            # Вызываем смерть врага через игру
             if game:
                 game.enemy_died(self)
             self.destroy()
