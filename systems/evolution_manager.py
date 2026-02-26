@@ -22,7 +22,7 @@ class WeaponEvolutionManager:
     def _setup_recipes(self):
         recipes = [
             # ("scythe", "inferno_scythe", ["fire"], 3),
-            # ("scythe", "blood_scythe", ["blood"], 1),
+            ("scythe", "blood_scythe", ["blood"], 1),
             ("scythe", "demonic_scythe", ["fire", "blood"], 1),
             # ("magic_bullet", "fire_bullet", ["fire"], 2),
             # ("magic_bullet", "inferno_bullet", ["fire", "wind"], 4),

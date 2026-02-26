@@ -17,6 +17,7 @@ class DemonicScytheWeapon(ScytheWeapon):
             damage=damage,
             cooldown=cooldown,
             weapon_type=weapon_type,
+            causes_burn_chance=1.0,
             causes_bleeding_chance=1.0,
         )
 
