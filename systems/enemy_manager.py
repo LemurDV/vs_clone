@@ -3,7 +3,7 @@ import random
 from loguru import logger
 import pygame
 
-from entities import BatEnemy, BossSlimeEnemy, SlimeEnemy
+from entities.enemies import BatEnemy, BossSlimeEnemy, SlimeEnemy
 from settings import (
     BASE_ENEMIES_NUMBER,
     MAX_ENEMIES_ON_SCREEN,
