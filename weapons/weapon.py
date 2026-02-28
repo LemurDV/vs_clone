@@ -24,6 +24,7 @@ class Weapon(ABC):
         causes_bleeding_chance: float = 0.0,
         causes_burn_chance: float = 0.0,
         causes_poison_chance: float = 0.0,
+        max_level: int = 5,
     ):
         self.name = name
         self.name_ui = name_ui
@@ -38,7 +39,7 @@ class Weapon(ABC):
         self.last_attack_time = 0
         self.owner = None
         self.level = 1
-        self.max_level = 5
+        self.max_level = max_level
         self.weapon_type: WeaponTypes = weapon_type
         self.hit_enemies = []
         self.len_hit_enemies = 0

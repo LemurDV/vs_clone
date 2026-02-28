@@ -24,6 +24,7 @@ class ScytheWeapon(Weapon):
         causes_bleeding_chance: float = 0.0,
         causes_burn_chance: float = 0.0,
         causes_poison_chance: float = 0.0,
+        max_level: int = 6,
     ):
         super().__init__(
             name=name,
@@ -34,6 +35,7 @@ class ScytheWeapon(Weapon):
             causes_bleeding_chance=causes_bleeding_chance,
             causes_burn_chance=causes_burn_chance,
             causes_poison_chance=causes_poison_chance,
+            max_level=max_level,
         )
 
         self.attack_range = 80
@@ -193,7 +195,7 @@ class ScytheWeapon(Weapon):
 
     def level_up(self):
         """Улучшение косы"""
-        if self.level == 6:
+        if self.level == self.max_level:
             return False
 
         self.level += 1

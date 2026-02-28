@@ -3,6 +3,7 @@ import math
 from loguru import logger
 import pygame
 
+from settings import LASER_BEAM
 from weapons.weapon import Weapon, WeaponTypes
 
 
@@ -17,6 +18,7 @@ class LaserBeamWeapon(Weapon):
         causes_bleeding_chance: float = 0.0,
         causes_burn_chance: float = 0.0,
         causes_poison_chance: float = 0.0,
+        max_level: int = 10,
     ):
         super().__init__(
             name=name,
@@ -27,9 +29,10 @@ class LaserBeamWeapon(Weapon):
             causes_bleeding_chance=causes_bleeding_chance,
             causes_burn_chance=causes_burn_chance,
             causes_poison_chance=causes_poison_chance,
+            max_level=max_level,
         )
 
-        self.beam_length = 150
+        self.beam_length = 75
         self.beam_width = 6
         self.beam_duration = 3000
         self.beam_start_time = 0
@@ -39,7 +42,7 @@ class LaserBeamWeapon(Weapon):
 
         self.beam_count = 1
 
-        self.beam_color = (255, 50, 50)
+        self.beam_color = LASER_BEAM
         self.beam_opacity = 255
 
         self.active_beams = []
@@ -244,11 +247,14 @@ class LaserBeamWeapon(Weapon):
         screen.blit(beam_surface, (0, 0))
 
     def level_up(self):
+        if self.level == self.max_level:
+            return False
+
         self.level += 1
 
         self.damage += 1
         self.cooldown = max(1800, self.cooldown - 30)
-        self.beam_length += 10
+        self.beam_length += 1
 
         if self.level % 3 == 0:
             self.beam_width += 1
