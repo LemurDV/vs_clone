@@ -1,6 +1,6 @@
 import pygame
 
-from loot.loot_item import LootItem
+from entities.loot.loot_item import LootItem
 
 
 class ExperienceOrb(LootItem):

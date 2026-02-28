@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Type
 
-from evolved_weapons import BloodScytheWeapon, DemonicScytheWeapon
+from weapons import BloodScytheWeapon, DemonicScytheWeapon
 
 
 @dataclass

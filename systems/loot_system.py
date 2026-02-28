@@ -1,11 +1,11 @@
 import random
 
-from loot.coin import Coin
-from loot.experience_orb import ExperienceOrb
-from loot.health_potion import HealthPotion
+from entities.loot.coin import Coin
+from entities.loot.experience_orb import ExperienceOrb
+from entities.loot.health_potion import HealthPotion
 
 
-class LootManager:
+class LootSystem:
     """Управление дропом с врагов"""
 
     def __init__(self):

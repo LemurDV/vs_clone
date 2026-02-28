@@ -2,7 +2,6 @@ import pygame
 
 from elements.element_manager import ElementManager
 from entities.player import Player
-from loot.loot_manager import LootManager
 from settings import (
     FPS,
     SCREEN_HEIGHT,
@@ -12,16 +11,13 @@ from settings import (
 from systems.collision_system import CollisionSystem
 from systems.enemy_manager import EnemyManager
 from systems.evolution_manager import WeaponEvolutionManager
+from systems.loot_system import LootSystem
 from systems.particle_system import ParticleSystem
 from ui.base_hud import BaseHud
 from ui.element_menu import ElementMenu
 from ui.upgrade_menu import UpgradeMenu
 from upgrades.upgrade_manager import UpgradeManager
 from weapons import (
-    AuraWeapon,
-    LaserBeamWeapon,
-    LightningBallWeapon,
-    MagicBulletWeapon,
     ScytheWeapon,
 )
 
@@ -74,7 +70,7 @@ class Game:
         self.element_menu = ElementMenu(self)
 
         self.particle_system = ParticleSystem()
-        self.loot_manager = LootManager()
+        self.loot_manager = LootSystem()
         self.hud = BaseHud(self)
 
         # Инициализация
